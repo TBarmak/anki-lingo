@@ -1,22 +1,16 @@
-import { useEffect, useState } from "react";
 import "./App.css";
+import Landing from "./pages/Landing";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Main from "./pages/Main";
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch("/api/time")
-      .then((res) => res.json())
-      .then((data) => {
-        setCurrentTime(data.time);
-      });
-  }, []);
-
   return (
-    <div className="w-screen h-screen bg-blue-800 flex flex-col justify-center items-center">
-      <h1 className="text-white text-4xl">Anki Lang</h1>
-      <p className="text-white my-2">The current time is {currentTime}</p>
-    </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/main" element={<Main />} />
+        </Routes>
+      </BrowserRouter>
   );
 }
 
