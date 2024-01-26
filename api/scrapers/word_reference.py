@@ -16,30 +16,34 @@ def parse_first_table(table):
     '''
     rows = table.find_all('tr')
     entries = []
+    entry = {}
     for row in rows:
         if row.get('class')[0] in ['odd', 'even']:
-            # Rows with an id represent a new section
+            # Rows with an id represent a new section in the table
             if row.get('id'):
-                entries.append({})
-                entries[-1]['pos'] = row.find_all('td', {"class": "FrWrd"})[0].em.text
-                entries[-1]['word'] = row.find_all('td', {"class": "FrWrd"})[0].strong.contents[0].strip()
-                entries[-1]['definition'] = row.find_all('td')[1].text.strip()
-                entries[-1]['translations'] = []
-                entries[-1]['nativeExampleSentences'] = []
-                entries[-1]['targetExampleSentences'] = []
+                # Add the entry dict to the list of entries, and start a new entry
+                if entry:
+                    entries.append(entry)
+                    entry = {}
+                entry['pos'] = row.find_all('td', {"class": "FrWrd"})[0].em.text
+                entry['word'] = row.find_all('td', {"class": "FrWrd"})[0].strong.contents[0].strip()
+                entry['definition'] = row.find_all('td')[1].text.strip()
+                entry['translations'] = []
+                entry['nativeExampleSentences'] = []
+                entry['targetExampleSentences'] = []
             translation = row.find_all('td', {"class": "ToWrd"})
             if len(translation) > 0:
                 try:
-                    entries[-1]['translations'].append(translation[0].contents[0].strip())
+                    entry['translations'].append(translation[0].contents[0].strip())
                 except:
-                    entries[-1]['translations'].append('Translation Unavailable')
+                    entry['translations'].append('Translation Unavailable')
             to_example = row.find_all('td', {"class": "ToEx"})
             from_example = row.find_all('td', {"class": "FrEx"})
             # Replace is necessary for correct formatting of import csv
             if len(to_example) > 0:
-                entries[-1]['nativeExampleSentences'].append(to_example[0].span.i.text.strip().replace("\n", ""))
+                entry['nativeExampleSentences'].append(to_example[0].span.i.text.strip().replace("\n", ""))
             if len(from_example) > 0:
-                entries[-1]['targetExampleSentences'].append(from_example[0].span.text.strip().replace("\n", ""))
+                entry['targetExampleSentences'].append(from_example[0].span.text.strip().replace("\n", ""))
     return entries
 
 def scrape_word_reference(word, native_lang_abbv, target_lang_abbv):
