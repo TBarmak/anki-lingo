@@ -5,6 +5,9 @@ import {
   FormErrors,
   InputFields,
   LanguageResource,
+  ResourceArgs,
+  ScrapedItem,
+  ScrapedResponse,
 } from "../types/types";
 import FormError from "../components/FormError";
 
@@ -22,6 +25,7 @@ export default function Main() {
   const [languageResources, setLanguageResources] = useState<
     LanguageResource[]
   >([]);
+  const [scrapedData, setScrapedData] = useState<ScrapedResponse[]>();
 
   useEffect(() => {
     fetch("/api/supported-languages")
@@ -57,6 +61,10 @@ export default function Main() {
   useEffect(() => {
     setInputFields({ ...inputFields, languageResources: languageResources });
   }, [languageResources]);
+
+  useEffect(() => {
+    console.log(scrapedData);
+  }, [scrapedData])
 
   function validateForm(inputFields: InputFields): FormErrors {
     let errors: FormErrors = {} as FormErrors;
@@ -105,8 +113,57 @@ export default function Main() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log(inputFields);
-    setErrors(validateForm(inputFields));
+    const errors = validateForm(inputFields);
+    const isSubmittable: boolean = Object.values(errors).every(
+      (value) => value === ""
+    );
+    setErrors(errors);
+    if (isSubmittable) {
+      getFlashcardData();
+    }
+  }
+
+  function getFlashcardData() {
+    const selectedResources = inputFields.languageResources.filter(
+      (resource) => resource.isSelected
+    );
+    const words = inputFields.words.split("\n");
+    const wordPromises: Promise<ScrapedResponse>[] = words.map((word) => {
+      return new Promise((res, rej) => {
+        const args: { [K in ResourceArgs]: string } = {
+          word: word,
+          targetLang: inputFields.targetLanguage,
+          nativeLang: inputFields.nativeLanguage,
+        };
+
+        const resourcePromises: Promise<ScrapedResponse>[] =
+          selectedResources.map((resource) => {
+            return new Promise((res, rej) => {
+              const url =
+                resource.route +
+                resource.args.map((argName) => args[argName]).join("/");
+              fetch(url)
+                .then((res) => res.json())
+                .then((data: ScrapedResponse) => {
+                  res(data);
+                });
+            });
+          });
+
+        Promise.all(resourcePromises).then((responses: ScrapedResponse[]) => {
+          const combinedScraped: ScrapedItem[] = ([] as ScrapedItem[]).concat(
+            ...responses
+              .filter((response) => response.scrapedData)
+              .map((response) => response.scrapedData)
+          );
+          res({ word: word, scrapedData: combinedScraped } as ScrapedResponse);
+        });
+      });
+    });
+
+    Promise.all(wordPromises).then((responses) => {
+      setScrapedData(responses);
+    });
   }
 
   if (isLoading) {
@@ -132,43 +189,45 @@ export default function Main() {
           <FormError message={errors.words} />
         </div>
         <div className="h-full flex-1 p-4 flex flex-col items-center">
-          <div className="flex-1 py-2">
-            <select
-              name="targetLanguage"
-              className="p-2 pr-8 rounded-lg"
-              value={inputFields.targetLanguage}
-              onChange={handleChange}
-            >
-              <option value="-1">Select target language</option>
-              {supportedLanguages.map((language, index) => {
-                return (
-                  <option key={index} value={language}>
-                    {language}
-                  </option>
-                );
-              })}
-            </select>
-            <FormError message={errors.targetLanguage} />
+          <div className="flex-1 w-full">
+            <div className="mb-4 w-full">
+              <select
+                name="targetLanguage"
+                className="p-2 pr-8 rounded-lg"
+                value={inputFields.targetLanguage}
+                onChange={handleChange}
+              >
+                <option value="-1">Select target language</option>
+                {supportedLanguages.map((language, index) => {
+                  return (
+                    <option key={index} value={language}>
+                      {language}
+                    </option>
+                  );
+                })}
+              </select>
+              <FormError message={errors.targetLanguage} />
+            </div>
+            <div className="mb-4 w-full">
+              <select
+                name="nativeLanguage"
+                className="p-2 pr-8 rounded-lg"
+                value={inputFields.nativeLanguage}
+                onChange={handleChange}
+              >
+                <option value="-1">Select native language</option>
+                {supportedLanguages.map((language, index) => {
+                  return (
+                    <option key={index} value={language}>
+                      {language}
+                    </option>
+                  );
+                })}
+              </select>
+              <FormError message={errors.nativeLanguage} />
+            </div>
           </div>
-          <div className="flex-1 py-2">
-            <select
-              name="nativeLanguage"
-              className="p-2 pr-8 rounded-lg"
-              value={inputFields.nativeLanguage}
-              onChange={handleChange}
-            >
-              <option value="-1">Select native language</option>
-              {supportedLanguages.map((language, index) => {
-                return (
-                  <option key={index} value={language}>
-                    {language}
-                  </option>
-                );
-              })}
-            </select>
-            <FormError message={errors.nativeLanguage} />
-          </div>
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col w-full">
             {inputFields.languageResources.length > 0 && (
               <p>
                 Select the resources you would like to use to generate the
@@ -195,8 +254,28 @@ export default function Main() {
               <FormError message={errors.languageResources} />
             )}
           </div>
-          <div className="flex-1"></div>
-          <div className="flex-1">
+          <div className="flex-[3] flex flex-col w-full">
+            {inputFields.exportFields.length > 0 && (
+              <p>
+                Select the fields you would like to include in the flashcards:
+              </p>
+            )}
+            {inputFields.exportFields.map((field, index) => {
+              return (
+                <label key={index}>
+                  <input
+                    name={field.name}
+                    type="checkbox"
+                    className="mx-2"
+                    checked={field.isSelected ?? false}
+                    onChange={(e) => handleCheckboxChange(e, "exportFields")}
+                  />
+                  {field.name}
+                </label>
+              );
+            })}
+          </div>
+          <div className="">
             <button
               type="submit"
               className="bg-black disabled:bg-gray-700 text-white rounded-xl px-8 py-2 transition-all duration-300"

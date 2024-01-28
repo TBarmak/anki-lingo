@@ -1,6 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
 
+LANGUAGE_TO_ABBV = {
+    'english': 'en',
+    'español': 'es',
+    'français': 'fr',
+    'português': 'pt'
+}
+
 def create_url(word, target_lang_abbv, native_lang_abbv):
     return f'https://www.wordreference.com/{target_lang_abbv}{native_lang_abbv}/{"%20".join(word.split())}'
 
@@ -46,7 +53,9 @@ def parse_first_table(table):
                 entry['targetExampleSentences'].append(from_example[0].span.text.strip().replace("\n", ""))
     return entries
 
-def scrape_word_reference(word, native_lang_abbv, target_lang_abbv):
+def scrape_word_reference(word, native_lang, target_lang):
+    native_lang_abbv = LANGUAGE_TO_ABBV[native_lang.lower()]
+    target_lang_abbv = LANGUAGE_TO_ABBV[target_lang.lower()]
     url = create_url(word, native_lang_abbv, target_lang_abbv)
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
