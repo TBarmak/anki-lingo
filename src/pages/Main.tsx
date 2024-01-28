@@ -10,6 +10,8 @@ import {
   ScrapedResponse,
 } from "../types/types";
 import FormError from "../components/FormError";
+import moment from "moment";
+
 
 export default function Main() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -25,7 +27,8 @@ export default function Main() {
   const [languageResources, setLanguageResources] = useState<
     LanguageResource[]
   >([]);
-  const [scrapedData, setScrapedData] = useState<ScrapedResponse[]>();
+  const [scrapedData, setScrapedData] = useState<ScrapedResponse[]>([]);
+  const [downloadUrl, setDownloadUrl] = useState<string>("");
 
   useEffect(() => {
     fetch("/api/supported-languages")
@@ -63,8 +66,10 @@ export default function Main() {
   }, [languageResources]);
 
   useEffect(() => {
-    console.log(scrapedData);
-  }, [scrapedData])
+    if (scrapedData?.length > 0) {
+      formatCSV();
+    }
+  }, [scrapedData]);
 
   function validateForm(inputFields: InputFields): FormErrors {
     let errors: FormErrors = {} as FormErrors;
@@ -119,6 +124,7 @@ export default function Main() {
     );
     setErrors(errors);
     if (isSubmittable) {
+      setIsLoading(true);
       getFlashcardData();
     }
   }
@@ -129,7 +135,7 @@ export default function Main() {
     );
     const words = inputFields.words.split("\n");
     const wordPromises: Promise<ScrapedResponse>[] = words.map((word) => {
-      return new Promise((res, rej) => {
+      return new Promise((res) => {
         const args: { [K in ResourceArgs]: string } = {
           word: word,
           targetLang: inputFields.targetLanguage,
@@ -138,7 +144,7 @@ export default function Main() {
 
         const resourcePromises: Promise<ScrapedResponse>[] =
           selectedResources.map((resource) => {
-            return new Promise((res, rej) => {
+            return new Promise((res) => {
               const url =
                 resource.route +
                 resource.args.map((argName) => args[argName]).join("/");
@@ -166,8 +172,39 @@ export default function Main() {
     });
   }
 
+  function formatCSV() {
+    fetch("/api/format-csv", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        exportFields: inputFields.exportFields,
+        scrapedData: scrapedData,
+      }),
+    })
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        setDownloadUrl(url);
+        setIsLoading(false);
+      });
+  }
+
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (downloadUrl) {
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center bg-blue-200">
+        <a
+          className="bg-blue-800 text-white rounded-xl px-6 py-2 my-4"
+          href={downloadUrl}
+          download={`anki-lang-${moment().format('YYYYMMDHHmmss')}.zip`}
+        >
+          Download
+        </a>
+      </div>
+    );
   }
 
   return (

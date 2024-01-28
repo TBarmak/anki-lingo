@@ -5,6 +5,8 @@ WORKDIR /app
 
 COPY api/requirements.txt api/api.py api/.flaskenv ./
 COPY api/scrapers ./scrapers
+COPY api/utils ./utils
+RUN mkdir audio_files
 RUN pip install -r ./requirements.txt
 ENV FLASK_ENV production
 

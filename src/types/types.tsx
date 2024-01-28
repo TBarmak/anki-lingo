@@ -46,4 +46,5 @@ export interface ScrapedItem {
   translations: string[];
   nativeExampleSentences: string[];
   targetExampleSentences: string[];
+  audioFilenames: string[];
 }
