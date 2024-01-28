@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ExportField, ScrapedResponse } from "../../types/types";
 
 type Props = {
@@ -15,9 +16,17 @@ export default function CardFormatForm({
   setDownloadUrl,
   setIsLoading,
 }: Props) {
+  const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
+
+  useEffect(() => {
+    fetch("/api/field-mapping")
+      .then((res) => res.json())
+      .then((data) => setFieldMapping(data));
+  }, []);
+
   function handleFieldCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
     const newCheckboxField = exportFields.map((field) => {
-      if (field.name === e.target.name) {
+      if (field.value === e.target.name) {
         field.isSelected = !field.isSelected;
       }
       return field;
@@ -51,17 +60,22 @@ export default function CardFormatForm({
         return (
           <label key={index}>
             <input
-              name={field.name}
+              name={field.value}
               type="checkbox"
               className="mx-2"
               checked={field.isSelected ?? false}
               onChange={(e) => handleFieldCheckboxChange(e)}
             />
-            {field.name}
+            {fieldMapping ? fieldMapping[field.value] : field.value}
           </label>
         );
       })}
-      <button className="bg-black text-white p-4 rounded-full" onClick={formatCSV}>Create CSV</button>
+      <button
+        className="bg-black text-white p-4 rounded-full"
+        onClick={formatCSV}
+      >
+        Create CSV
+      </button>
     </div>
   );
 }

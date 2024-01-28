@@ -6,6 +6,16 @@ from flask import Flask, send_file, request
 from zipfile import ZipFile
 import hashlib
 
+FLASHCARD_FIELDS = {
+	"word": "word",
+	"pos": "part of speech",
+	"definition": "definition",
+	"translations": "translations",
+	"targetExampleSentences": "target example sentences",
+	"nativeExampleSentences": "native example sentences",
+	"audio": "audio"
+}
+
 LANGUAGE_RESOURCES = [
 	{
 		"name": "Word Reference",
@@ -41,6 +51,10 @@ def get_languages():
 def get_resources(language):
 	resources = filter(lambda x: language.lower() in x['supportedLanguages'], LANGUAGE_RESOURCES)
 	return {'resources': list(resources)}
+
+@app.route('/api/field-mapping')
+def get_field_mapping():
+	return FLASHCARD_FIELDS
 
 @app.route('/api/wr/<target_lang>/<native_lang>/<word>')
 def get_wr_word(target_lang, native_lang, word):

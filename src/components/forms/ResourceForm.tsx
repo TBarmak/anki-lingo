@@ -60,7 +60,7 @@ export default function ResourceForm({
     );
     const exportFields: ExportField[] = [...new Set(resourceNames)].reduce(
       (acc, curr) => {
-        acc.push({ name: curr, isSelected: true });
+        acc.push({ value: curr, isSelected: true });
         return acc;
       },
       [] as ExportField[]

@@ -21,7 +21,7 @@ export enum ResourceArgs {
 }
 
 export interface ExportField {
-  name: string;
+  value: string;
   isSelected?: boolean;
 }
 
