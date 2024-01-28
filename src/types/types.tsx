@@ -22,7 +22,7 @@ export enum ResourceArgs {
 
 export interface ExportField {
   value: string;
-  isSelected?: boolean;
+  side?: number;
 }
 
 export interface FormErrors {
