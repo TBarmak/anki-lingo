@@ -57,6 +57,7 @@ def format_csv():
 	zip_filename = f'anki-{hash}.zip'
 	rows = []
 	for word in req['scrapedData']:
+		# TODO: Only include audio if it's selected as an output field
 		audio_filenames = [filename for item in word['scrapedData'] for filename in item.get('audioFilenames', [])]
 		with ZipFile(zip_filename, 'a') as zip_object:
 			for audio_filename in audio_filenames:

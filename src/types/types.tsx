@@ -3,7 +3,6 @@ export interface InputFields {
   targetLanguage: string;
   nativeLanguage: string;
   languageResources: LanguageResource[];
-  exportFields: ExportField[];
 }
 
 export interface LanguageResource {
@@ -31,7 +30,6 @@ export interface FormErrors {
   targetLanguage: string;
   nativeLanguage: string;
   languageResources: string;
-  exportFields: string;
 }
 
 export interface ScrapedResponse {
