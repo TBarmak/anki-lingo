@@ -60,7 +60,7 @@ export default function ResourceForm({
     );
     const exportFields: ExportField[] = [...new Set(resourceNames)].reduce(
       (acc, curr) => {
-        acc.push({ value: curr, side: 1 });
+        acc.push({ value: curr, side: 0 });
         return acc;
       },
       [] as ExportField[]
@@ -134,6 +134,9 @@ export default function ResourceForm({
                 .then((res) => res.json())
                 .then((data: ScrapedResponse) => {
                   res(data);
+                }).catch((err) => {
+                  // TODO: Implement error handling
+                  console.log(err);
                 });
             });
           });

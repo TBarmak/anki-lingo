@@ -17,7 +17,7 @@ export default function CardFormatForm({
   setIsLoading,
 }: Props) {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
-  const [numSides, setNumSides] = useState<number>(2);
+  const [numSides, setNumSides] = useState<number>(1);
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function CardFormatForm({
     e.preventDefault();
   }
 
+  // TODO: Allow the user to select the order of the fields on each side
   function formatCSV() {
     fetch("/api/format-csv", {
       method: "POST",
@@ -54,6 +55,7 @@ export default function CardFormatForm({
       body: JSON.stringify({
         exportFields: exportFields,
         scrapedData: scrapedData,
+        numSides: numSides,
       }),
     })
       .then((res) => res.blob())
@@ -67,6 +69,13 @@ export default function CardFormatForm({
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-row justify-center items-center w-full flex-1">
+        <div className="h-full bg-gray-200 flex-1 mx-4 rounded">
+          <div
+            className="bg-white rounded my-1 p-1 px-2 flex justify-between items-center"
+          >
+            <p>word</p>
+          </div>
+        </div>
         {Array.from({ length: numSides }, (_, index) => (
           <div
             key={index}

@@ -1,5 +1,5 @@
 import time
-from utils.format_csv import create_csv_back
+from utils.format_csv import create_csv_sides
 from scrapers.forvo import scrape_forvo
 from scrapers.word_reference import scrape_word_reference
 from flask import Flask, send_file, request
@@ -77,9 +77,9 @@ def format_csv():
 			for audio_filename in audio_filenames:
 				zip_object.write('audio_files/' + audio_filename, arcname='audio_files/' + audio_filename)
 		card_front = word['word']
-		card_back = create_csv_back(word['scrapedData'], req['exportFields'])
+		card_sides = create_csv_sides(word['scrapedData'], req['exportFields'], req['numSides'])
 		audio_files_anki_format = "".join([f"[sound:{audio}]" for audio in audio_filenames])
-		row = f"{card_front}|{audio_files_anki_format}<br>{card_back}"
+		row = f"{card_front}|{audio_files_anki_format}<br>{'|'.join(card_sides)}"
 		rows.append(row)
 	csv = '\n'.join(rows)
 	with ZipFile(zip_filename, 'a') as zip_object:
