@@ -33,7 +33,7 @@ def parse_first_table(table):
                     entries.append(entry)
                     entry = {}
                 entry['pos'] = row.find_all('td', {"class": "FrWrd"})[0].em.text
-                entry['word'] = row.find_all('td', {"class": "FrWrd"})[0].strong.contents[0].strip()
+                entry['word'] = row.find_all('td', {"class": "FrWrd"})[0].strong.contents[-1].strip()
                 entry['definition'] = row.find_all('td')[1].text.strip()
                 entry['translations'] = []
                 entry['nativeExampleSentences'] = []
@@ -53,10 +53,10 @@ def parse_first_table(table):
                 entry['targetExampleSentences'].append(from_example[0].span.text.strip().replace("\n", ""))
     return entries
 
-def scrape_word_reference(word, native_lang, target_lang):
+def scrape_word_reference(word, target_lang, native_lang):
     native_lang_abbv = LANGUAGE_TO_ABBV[native_lang.lower()]
     target_lang_abbv = LANGUAGE_TO_ABBV[target_lang.lower()]
-    url = create_url(word, native_lang_abbv, target_lang_abbv)
+    url = create_url(word, target_lang_abbv, native_lang_abbv)
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
     tables = soup.find_all('table', {"class":"WRD"})

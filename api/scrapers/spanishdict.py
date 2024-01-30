@@ -57,7 +57,7 @@ def parse_translation_block(translation_block, target_lang_abbv):
                 targetExampleSentences (list): list of string example sentences in the target language
                 nativeExampleSentences (list): list of string example sentences in the native language 
     '''
-    parenthesized_translation = translation_block.findChildren(recursive=False)[0].findChildren(recursive=False)[-1].contents[0]
+    parenthesized_translations = "".join([item.text for item in translation_block.findChildren(recursive=False)[0].findAll('span')[1:]])
     
     translation_subblocks = translation_block.findChildren(recursive=False)[1].findChildren(recursive=False)
     parsed_translation_subblocks = [parse_translation_subblock(subblock, target_lang_abbv) for subblock in translation_subblocks]
@@ -68,7 +68,7 @@ def parse_translation_block(translation_block, target_lang_abbv):
                 parsed_translation_block[key] = value.copy()
             else:
                 parsed_translation_block[key].extend(value)
-    parsed_translation_block['translations'].append(parenthesized_translation)
+    parsed_translation_block['translations'].append(parenthesized_translations)
     return parsed_translation_block
 
 def parse_translation_subblock(translation_subblock, target_lang_abbv):
@@ -91,7 +91,7 @@ def parse_translation_subblock(translation_subblock, target_lang_abbv):
                 nativeExampleSentences (list): list of string example sentences in the native language 
     '''
     native_lang_abbv = 'en' if target_lang_abbv == 'es' else 'en' 
-    translation = translation_subblock.findChildren(recursive=False)[0].find_all('span', recursive=False)[-1].find('a').contents[0]
+    translation = translation_subblock.findChildren(recursive=False)[0].find('a').contents[0]
     example_sentences = translation_subblock.findChildren(recursive=False)[0].findChildren(recursive=False)[-1].findChildren(recursive=False)[0]
     target_example_sentence = example_sentences.find('span', {"lang": target_lang_abbv}).contents[0]
     native_example_sentence = example_sentences.find('span', {"lang": native_lang_abbv}).contents[0]
@@ -121,7 +121,8 @@ def scrape_spanishdict(word, target_lang):
                 nativeExampleSentences (list): list of string example sentences in the native language
     '''
     target_lang_abbv = LANGUAGE_TO_ABBV[target_lang.lower()]
-    r = requests.get(create_url(word, target_lang_abbv))
+    url = create_url(word, target_lang_abbv)
+    r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
     meanings_container = soup.find("div", {"id": f"dictionary-neodict-{target_lang_abbv}"})
 
