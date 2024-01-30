@@ -1,4 +1,4 @@
-import time
+from scrapers.spanishdict import scrape_spanishdict
 from utils.format_csv import create_csv_sides
 from scrapers.forvo import scrape_forvo
 from scrapers.word_reference import scrape_word_reference
@@ -59,6 +59,10 @@ def get_field_mapping():
 @app.route('/api/wr/<target_lang>/<native_lang>/<word>')
 def get_wr_word(target_lang, native_lang, word):
 	return {'word': word, 'scrapedData': scrape_word_reference(word, target_lang, native_lang)}
+
+@app.route('/api/spanishdict/<target_lang>/<word>')
+def get_spanishdict_word(target_lang, word):
+	return {'word': word, 'scrapedData': scrape_spanishdict(word, target_lang)}
 
 @app.route('/api/forvo/<target_lang>/<word>')
 def get_forvo_audio(target_lang, word):
