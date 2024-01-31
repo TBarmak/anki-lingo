@@ -1,5 +1,6 @@
-from scrapers.spanishdict import scrape_spanishdict
 from utils.format_csv import create_csv_sides
+from scrapers.michaelis_br import scrape_michaelis
+from scrapers.spanishdict import scrape_spanishdict
 from scrapers.forvo import scrape_forvo
 from scrapers.word_reference import scrape_word_reference
 from flask import Flask, send_file, request
@@ -30,6 +31,13 @@ LANGUAGE_RESOURCES = [
 		"args": ["targetLang", "word"],
 		"outputs": ["word", "pos", "translations", "targetExampleSentences", "nativeExampleSentences"],
 		"supportedLanguages": ["english", "español"]
+	},
+	{
+		"name": "Michaelis BR",
+		"route": "api/michaelis-br/",
+		"args": ["word"],
+		"outputs": ["word", "pos", "definition", "targetExampleSentences"],
+		"supportedLanguages": ["português"]
 	},
 	{
 		"name": "Forvo",
@@ -63,6 +71,10 @@ def get_wr_word(target_lang, native_lang, word):
 @app.route('/api/spanishdict/<target_lang>/<word>')
 def get_spanishdict_word(target_lang, word):
 	return {'word': word, 'scrapedData': scrape_spanishdict(word, target_lang)}
+
+@app.route('/api/michaelis-br/<word>')
+def get_michaelis_br_word(word):
+	return {'word': word, 'scrapedData': scrape_michaelis(word)}
 
 @app.route('/api/forvo/<target_lang>/<word>')
 def get_forvo_audio(target_lang, word):
