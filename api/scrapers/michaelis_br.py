@@ -1,90 +1,132 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
+import requests
 
 def create_url(word):
     return f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
 
-def get_soup(url):
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(options=chrome_options)
-    # TODO: Look into adding a retry for a longer wait period
-    driver.set_page_load_timeout(5)
-    try:
-        driver.get(url)
-    except TimeoutException:
-        pass
-    finally:
-        page_source = driver.page_source
-        driver.quit()
-    soup = BeautifulSoup(page_source, 'html.parser')
-    return soup
+def reformat_to_rows(children):
+    '''
+    Converts the list of individual children into a list of lists based on the <br/> tag
 
-def has_tag(row, tag):
-    tags = [child.name for child in row.findChildren()]
-    return tag in tags
+    Parameters
+    ------------
+        children: list of str and/or bs4.element.Tag
+            a list of the children of the main container
+
+    Return
+    ------------
+        rows: list of lists of str and/or bs4.element.Tag
+            a list of lists of the children separated into rows based on the <br/> tag
+    '''
+    rows = []
+    current_row = []
+    for child in children:
+        if isinstance(child, str):
+            # Only append if it contains non-whitespace characters
+            if child.strip():
+                current_row.append(child)
+        elif child.name == 'br':
+            if current_row:
+                rows.append(current_row)
+            current_row = []
+        else:
+            current_row.append(child)
+    return rows
 
 def parse_acn_row(row):
-    children = [child for child in row.children]
-    sentence_index = len(children)
-    for i in range(len(children)):
-        if isinstance(children[i], str):
-            continue
-        
-        tag = children[i].name
-        # Remove the number from the front
-        if tag == 'acn':
-            children[i] = ""
-        # Remove this tag
-        elif tag == 'dr':
-            children[i] = children[i].text
-        # Indicate the start of the example sentence and remove the tag
-        elif tag in ['abt', 'eu']:
-            sentence_index = i
-            children[i] = children[i].text 
-        # Use the data-original-title because it provides more info
-        elif tag in ['ra', 'abf']:
-            children[i] = children[i]['data-original-title']
-        # Remove the tag if it isn't a known tag
-        else:
-            children[i] = children[i].text
-    definition = "".join(children[:sentence_index]).strip()
-    sentence = "".join(children[sentence_index:]).strip()
-    return {'definition': definition, 'targetExampleSentences': [sentence]}
+    '''
+    Parses a row that starts with an <acn>. These are the numbered definitions.
+
+    Parameters
+    ------------
+        row: list of str and/or bs4.element.Tag
+
+    Return
+    ------------
+        entry: dict (str -> str) with keys 'word' and 'definition'
+    '''
+    row = row[1:]
+    definition = ""
+    sentences = []
+    for item in row:
+        if isinstance(item, str):
+            definition += item
+        elif item.name in ['abt', 'eu']:
+            sentences.append(item.text.strip())
+        elif item.name in ['dr', 'ra']:
+            definition += item.text
+    entry = {'definition': definition.strip(), 'targetExampleSentences': sentences}
+    return entry
 
 def parse_ex_row(row):
-    children = [child for child in row.children]
-    expression = children[0].text.strip()
-    definition = "".join([child.text for child in children[1:]]).strip()
-    # TODO: Expressions should eventually be their own key, instead of being under "word"
-    entry = {'word': expression, 'definition': definition}
+    '''
+    Parses a row that starts with an <ex>. These are expressions containing the target word.
+
+    Parameters
+    ------------
+        row: list of str and/or bs4.element.Tag
+
+    Return
+    ------------
+        entry: dict (str -> str) with keys 'word' and 'definition'
+    '''
+    expression = row[0].text
+    definition = "".join([item.text for item in row[1:]])
+    # TODO: "expression" should eventually become its own separate key
+    entry = {'word': expression.strip(), 'definition': definition.strip()[2:]}
     return entry
 
 def parse_rows(rows):
-    parsed_data = []
+    '''
+    Parse the rows and convert them to entries containing word, part of speech, 
+    definition, and example sentences
+
+    Parameters
+    ------------
+        rows: list of lists of str and/or bs4.element.Tag 
+            the reformatted rows in the container
+
+    Return
+    ------------
+        entries: list of dicts with keys: 'word', 'pos', 'definition', and 'targetExampleSentences'
+    '''
+    entries = []
     word = ""
     pos = ""
     for row in rows:
-        if has_tag(row, 'e1') or has_tag(row, 'ef'):
-            word = row.text.strip()
-        elif has_tag(row, 'cg'):
-            pos = row.text.strip()
-        elif has_tag(row, 'acn'):
+        tag = row[0].name
+        if tag in ['e1', 'ef']:
+            word = row[0].text
+        elif tag == 'cg':
+            pos = row[0].text
+        elif tag == 'acn':
             entry = parse_acn_row(row)
-            entry['word'] = word
-            entry['pos'] = pos
-            parsed_data.append(entry)
-        elif has_tag(row, 'ex'):
+            entry['word'] = word.strip()
+            entry['pos'] = pos.strip()
+            entries.append(entry)
+        elif tag == 'ex':
             entry = parse_ex_row(row)
-            parsed_data.append(entry)
-    return parsed_data
+            entries.append(entry)
+    return entries
 
 def scrape_michaelis(word):
+    '''
+    Scrapes the data from the Brazilian Portuguese dictionary Michaelis
+
+    Parameters
+    ------------
+        word: str
+            a word in Brazilian Portuguese
+    
+    Return
+    ------------
+        parsed_rows: list of dicts with keys: 'word', 'pos', 'definition', and 'targetExampleSentences' 
+    '''
     url = create_url(word)
-    soup = get_soup(url)
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
     container = soup.find('div', {"class": "verbete bs-component"})
-    rows = container.findChildren(recursive=False)
+    children = [child for child in container.children]
+    rows = reformat_to_rows(children)
     parsed_rows = parse_rows(rows)
     return parsed_rows
