@@ -3,11 +3,12 @@ import base64
 import urllib.request
 import urllib.parse
 
+# TODO: Give the user the option to pick the accent they want
 LANGUAGE_TO_ABBV = {
-    'english': 'en',
-    'español': 'es',
+    'english': 'en_usa',
+    'español': 'es_es',
     'français': 'fr',
-    'português': 'pt'
+    'português': 'pt_br'
 }
 
 def create_url(word, lang_abbv):

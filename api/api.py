@@ -44,7 +44,7 @@ LANGUAGE_RESOURCES = [
 		"route": "api/forvo/",
 		"args": ["targetLang", "word"],
 		"outputs": ["audio"],
-		"supportedLanguages": ["français"]	
+		"supportedLanguages": ["français", "português", "español", "english"]	
 	}
 ]
 
