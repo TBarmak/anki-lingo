@@ -13,7 +13,6 @@ LANGUAGE_TO_ABBV = {
 
 def create_url(word, lang_abbv):
     url = f"https://forvo.com/word/{'_'.join(word.split())}/#{lang_abbv}"
-    print(url)
 
     # For handling non-ascii characters
     split_url = urllib.parse.urlsplit(url)

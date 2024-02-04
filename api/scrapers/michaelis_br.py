@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 def create_url(word):
-    return f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
+    return f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{"%20".join(word.split())}'
 
 def reformat_to_rows(children):
     '''
