@@ -1,4 +1,4 @@
-from scrapers.spanishdict import create_url
+from api.scrapers.spanishdict import create_url
 
 class TestSpanishdict:
     def test_create_url_one_word_español(self):

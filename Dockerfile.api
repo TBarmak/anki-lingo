@@ -1,14 +1,25 @@
-# This Dockerfile buids the API only.
+# This Dockerfile builds the API only.
 
 FROM python:3.9
 WORKDIR /app
 
-COPY api/requirements.txt api/api.py api/.flaskenv ./
-COPY api/scrapers ./scrapers
-COPY api/utils ./utils
+# Copying necessary files into the image
+COPY api/requirements.txt api/.flaskenv ./
+COPY api/api.py ./api/
+COPY api/scrapers ./api/scrapers
+COPY api/utils ./api/utils
+COPY api/__init__.py ./api
 RUN mkdir audio_files
-RUN pip install -r ./requirements.txt
+RUN mkdir zip_files
+
+# Set up the project
+RUN pip install -r requirements.txt
+
+# Set environment variables
 ENV FLASK_ENV production
 
+# Expose the required port
 EXPOSE 5000
-CMD ["gunicorn", "-b", ":5000", "api:app"]
+
+# Command to run the application
+CMD ["gunicorn", "-b", ":5000", "api.api:app"]
