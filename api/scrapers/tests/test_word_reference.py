@@ -1,4 +1,4 @@
-from scrapers.word_reference import create_url
+from api.scrapers.word_reference import create_url
 
 class TestWordReference:
     def test_create_url_one_word(self):

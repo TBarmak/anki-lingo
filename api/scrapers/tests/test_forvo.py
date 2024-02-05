@@ -1,4 +1,4 @@
-from scrapers.forvo import create_url
+from api.scrapers.forvo import create_url
 
 class TestForvo:
     def test_create_url_one_word(self):

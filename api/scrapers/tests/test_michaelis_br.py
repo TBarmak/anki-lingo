@@ -1,4 +1,4 @@
-from scrapers.michaelis_br import create_url
+from api.scrapers.michaelis_br import create_url
 
 class TestMichaelisBR:
     def test_create_url_one_word(self):
