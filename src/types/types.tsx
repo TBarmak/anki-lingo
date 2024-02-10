@@ -38,11 +38,11 @@ export interface ScrapedResponse {
 }
 
 export interface ScrapedItem {
-  pos: string;
+  pos?: string;
   word: string;
   definition: string;
-  translations: string[];
-  nativeExampleSentences: string[];
-  targetExampleSentences: string[];
-  audioFilenames: string[];
+  translations?: string[];
+  nativeExampleSentences?: string[];
+  targetExampleSentences?: string[];
+  audioFilenames?: string[];
 }

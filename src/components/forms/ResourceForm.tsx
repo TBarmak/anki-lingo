@@ -4,11 +4,10 @@ import {
   FormErrors,
   InputFields,
   LanguageResource,
-  ResourceArgs,
-  ScrapedItem,
   ScrapedResponse,
 } from "../../types/types";
 import FormError from "./FormError";
+import { getFlashcardData } from "./utils/getFlashcardData";
 
 type Props = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -111,53 +110,6 @@ export default function ResourceForm({
     });
   }
 
-  function getFlashcardData() {
-    const selectedResources = inputFields.languageResources.filter(
-      (resource) => resource.isSelected
-    );
-    const words = inputFields.words.split("\n");
-    const wordPromises: Promise<ScrapedResponse>[] = words.map((word) => {
-      return new Promise((res) => {
-        const args: { [K in ResourceArgs]: string } = {
-          word: word,
-          targetLang: inputFields.targetLanguage,
-          nativeLang: inputFields.nativeLanguage,
-        };
-
-        const resourcePromises: Promise<ScrapedResponse>[] =
-          selectedResources.map((resource) => {
-            return new Promise((res) => {
-              const url =
-                resource.route +
-                resource.args.map((argName) => args[argName]).join("/");
-              fetch(url)
-                .then((res) => res.json())
-                .then((data: ScrapedResponse) => {
-                  res(data);
-                }).catch((err) => {
-                  // TODO: Implement error handling
-                  console.log(err);
-                });
-            });
-          });
-
-        Promise.all(resourcePromises).then((responses: ScrapedResponse[]) => {
-          const combinedScraped: ScrapedItem[] = ([] as ScrapedItem[]).concat(
-            ...responses
-              .filter((response) => response.scrapedData)
-              .map((response) => response.scrapedData)
-          );
-          res({ word: word, scrapedData: combinedScraped } as ScrapedResponse);
-        });
-      });
-    });
-
-    Promise.all(wordPromises).then((responses) => {
-      setScrapedData(responses);
-      setIsLoading(false);
-    });
-  }
-
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const errors = validateForm(inputFields);
@@ -167,7 +119,10 @@ export default function ResourceForm({
     setErrors(errors);
     if (isSubmittable) {
       setIsLoading(true);
-      getFlashcardData();
+      getFlashcardData(inputFields).then((res) => {
+        setScrapedData(res);
+        setIsLoading(false);
+      });
     }
   }
 
