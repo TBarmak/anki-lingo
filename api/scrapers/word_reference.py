@@ -51,6 +51,8 @@ def parse_first_table(table):
                 entry['nativeExampleSentences'].append(to_example[0].span.i.text.strip().replace("\n", ""))
             if len(from_example) > 0:
                 entry['targetExampleSentences'].append(from_example[0].span.text.strip().replace("\n", ""))
+    if entry:
+        entries.append(entry)
     return entries
 
 def scrape_word_reference(word, target_lang, native_lang):
