@@ -28,8 +28,8 @@ export interface FormErrors {
 }
 
 export interface ScrapedResponse {
-  word: string;
-  scrapedData: ScrapedItem[];
+  inputWord: string;
+  scrapedWordData: ScrapedItem[];
 }
 
 export interface ScrapedItem {

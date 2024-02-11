@@ -9,13 +9,14 @@ import hashlib
 import os
 
 FLASHCARD_FIELDS = {
+	"inputWord": "input word",
 	"word": "word",
 	"pos": "part of speech",
 	"definition": "definition",
 	"translations": "translations",
 	"targetExampleSentences": "target example sentences",
 	"nativeExampleSentences": "native example sentences",
-	"audio": "audio"
+	"audioFilenames": "audio"
 }
 
 LANGUAGE_RESOURCES = [
@@ -44,7 +45,7 @@ LANGUAGE_RESOURCES = [
 		"name": "Forvo",
 		"route": "api/forvo/",
 		"args": ["targetLang", "word"],
-		"outputs": ["audio"],
+		"outputs": ["audioFilenames"],
 		"supportedLanguages": ["français", "português", "español", "english"]	
 	}
 ]
@@ -68,19 +69,19 @@ def create_app():
 
 	@app.route('/api/wr/<target_lang>/<native_lang>/<word>')
 	def get_wr_word(target_lang, native_lang, word):
-		return {'word': word, 'scrapedData': scrape_word_reference(word, target_lang, native_lang)}
+		return {'inputWord': word, 'scrapedWordData': scrape_word_reference(word, target_lang, native_lang)}
 
 	@app.route('/api/spanishdict/<target_lang>/<word>')
 	def get_spanishdict_word(target_lang, word):
-		return {'word': word, 'scrapedData': scrape_spanishdict(word, target_lang)}
+		return {'inputWord': word, 'scrapedWordData': scrape_spanishdict(word, target_lang)}
 
 	@app.route('/api/michaelis-br/<word>')
 	def get_michaelis_br_word(word):
-		return {'word': word, 'scrapedData': scrape_michaelis(word)}
+		return {'inputWord': word, 'scrapedWordData': scrape_michaelis(word)}
 
 	@app.route('/api/forvo/<target_lang>/<word>')
 	def get_forvo_audio(target_lang, word):
-		return {'word': word, 'scrapedData': scrape_forvo(word, target_lang)}
+		return {'inputWord': word, 'scrapedWordData': scrape_forvo(word, target_lang)}
 
 	@app.route('/api/format-csv', methods=['POST'])
 	def format_csv():
@@ -90,16 +91,13 @@ def create_app():
 		audio_filepath = 'audio_files/'
 		output_filepath = os.getcwd() + '/zip_files/'
 		rows = []
-		for word in req['scrapedData']:
-			# TODO: Only include audio if it's selected as an output field
-			audio_filenames = [filename for item in word['scrapedData'] for filename in item.get('audioFilenames', [])]
+		for word_data in req['scrapedData']:
+			audio_filenames = [filename for item in word_data['scrapedWordData'] for filename in item.get('audioFilenames', [])]
 			with ZipFile(output_filepath + zip_filename, 'a') as zip_object:
 				for audio_filename in audio_filenames:
 					zip_object.write(audio_filepath + audio_filename, arcname='audio_files/' + audio_filename)
-			card_front = word['word']
-			card_sides = create_csv_sides(word['scrapedData'], req['exportFields'], req['numSides'])
-			audio_files_anki_format = "".join([f"[sound:{audio}]" for audio in audio_filenames])
-			row = f"{card_front}|{audio_files_anki_format}<br>{'|'.join(card_sides)}"
+			card_sides = create_csv_sides(word_data, req['cardFormat'])
+			row = '|'.join(card_sides)
 			rows.append(row)
 		csv = '\n'.join(rows)
 		with ZipFile(output_filepath + zip_filename, 'a') as zip_object:

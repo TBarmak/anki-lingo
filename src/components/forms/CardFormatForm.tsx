@@ -25,7 +25,7 @@ export default function CardFormatForm({
 }: Props) {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
   const [cardFormat, setCardFormat] = useState<CardFormat>({
-    sides: [{ fields: ["word"], useWhitespace: false }],
+    sides: [{ fields: ["inputWord"], useWhitespace: false }],
   });
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
   const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
@@ -39,7 +39,7 @@ export default function CardFormatForm({
   useEffect(() => {
     const defaultFormat: CardFormat = {
       sides: [
-        { fields: ["word"], useWhitespace: false },
+        { fields: ["inputWord"], useWhitespace: false },
         { fields: exportFields, useWhitespace: true },
       ],
     };
@@ -66,6 +66,12 @@ export default function CardFormatForm({
   }
 
   function formatCSV() {
+    console.log(
+      JSON.stringify({
+        cardFormat: cardFormat,
+        scrapedData: scrapedData,
+      })
+    );
     fetch("/api/format-csv", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -102,7 +108,7 @@ export default function CardFormatForm({
                 </div>
               ))}
             </div>
-            <div className="h-10"/>
+            <div className="h-10" />
           </div>
           {cardFormat?.sides.slice(1).map((side, sideIndex) => (
             <div
