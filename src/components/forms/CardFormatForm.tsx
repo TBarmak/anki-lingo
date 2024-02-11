@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-import { ExportField, ScrapedResponse } from "../../types/types";
+import { CardFormat, CardSide, ScrapedResponse } from "../../types/types";
+import {
+  MdOutlineRemoveCircle,
+  MdDragIndicator,
+  MdLock,
+  MdAddCircle,
+  MdRemoveCircle,
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+} from "react-icons/md";
 
 type Props = {
   scrapedData: ScrapedResponse[];
-  exportFields: ExportField[];
-  setExportFields: React.Dispatch<React.SetStateAction<ExportField[]>>;
+  exportFields: string[];
   setDownloadUrl: React.Dispatch<React.SetStateAction<string>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -12,13 +20,15 @@ type Props = {
 export default function CardFormatForm({
   scrapedData,
   exportFields,
-  setExportFields,
   setDownloadUrl,
   setIsLoading,
 }: Props) {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
-  const [numSides, setNumSides] = useState<number>(1);
+  const [cardFormat, setCardFormat] = useState<CardFormat>({
+    sides: [{ fields: ["word"], useWhitespace: false }],
+  });
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
+  const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
 
   useEffect(() => {
     fetch("/api/field-mapping")
@@ -26,20 +36,28 @@ export default function CardFormatForm({
       .then((data) => setFieldMapping(data));
   }, []);
 
+  useEffect(() => {
+    const defaultFormat: CardFormat = {
+      sides: [
+        { fields: ["word"], useWhitespace: false },
+        { fields: exportFields, useWhitespace: true },
+      ],
+    };
+    setCardFormat(defaultFormat);
+  }, [exportFields]);
+
   function handleOnDrag(e: React.DragEvent, field: string) {
-    e.dataTransfer.setData("value", field);
+    setLastDraggedValue(field);
   }
 
   function handleOnDrop(e: React.DragEvent) {
-    const value = e.dataTransfer.getData("value") as string;
-    setExportFields(
-      exportFields.map((field) => {
-        if (field.value === value) {
-          field.side = lastHoveredSide;
-        }
-        return field;
-      })
-    );
+    e.preventDefault();
+    const sidesCopy: CardSide[] = JSON.parse(JSON.stringify(cardFormat.sides));
+    if (lastHoveredSide) {
+      const side: CardSide = sidesCopy[lastHoveredSide];
+      side.fields.push(lastDraggedValue);
+      setCardFormat({ sides: sidesCopy });
+    }
   }
 
   function handleDragOver(e: React.DragEvent, side: number) {
@@ -47,15 +65,13 @@ export default function CardFormatForm({
     e.preventDefault();
   }
 
-  // TODO: Allow the user to select the order of the fields on each side
   function formatCSV() {
     fetch("/api/format-csv", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        exportFields: exportFields,
+        cardFormat: cardFormat,
         scrapedData: scrapedData,
-        numSides: numSides,
       }),
     })
       .then((res) => res.blob())
@@ -67,106 +83,137 @@ export default function CardFormatForm({
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex flex-row justify-center items-center w-full flex-1">
-        <div className="h-full bg-gray-200 flex-1 mx-4 rounded">
-          <div
-            className="bg-white rounded my-1 p-1 px-2 flex justify-between items-center"
-          >
-            <p>word</p>
+    <div className="flex flex-col w-full h-screen bg-blue-200">
+      <div className="w-full h-16 bg-blue-800" />
+      <div className="w-full flex-1 flex flex-row px-10">
+        <div className="flex-[4] flex flex-row items-center">
+          <div className="flex flex-col items-center h-full flex-1 mx-2">
+            <p className="font-bold my-2">Side 1</p>
+            <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
+              <div className="absolute w-full h-full bg-[#00000020] flex flex-col justify-center items-center rounded">
+                <MdLock size={48} color="#777" />
+              </div>
+              {cardFormat?.sides[0].fields.map((field, index) => (
+                <div
+                  key={index}
+                  className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
+                >
+                  {fieldMapping ? fieldMapping[field] : field}
+                </div>
+              ))}
+            </div>
+            <div className="h-10"/>
           </div>
-        </div>
-        {Array.from({ length: numSides }, (_, index) => (
-          <div
-            key={index}
-            onDrop={handleOnDrop}
-            onDragOver={(e) => handleDragOver(e, index)}
-            className="h-full bg-gray-200 flex-1 mx-4 rounded"
-          >
-            {exportFields
-              .filter((field) => field.side === index)
-              .map((field, index) => {
-                return (
+          {cardFormat?.sides.slice(1).map((side, sideIndex) => (
+            <div
+              key={sideIndex}
+              {...(!side.fields.includes(lastDraggedValue) && {
+                onDrop: handleOnDrop,
+                onDragOver: (e) => handleDragOver(e, sideIndex + 1),
+              })}
+              className="flex flex-col items-center h-full w-full flex-1 mx-2"
+            >
+              <p className="font-bold my-2">Side {sideIndex + 2}</p>
+              <div className="h-full bg-white rounded flex flex-col relative w-full">
+                {side.fields.map((field, index) => (
                   <div
                     key={index}
-                    draggable
-                    onDragStart={(e) => handleOnDrag(e, field.value)}
-                    className="bg-white rounded my-1 p-1 px-2 flex justify-between items-center"
+                    className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
                   >
-                    <p>
-                      {fieldMapping ? fieldMapping[field.value] : field.value}
-                    </p>
+                    {fieldMapping ? fieldMapping[field] : field}
                     <button
                       onClick={() => {
-                        setExportFields(
-                          exportFields.map((f) => {
-                            if (f.value === field.value) {
-                              f.side = -1;
-                            }
-                            return f;
-                          })
+                        const currSideIndex = sideIndex + 1;
+                        const sidesCopy: CardSide[] = JSON.parse(
+                          JSON.stringify(cardFormat.sides)
                         );
+                        const side: CardSide = sidesCopy[currSideIndex];
+                        side.fields.splice(side.fields.indexOf(field), 1);
+                        setCardFormat({ sides: sidesCopy });
                       }}
-                      className="text-red-500"
                     >
-                      x
+                      <MdOutlineRemoveCircle color="red" />
                     </button>
                   </div>
-                );
-              })}
-          </div>
-        ))}
-        <div className="flex-1 flex flex-col justify-center items-center">
-          <button
-            onClick={() => setNumSides(numSides + 1)}
-            className="text-4x text-white font-bold bg-green-900 p-2 px-4 rounded-full w-min my-2"
-          >
-            +
-          </button>
-          {numSides > 2 && (
-            <button
-              onClick={() => setNumSides(numSides - 1)}
-              className="text-4x text-white font-bold bg-red-600 p-2 px-4 rounded-full w-min my-2"
-            >
-              -
-            </button>
-          )}
-        </div>
-      </div>
-      <div
-        onDrop={handleOnDrop}
-        onDragOver={(e) => handleDragOver(e, -1)}
-        className="flex-1 flex flex-col bg-red-100 rounded m-2"
-      >
-        {exportFields
-          .filter((field) => field.side === -1)
-          .map((field) => (
-            <div className="bg-white rounded my-1 p-1 px-2 flex flex-row justify-between items-center">
-              <p>{fieldMapping ? fieldMapping[field.value] : field.value}</p>
-              <button
-                onClick={() => {
-                  setExportFields(
-                    exportFields.map((f) => {
-                      if (f.value === field.value) {
-                        f.side = 1;
-                      }
-                      return f;
-                    })
-                  );
-                }}
-                className="text-green-700"
-              >
-                +
-              </button>
+                ))}
+              </div>
+              <div className="h-10 flex flex-row justify-center items-center w-full">
+                <button
+                  className="mx-2"
+                  onClick={() => {
+                    const currSideIndex = sideIndex + 1;
+                    const sidesCopy: CardSide[] = JSON.parse(
+                      JSON.stringify(cardFormat.sides)
+                    );
+                    sidesCopy[currSideIndex].useWhitespace =
+                      !sidesCopy[currSideIndex].useWhitespace;
+                    setCardFormat({ sides: sidesCopy });
+                  }}
+                >
+                  {side.useWhitespace ? (
+                    <MdCheckBox size={22} />
+                  ) : (
+                    <MdCheckBoxOutlineBlank size={22} />
+                  )}
+                </button>
+                <p>Include whitespace?</p>
+              </div>
             </div>
           ))}
+          <div className="flex flex-col items-center justify-center mx-4">
+            {cardFormat?.sides.length < 5 && (
+              <button
+                className="m-1"
+                onClick={() => {
+                  const newSides = [
+                    ...cardFormat?.sides,
+                    { fields: [], useWhitespace: true },
+                  ];
+                  setCardFormat({ sides: newSides });
+                }}
+              >
+                <MdAddCircle size={32} color={"green"} />
+              </button>
+            )}
+            {cardFormat.sides.length > 2 && (
+              <button
+                className="m-1"
+                onClick={() => {
+                  const newSides = cardFormat?.sides.slice(
+                    0,
+                    cardFormat.sides.length - 1
+                  );
+                  setCardFormat({ sides: newSides });
+                }}
+              >
+                <MdRemoveCircle size={32} color={"red"} />
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="h-full flex-1 mx-4 rounded flex flex-col justify-center">
+          <p className="font-bold text-2xl">Fields</p>
+          {exportFields.map((field, index) => (
+            <div
+              key={index}
+              draggable
+              onDragStart={(e) => handleOnDrag(e, field)}
+              className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center hover:cursor-pointer"
+            >
+              {fieldMapping ? fieldMapping[field] : field}
+              <MdDragIndicator />
+            </div>
+          ))}
+        </div>
       </div>
-      <button
-        className="bg-black text-white px-6 py-2 rounded-full"
-        onClick={formatCSV}
-      >
-        Create CSV
-      </button>
+      <div className="flex flex-row justify-center items-center mb-8 mt-4">
+        <button
+          className="bg-black text-white px-6 py-2 rounded"
+          onClick={formatCSV}
+        >
+          Create CSV
+        </button>
+      </div>
     </div>
   );
 }

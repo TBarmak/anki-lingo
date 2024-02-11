@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  ExportField,
   FormErrors,
   InputFields,
   LanguageResource,
@@ -12,7 +11,7 @@ import { getFlashcardData } from "./utils/getFlashcardData";
 type Props = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setScrapedData: React.Dispatch<React.SetStateAction<ScrapedResponse[]>>;
-  setExportFields: React.Dispatch<React.SetStateAction<ExportField[]>>;
+  setExportFields: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export default function ResourceForm({
@@ -52,19 +51,12 @@ export default function ResourceForm({
   }, [languageResources]);
 
   useEffect(() => {
-    const resourceNames = ([] as string[]).concat(
+    const exportFields = ([] as string[]).concat(
       ...inputFields.languageResources
         .filter((resource: LanguageResource) => resource.isSelected)
         .map((resource: LanguageResource) => resource.outputs)
     );
-    const exportFields: ExportField[] = [...new Set(resourceNames)].reduce(
-      (acc, curr) => {
-        acc.push({ value: curr, side: 0 });
-        return acc;
-      },
-      [] as ExportField[]
-    );
-    setExportFields(exportFields);
+    setExportFields([...new Set(exportFields)]);
   }, [inputFields.languageResources]);
 
   function validateForm(inputFields: InputFields): FormErrors {
