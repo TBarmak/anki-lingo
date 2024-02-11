@@ -1,5 +1,4 @@
 from api.scrapers.word_reference import create_url, scrape_word_reference
-from unittest import mock
 import os
 import json
 
@@ -14,7 +13,7 @@ def read_expected_output(file_name):
 
 class TestWordReference:
     def test_create_url_one_word(self):
-        # Arragne
+        # Arrange
         word = 'abacaxi'
         target_lang_abbv = 'pt'
         native_lang_abbv = 'en'

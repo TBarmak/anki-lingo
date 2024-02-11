@@ -1,8 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 
+
 def create_url(word):
     return f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{"%20".join(word.split())}'
+
 
 def reformat_to_rows(children):
     '''
@@ -25,13 +27,16 @@ def reformat_to_rows(children):
             # Only append if it contains non-whitespace characters
             if child.strip():
                 current_row.append(child)
-        elif child.name == 'br':
+        elif child.name in ['br', 'sx', 'sm']:
             if current_row:
                 rows.append(current_row)
             current_row = []
         else:
             current_row.append(child)
+    if len(current_row) > 0:
+        rows.append(current_row)
     return rows
+
 
 def parse_acn_row(row):
     '''
@@ -45,7 +50,6 @@ def parse_acn_row(row):
     ------------
         entry: dict (str -> str) with keys 'word' and 'definition'
     '''
-    row = row[1:]
     definition = ""
     sentences = []
     for item in row:
@@ -53,10 +57,12 @@ def parse_acn_row(row):
             definition += item
         elif item.name in ['abt', 'eu']:
             sentences.append(item.text.strip())
-        elif item.name in ['dr', 'ra']:
+        elif item.name in ['dr', 'ra', 'rdr', 'rn']:
             definition += item.text
-    entry = {'definition': definition.strip(), 'targetExampleSentences': sentences}
+    entry = {'definition': definition.strip(
+    ), 'targetExampleSentences': sentences}
     return entry
+
 
 def parse_ex_row(row):
     '''
@@ -73,8 +79,9 @@ def parse_ex_row(row):
     expression = row[0].text
     definition = "".join([item.text for item in row[1:]])
     # TODO: "expression" should eventually become its own separate key
-    entry = {'word': expression.strip(), 'definition': definition.strip()[2:]}
+    entry = {'word': expression.strip(), 'definition': definition.strip()}
     return entry
+
 
 def parse_rows(rows):
     '''
@@ -98,7 +105,7 @@ def parse_rows(rows):
         if tag in ['e1', 'ef']:
             word = row[0].text
         elif tag == 'cg':
-            pos = row[0].text
+            pos = " ".join(tag.text for tag in row)
         elif tag == 'acn':
             entry = parse_acn_row(row)
             entry['word'] = word.strip()
@@ -109,6 +116,7 @@ def parse_rows(rows):
             entries.append(entry)
     return entries
 
+
 def scrape_michaelis(word):
     '''
     Scrapes the data from the Brazilian Portuguese dictionary Michaelis
@@ -117,7 +125,7 @@ def scrape_michaelis(word):
     ------------
         word: str
             a word in Brazilian Portuguese
-    
+
     Return
     ------------
         parsed_rows: list of dicts with keys: 'word', 'pos', 'definition', and 'targetExampleSentences' 
