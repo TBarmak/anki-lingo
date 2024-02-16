@@ -55,13 +55,15 @@ def create_csv_side(scraped_word_data, side_format):
     fields = side_format['fields']
     restructured_dict = restructure_scraped_dict(scraped_word_data, fields)
 
-    blocks = []
+    text_blocks = []
     for key in restructured_dict.keys():
-        formatted = [key] if key else []
-        formatted += [format_entry(entry, fields)
-                      for entry in restructured_dict[key]]
-        blocks.append('<br>'.join(formatted))
-    return '<br><br>'.join(blocks)
+        formatted_entries = [key] if key else []
+        for entry in restructured_dict[key]:
+            formatted_entry = format_entry(entry, fields)
+            if formatted_entry.strip():
+                formatted_entries.append(formatted_entry)
+        text_blocks.append('<br>'.join(formatted_entries))
+    return '<br><br>'.join(text_blocks)
 
 
 def format_entry(entry, fields):
@@ -71,6 +73,8 @@ def format_entry(entry, fields):
     for field in filtered_entry:
         if field[0] == 'audioFilenames':
             field[1] = [f"[sound:{filename}]" for filename in field[1]]
+        if field[0] == 'translations':
+            field[1] = ', '.join(field[1])
     # Sort them based on a priority list
     sorted_entry_fields = sorted(
         filtered_entry, key=lambda x: FIELD_PRIORITY_RANKING.index(x[0]))

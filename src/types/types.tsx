@@ -48,5 +48,4 @@ export interface CardFormat {
 
 export interface CardSide {
   fields: string[];
-  useWhitespace?: boolean;
 }

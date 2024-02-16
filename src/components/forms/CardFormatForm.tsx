@@ -6,8 +6,6 @@ import {
   MdLock,
   MdAddCircle,
   MdRemoveCircle,
-  MdCheckBox,
-  MdCheckBoxOutlineBlank,
 } from "react-icons/md";
 
 type Props = {
@@ -25,7 +23,7 @@ export default function CardFormatForm({
 }: Props) {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
   const [cardFormat, setCardFormat] = useState<CardFormat>({
-    sides: [{ fields: ["inputWord"], useWhitespace: false }],
+    sides: [{ fields: ["inputWord"] }],
   });
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
   const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
@@ -38,10 +36,7 @@ export default function CardFormatForm({
 
   useEffect(() => {
     const defaultFormat: CardFormat = {
-      sides: [
-        { fields: ["inputWord"], useWhitespace: false },
-        { fields: exportFields, useWhitespace: true },
-      ],
+      sides: [{ fields: ["inputWord"] }, { fields: exportFields }],
     };
     setCardFormat(defaultFormat);
   }, [exportFields]);
@@ -108,7 +103,6 @@ export default function CardFormatForm({
                 </div>
               ))}
             </div>
-            <div className="h-10" />
           </div>
           {cardFormat?.sides.slice(1).map((side, sideIndex) => (
             <div
@@ -143,27 +137,6 @@ export default function CardFormatForm({
                   </div>
                 ))}
               </div>
-              <div className="h-10 flex flex-row justify-center items-center w-full">
-                <button
-                  className="mx-2"
-                  onClick={() => {
-                    const currSideIndex = sideIndex + 1;
-                    const sidesCopy: CardSide[] = JSON.parse(
-                      JSON.stringify(cardFormat.sides)
-                    );
-                    sidesCopy[currSideIndex].useWhitespace =
-                      !sidesCopy[currSideIndex].useWhitespace;
-                    setCardFormat({ sides: sidesCopy });
-                  }}
-                >
-                  {side.useWhitespace ? (
-                    <MdCheckBox size={22} />
-                  ) : (
-                    <MdCheckBoxOutlineBlank size={22} />
-                  )}
-                </button>
-                <p>Include whitespace?</p>
-              </div>
             </div>
           ))}
           <div className="flex flex-col items-center justify-center mx-4">
@@ -171,10 +144,7 @@ export default function CardFormatForm({
               <button
                 className="m-1"
                 onClick={() => {
-                  const newSides = [
-                    ...cardFormat?.sides,
-                    { fields: [], useWhitespace: true },
-                  ];
+                  const newSides = [...cardFormat?.sides, { fields: [] }];
                   setCardFormat({ sides: newSides });
                 }}
               >
