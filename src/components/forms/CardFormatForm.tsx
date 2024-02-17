@@ -27,6 +27,7 @@ export default function CardFormatForm({
   });
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
   const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
+  const [lastDraggedSide, setLastDraggedSide] = useState<number>();
 
   useEffect(() => {
     fetch("/api/field-mapping")
@@ -41,16 +42,23 @@ export default function CardFormatForm({
     setCardFormat(defaultFormat);
   }, [exportFields]);
 
-  function handleOnDrag(e: React.DragEvent, field: string) {
+  function handleOnDrag(e: React.DragEvent, field: string, side?: number) {
     setLastDraggedValue(field);
+    setLastDraggedSide(side);
   }
 
   function handleOnDrop(e: React.DragEvent) {
     e.preventDefault();
     const sidesCopy: CardSide[] = JSON.parse(JSON.stringify(cardFormat.sides));
-    if (lastHoveredSide) {
+    if (lastHoveredSide && lastDraggedValue) {
       const side: CardSide = sidesCopy[lastHoveredSide];
       side.fields.push(lastDraggedValue);
+      if (lastDraggedSide) {
+        const draggedFromSide = sidesCopy[lastDraggedSide];
+        draggedFromSide.fields = draggedFromSide.fields.filter(
+          (field) => field != lastDraggedValue
+        );
+      }
       setCardFormat({ sides: sidesCopy });
     }
   }
@@ -118,7 +126,16 @@ export default function CardFormatForm({
                 {side.fields.map((field, index) => (
                   <div
                     key={index}
-                    className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
+                    {...(cardFormat.sides.length > 2
+                      ? {
+                          draggable: true,
+                          onDragStart: (e) =>
+                            handleOnDrag(e, field, sideIndex + 1),
+                        }
+                      : {})}
+                    className={`bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
+                      cardFormat.sides.length > 2 ? "hover:cursor-pointer" : ""
+                    }`}
                   >
                     {fieldMapping ? fieldMapping[field] : field}
                     <button
