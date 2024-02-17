@@ -1,0 +1,87 @@
+[
+  {
+    "translations": ["old", "(elderly)"],
+    "targetExampleSentences": [
+      "Era viejo, pero probablemente no tan viejo como aparentaba."
+    ],
+    "nativeExampleSentences": [
+      "He was old, but probably not as old as he looked."
+    ],
+    "pos": "adjective",
+    "word": "viejo"
+  },
+  {
+    "translations": ["old", "(not new)"],
+    "targetExampleSentences": [
+      "¿Debería quedarme con mi coche viejo o comprarme uno nuevo?"
+    ],
+    "nativeExampleSentences": ["Should I keep my old car or buy a new one?"],
+    "pos": "adjective",
+    "word": "viejo"
+  },
+  {
+    "translations": ["old", "(worn out)"],
+    "targetExampleSentences": ["Llevo una camisa muy vieja llena de agujeros."],
+    "nativeExampleSentences": ["I'm wearing a very old shirt full of holes."],
+    "pos": "adjective",
+    "word": "viejo"
+  },
+  {
+    "translations": ["old man", "old woman", "(old person)"],
+    "targetExampleSentences": [
+      "Es un viejo, pero también un pescador experimentado.",
+      "Hay una vieja en una mecedora."
+    ],
+    "nativeExampleSentences": [
+      "He is an old man as well as an experienced fisherman.",
+      "There is an old woman in a rocking chair."
+    ],
+    "pos": "masculine or feminine noun",
+    "word": "viejo"
+  },
+  {
+    "translations": ["pal", "buddy", "mate", "(colloquial)(friend)"],
+    "targetExampleSentences": [
+      "¿Qué hay de nuevo, viejo?",
+      "¿Qué haces por aquí, viejo?",
+      "¡Hola, viejo! ¡Mucho tiempo sin verte!"
+    ],
+    "nativeExampleSentences": [
+      "What's up, pal?",
+      "What are you doing around here, buddy?",
+      "Hello, mate! It's been a while!"
+    ],
+    "pos": "masculine or feminine noun",
+    "word": "viejo"
+  },
+  {
+    "translations": ["dad", "mom", "(colloquial)(mother or father)"],
+    "targetExampleSentences": [
+      "Mi viejo no me para de fastidiar.",
+      "Vivo con mi vieja y mi hermana en Inglaterra."
+    ],
+    "nativeExampleSentences": [
+      "My dad won't stop nagging me.",
+      "I live with my mom and my sister in England."
+    ],
+    "pos": "masculine or feminine noun",
+    "word": "viejo"
+  },
+  {
+    "translations": [
+      "old man",
+      "old lady",
+      "(colloquial)(spouse)(Latin America)"
+    ],
+    "targetExampleSentences": [
+      "Mi viejo trabaja doce horas, así que no llega a casa hasta pasadas las siete.",
+      "Mi vieja y yo estamos buscando un sitio mejor para vivir."
+    ],
+    "nativeExampleSentences": [
+      "My old man works twelve-hour day shifts so he doesn't get home until after seven.",
+      "My old lady and I are trying to find a better place to live."
+    ],
+    "pos": "masculine or feminine noun",
+    "word": "viejo"
+  }
+]
