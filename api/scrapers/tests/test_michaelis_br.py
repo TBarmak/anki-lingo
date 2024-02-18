@@ -43,9 +43,10 @@ class TestMichaelisBR:
         expected_response = read_expected_output(
             f'michaelis_br_{word}_output.json')
         # Act
-        scraped_data = scrape_michaelis(word)
+        scraped_data, url = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
+        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}' 
 
     def test_scrape_michaelis_fiador(self, requests_mock):
         # Arrange
@@ -61,6 +62,7 @@ class TestMichaelisBR:
         expected_response = read_expected_output(
             f'michaelis_br_{word}_output.json')
         # Act
-        scraped_data = scrape_michaelis(word)
+        scraped_data, url = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
+        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'

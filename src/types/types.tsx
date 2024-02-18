@@ -30,6 +30,13 @@ export interface FormErrors {
 export interface ScrapedResponse {
   inputWord: string;
   scrapedWordData: ScrapedItem[];
+  url: string;
+}
+
+export interface CombinedScrapedReponse {
+  inputWord: string;
+  scrapedWordData: ScrapedItem[];
+  urls: string[];
 }
 
 export interface ScrapedItem {

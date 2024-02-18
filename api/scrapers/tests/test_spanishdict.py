@@ -63,9 +63,10 @@ class TestSpanishdict:
         expected_response = read_expected_output(
             f'spanishdict_{word}_es_output.json')
         # Act
-        scraped_data = scrape_spanishdict(word, target_lang)
+        scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
+        assert url == f'https://www.spanishdict.com/translate/{word}?langFrom=es'
 
     def test_scrape_spanishdict_poner(self, requests_mock):
         # Arrange
@@ -82,9 +83,10 @@ class TestSpanishdict:
         expected_response = read_expected_output(
             f'spanishdict_{word}_es_output.json')
         # Act
-        scraped_data = scrape_spanishdict(word, target_lang)
+        scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
+        assert url == f'https://www.spanishdict.com/translate/{word}?langFrom=es'
 
     def test_scrape_spanishdict_think(self, requests_mock):
         # Arrange
@@ -101,6 +103,7 @@ class TestSpanishdict:
         expected_response = read_expected_output(
             f'spanishdict_{word}_en_output.json')
         # Act
-        scraped_data = scrape_spanishdict(word, target_lang)
+        scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
+        assert url == f'https://www.spanishdict.com/translate/{word}?langFrom=en' 

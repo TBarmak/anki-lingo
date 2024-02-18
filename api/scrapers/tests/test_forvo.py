@@ -50,9 +50,10 @@ class TestForvo:
         mock_file_open = mock_open()
         # Act
         with patch("builtins.open", mock_file_open, create=True):
-            audio_filenames = scrape_forvo(word, language)
+            audio_filenames, url = scrape_forvo(word, language)
         # Assert
         mock_file_open.assert_called_with(
             "audio_files/pronunciation_fr_avoir.ogg", 'b+w')
         assert audio_filenames == [
             {'audioFilenames': ["pronunciation_fr_avoir.ogg"]}]
+        assert url == 'https://forvo.com/word/avoir/#fr'

@@ -67,12 +67,12 @@ def scrape_word_reference(word, target_lang, native_lang):
     native_lang_abbv = LANGUAGE_TO_ABBV.get(native_lang.lower())
     target_lang_abbv = LANGUAGE_TO_ABBV.get(target_lang.lower())
     if not native_lang_abbv or not target_lang_abbv:
-        return []
+        return [], ''
 
     url = create_url(word, target_lang_abbv, native_lang_abbv)
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
     tables = soup.find_all('table', {"class": "WRD"})
     if len(tables) > 0:
-        return parse_first_table(tables[0])
-    return []
+        return parse_first_table(tables[0]), url
+    return [], url
