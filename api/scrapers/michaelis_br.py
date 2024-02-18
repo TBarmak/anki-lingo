@@ -137,4 +137,4 @@ def scrape_michaelis(word):
     children = [child for child in container.children]
     rows = reformat_to_rows(children)
     parsed_rows = parse_rows(rows)
-    return parsed_rows
+    return parsed_rows, url

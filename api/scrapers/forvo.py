@@ -23,8 +23,7 @@ def create_url(word: str, lang_abbv: str):
     return urllib.parse.urlunsplit(url_parts)
 
 
-def get_soup(word: str, lang_abbv: str):
-    url = create_url(word, lang_abbv)
+def get_soup(url: str):
     opener = urllib.request.build_opener()
     opener.addheaders = [
         ('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0')]
@@ -64,8 +63,9 @@ def download_audio(url: str, word: str, lang_abbv: str):
 
 def scrape_forvo(word: str, language: str):
     lang_abbv = LANGUAGE_TO_ABBV[language.lower()]
-    soup = get_soup(word, lang_abbv)
+    url = create_url(word, lang_abbv)
+    soup = get_soup(url)
     table = get_table(soup, lang_abbv)
-    url = get_top_pronunciation_url(table)
-    output_filename = download_audio(url, word, lang_abbv)
-    return [{'audioFilenames': [output_filename]}]
+    pronunciation_url = get_top_pronunciation_url(table)
+    output_filename = download_audio(pronunciation_url, word, lang_abbv)
+    return [{'audioFilenames': [output_filename]}], url

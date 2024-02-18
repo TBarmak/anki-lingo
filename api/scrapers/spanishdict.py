@@ -126,6 +126,8 @@ def scrape_spanishdict(word, target_lang):
 
     Return
     ------------
+        url: str
+            the url of the page that was scraped
         translations_list: list
             list of dicts where each dict represents a translation of the word.
             Keys of the dicts: 
@@ -154,4 +156,4 @@ def scrape_spanishdict(word, target_lang):
         translations_list += parsed_pos_block
     for item in translations_list:
         item['word'] = spanishdict_word
-    return translations_list
+    return translations_list, url

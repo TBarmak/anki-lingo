@@ -72,19 +72,24 @@ def create_app():
 
     @app.route('/api/wr/<target_lang>/<native_lang>/<word>')
     def get_wr_word(target_lang, native_lang, word):
-        return {'inputWord': word, 'scrapedWordData': scrape_word_reference(word, target_lang, native_lang)}
+        scraped_data, url = scrape_word_reference(
+            word, target_lang, native_lang)
+        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
 
     @app.route('/api/spanishdict/<target_lang>/<word>')
     def get_spanishdict_word(target_lang, word):
-        return {'inputWord': word, 'scrapedWordData': scrape_spanishdict(word, target_lang)}
+        scraped_data, url = scrape_spanishdict(word, target_lang)
+        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
 
     @app.route('/api/michaelis-br/<word>')
     def get_michaelis_br_word(word):
-        return {'inputWord': word, 'scrapedWordData': scrape_michaelis(word)}
+        scraped_data, url = scrape_michaelis(word)
+        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
 
     @app.route('/api/forvo/<target_lang>/<word>')
     def get_forvo_audio(target_lang, word):
-        return {'inputWord': word, 'scrapedWordData': scrape_forvo(word, target_lang)}
+        scraped_data, url = scrape_forvo(word, target_lang)
+        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
 
     @app.route('/api/format-csv', methods=['POST'])
     def format_csv():
