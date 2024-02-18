@@ -95,8 +95,8 @@ export const multiWordMultiResourceInput: InputFields = {
 };
 
 export const abacaxiWordReferenceResponse: ScrapedResponse = {
-  word: "abacaxi",
-  scrapedData: [
+  inputWord: "abacaxi",
+  scrapedWordData: [
     {
       definition: "",
       nativeExampleSentences: [],
@@ -109,7 +109,7 @@ export const abacaxiWordReferenceResponse: ScrapedResponse = {
 };
 
 export const homemWordReferenceResponse: ScrapedResponse = {
-  scrapedData: [
+  scrapedWordData: [
     {
       definition: "",
       nativeExampleSentences: [],
@@ -176,13 +176,13 @@ export const homemWordReferenceResponse: ScrapedResponse = {
       word: "homem",
     },
   ],
-  word: "homem",
+  inputWord: "homem",
 };
 
 // TODO: Update after polishing Michaelis endpoint
 export const abacaxiMichaelisResponse: ScrapedResponse = {
-  word: "abacaxi",
-  scrapedData: [
+  inputWord: "abacaxi",
+  scrapedWordData: [
     {
       definition:
         "Agr, Bot Planta terrestre (Ananas comosus), da fam\u00edlia das bromeli\u00e1ceas, cultivada ou selvagem, nativa do Brasil, de folhas lineares com bordas espinhosas, que produz uma infrutesc\u00eancia carnosa; abacaxi-branco, abacaxizeiro, aberas, anan\u00e1s, nan\u00e1, nan\u00e1s, nanaseiro, pita.",
@@ -235,7 +235,7 @@ export const abacaxiMichaelisResponse: ScrapedResponse = {
 };
 
 export const homemMichaelisResponse: ScrapedResponse = {
-  scrapedData: [
+  scrapedWordData: [
     {
       definition:
         "Biol Mam\u00edfero da ordem dos primatas, do g\u00eanero Homo, da esp\u00e9cie Homo sapiens, de posi\u00e7\u00e3o ereta e m\u00e3os pre\u00eanseis, com atividade cerebral inteligente, e programado para produzir linguagem articulada.",
@@ -418,5 +418,5 @@ export const homemMichaelisResponse: ScrapedResponse = {
       word: "De homem para homem",
     },
   ],
-  word: "homem",
+  inputWord: "homem",
 };

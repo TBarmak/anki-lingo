@@ -44,8 +44,8 @@ describe("getFlashcardData.ts", () => {
         const data = await getFlashcardData(inputFields);
         // Assert
         expect(data.length).toEqual(1);
-        expect(data[0].word).toEqual(abacaxiNoResourcesInput.words);
-        expect(data[0].scrapedData.length).toEqual(0);
+        expect(data[0].inputWord).toEqual(abacaxiNoResourcesInput.words);
+        expect(data[0].scrapedWordData.length).toEqual(0);
       });
     });
 
@@ -61,9 +61,9 @@ describe("getFlashcardData.ts", () => {
           const data = await getFlashcardData(inputFields);
           // Assert
           expect(data.length).toEqual(1);
-          expect(data[0].word).toEqual(abacaxiWordReferenceInput.words);
-          expect(data[0].scrapedData).toEqual(
-            abacaxiWordReferenceResponse.scrapedData
+          expect(data[0].inputWord).toEqual(abacaxiWordReferenceInput.words);
+          expect(data[0].scrapedWordData).toEqual(
+            abacaxiWordReferenceResponse.scrapedWordData
           );
         });
       });
@@ -77,8 +77,8 @@ describe("getFlashcardData.ts", () => {
           const data = await getFlashcardData(inputFields);
           // Assert
           expect(data.length).toEqual(1);
-          expect(data[0].word).toEqual(abacaxiWordReferenceInput.words);
-          expect(data[0].scrapedData.length).toEqual(0);
+          expect(data[0].inputWord).toEqual(abacaxiWordReferenceInput.words);
+          expect(data[0].scrapedWordData.length).toEqual(0);
         });
       });
     });
@@ -98,10 +98,10 @@ describe("getFlashcardData.ts", () => {
           const data = await getFlashcardData(inputFields);
           // Assert
           expect(data.length).toEqual(1);
-          expect(data[0].word).toEqual(abacaxiMultiResourceInput.words);
-          expect(data[0].scrapedData.length).toEqual(
-            abacaxiMichaelisResponse.scrapedData.length +
-              abacaxiWordReferenceResponse.scrapedData.length
+          expect(data[0].inputWord).toEqual(abacaxiMultiResourceInput.words);
+          expect(data[0].scrapedWordData.length).toEqual(
+            abacaxiMichaelisResponse.scrapedWordData.length +
+              abacaxiWordReferenceResponse.scrapedWordData.length
           );
         });
       });
@@ -118,9 +118,9 @@ describe("getFlashcardData.ts", () => {
           const data = await getFlashcardData(inputFields);
           // Assert
           expect(data.length).toEqual(1);
-          expect(data[0].word).toEqual(abacaxiMultiResourceInput.words);
-          expect(data[0].scrapedData.length).toEqual(
-            abacaxiMichaelisResponse.scrapedData.length
+          expect(data[0].inputWord).toEqual(abacaxiMultiResourceInput.words);
+          expect(data[0].scrapedWordData.length).toEqual(
+            abacaxiMichaelisResponse.scrapedWordData.length
           );
         });
       });
@@ -138,16 +138,16 @@ describe("getFlashcardData.ts", () => {
         const data = await getFlashcardData(inputFields);
         // Assert
         expect(data.length).toEqual(2);
-        expect(data[0].word).toEqual(
+        expect(data[0].inputWord).toEqual(
           multiWordMichaelisInput.words.split("\n")[0]
         );
-        expect(data[0].scrapedData).toEqual(
-          abacaxiMichaelisResponse.scrapedData
+        expect(data[0].scrapedWordData).toEqual(
+          abacaxiMichaelisResponse.scrapedWordData
         );
-        expect(data[1].word).toEqual(
+        expect(data[1].inputWord).toEqual(
           multiWordMichaelisInput.words.split("\n")[1]
         );
-        expect(data[1].scrapedData).toEqual(homemMichaelisResponse.scrapedData);
+        expect(data[1].scrapedWordData).toEqual(homemMichaelisResponse.scrapedWordData);
       });
     });
 
@@ -176,16 +176,16 @@ describe("getFlashcardData.ts", () => {
         const data = await getFlashcardData(inputFields);
         // Assert
         expect(data.length).toEqual(2);
-        expect(data[0].word).toEqual("abacaxi");
-        expect(data[1].word).toEqual("homem");
-        expect(data[0].scrapedData).toEqual(
-          abacaxiWordReferenceResponse.scrapedData.concat(
-            abacaxiMichaelisResponse.scrapedData
+        expect(data[0].inputWord).toEqual("abacaxi");
+        expect(data[1].inputWord).toEqual("homem");
+        expect(data[0].scrapedWordData).toEqual(
+          abacaxiWordReferenceResponse.scrapedWordData.concat(
+            abacaxiMichaelisResponse.scrapedWordData
           )
         );
-        expect(data[1].scrapedData).toEqual(
-          homemWordReferenceResponse.scrapedData.concat(
-            homemMichaelisResponse.scrapedData
+        expect(data[1].scrapedWordData).toEqual(
+          homemWordReferenceResponse.scrapedWordData.concat(
+            homemMichaelisResponse.scrapedWordData
           )
         );
       });
