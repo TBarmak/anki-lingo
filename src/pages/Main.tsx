@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Loading from "../components/Loading";
-import { ExportField, ScrapedResponse } from "../types/types";
+import { ScrapedResponse } from "../types/types";
 import ResourceForm from "../components/forms/ResourceForm";
 import CardFormatForm from "../components/forms/CardFormatForm";
 import Download from "../components/Download";
@@ -9,7 +9,7 @@ export default function Main() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [scrapedData, setScrapedData] = useState<ScrapedResponse[]>([]);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
-  const [exportFields, setExportFields] = useState<ExportField[]>([]);
+  const [exportFields, setExportFields] = useState<string[]>([]);
 
   if (isLoading) {
     return <Loading />;
@@ -24,7 +24,6 @@ export default function Main() {
       <CardFormatForm
         scrapedData={scrapedData}
         exportFields={exportFields}
-        setExportFields={setExportFields}
         setDownloadUrl={setDownloadUrl}
         setIsLoading={setIsLoading}
       />

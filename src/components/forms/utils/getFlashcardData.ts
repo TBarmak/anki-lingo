@@ -37,7 +37,7 @@ export function getFlashcardData(
                 res(data);
               })
               .catch((err) => {
-                res({ word: word, scrapedData: [] });
+                res({ inputWord: word, scrapedWordData: [] });
               });
           });
         });
@@ -45,10 +45,13 @@ export function getFlashcardData(
       Promise.all(resourcePromises).then((responses: ScrapedResponse[]) => {
         const combinedScraped: ScrapedItem[] = ([] as ScrapedItem[]).concat(
           ...responses
-            .filter((response) => response.scrapedData)
-            .map((response) => response.scrapedData)
+            .filter((response) => response.scrapedWordData)
+            .map((response) => response.scrapedWordData)
         );
-        res({ word: word, scrapedData: combinedScraped } as ScrapedResponse);
+        res({
+          inputWord: word,
+          scrapedWordData: combinedScraped,
+        } as ScrapedResponse);
       });
     });
   });

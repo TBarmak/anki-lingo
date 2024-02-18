@@ -28,3 +28,7 @@ __pycache__
 *.njsproj
 *.sln
 *.sw?
+
+# Output files
+*.zip
+*.ogg

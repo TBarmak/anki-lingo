@@ -20,11 +20,6 @@ export enum ResourceArgs {
   nativeLang = "nativeLang",
 }
 
-export interface ExportField {
-  value: string;
-  side?: number;
-}
-
 export interface FormErrors {
   words: string;
   targetLanguage: string;
@@ -33,8 +28,8 @@ export interface FormErrors {
 }
 
 export interface ScrapedResponse {
-  word: string;
-  scrapedData: ScrapedItem[];
+  inputWord: string;
+  scrapedWordData: ScrapedItem[];
 }
 
 export interface ScrapedItem {
@@ -45,4 +40,12 @@ export interface ScrapedItem {
   nativeExampleSentences?: string[];
   targetExampleSentences?: string[];
   audioFilenames?: string[];
+}
+
+export interface CardFormat {
+  sides: CardSide[];
+}
+
+export interface CardSide {
+  fields: string[];
 }
