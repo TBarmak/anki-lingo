@@ -1,0 +1,179 @@
+[
+  {
+    "translations": ["pensar", "reflexionar", "(to ponder)"],
+    "targetExampleSentences": [
+      "I spoke without thinking.",
+      "Give us some time to think about it."
+    ],
+    "nativeExampleSentences": [
+      "I spoke without thinking.",
+      "Give us some time to think about it."
+    ],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["imaginarse", "(to imagine)"],
+    "targetExampleSentences": [
+      "I don't want to think of what may have happened."
+    ],
+    "nativeExampleSentences": [
+      "I don't want to think of what may have happened."
+    ],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["pensar en", "(to plan; used with \"of\" or \"about\")"],
+    "targetExampleSentences": ["Are you thinking of quitting your job?"],
+    "nativeExampleSentences": ["Are you thinking of quitting your job?"],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["ocurrirse", "(to come up with; used with \"of\")"],
+    "targetExampleSentences": ["Can you think of a better solution?"],
+    "nativeExampleSentences": ["Can you think of a better solution?"],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": [
+      "acordarse de",
+      "recordar",
+      "(to remember; used with \"of\" or \"about\")"
+    ],
+    "targetExampleSentences": [
+      "We've been thinking of you a lot.",
+      "I can't think of how many cases he solved in the past."
+    ],
+    "nativeExampleSentences": [
+      "We've been thinking of you a lot.",
+      "I can't think of how many cases he solved in the past."
+    ],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["creer", "(to gather)"],
+    "targetExampleSentences": [
+      "That's the only thing that's going to change, I think."
+    ],
+    "nativeExampleSentences": [
+      "That's the only thing that's going to change, I think."
+    ],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": [
+      "pensar",
+      "tener una opinión",
+      "(to have an opinion; often used with \"of\" and \"about\")"
+    ],
+    "targetExampleSentences": [
+      "Tell me what you think about the issue.",
+      "We think highly of her."
+    ],
+    "nativeExampleSentences": [
+      "Tell me what you think about the issue.",
+      "We think highly of her."
+    ],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": [
+      "tener en cuenta",
+      "pensar",
+      "(to take into consideration; used with \"of\")"
+    ],
+    "targetExampleSentences": [
+      "You never think of other people's feelings.",
+      "Before buying a car, you must think of the expense it entails."
+    ],
+    "nativeExampleSentences": [
+      "You never think of other people's feelings.",
+      "Before buying a car, you must think of the expense it entails."
+    ],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["pensar", "(to select; used with \"of\")"],
+    "targetExampleSentences": ["Think of a number and a color."],
+    "nativeExampleSentences": ["Think of a number and a color."],
+    "pos": "intransitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["pensar", "(to ponder)"],
+    "targetExampleSentences": ["Think what the chances are of that happening."],
+    "nativeExampleSentences": ["Think what the chances are of that happening."],
+    "pos": "transitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["imaginarse", "(to imagine)"],
+    "targetExampleSentences": [
+      "Think how different things would be if you had never met him."
+    ],
+    "nativeExampleSentences": [
+      "Think how different things would be if you had never met him."
+    ],
+    "pos": "transitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["ocurrirse", "(to occur to)"],
+    "targetExampleSentences": ["I didn't think to bring some water."],
+    "nativeExampleSentences": ["I didn't think to bring some water."],
+    "pos": "transitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["acordarse", "(to remember)"],
+    "targetExampleSentences": ["I'm trying to think what I ate yesterday."],
+    "nativeExampleSentences": ["I'm trying to think what I ate yesterday."],
+    "pos": "transitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["creer", "(to gather)"],
+    "targetExampleSentences": ["Is he coming to the party? - I think so."],
+    "nativeExampleSentences": ["Is he coming to the party? - I think so."],
+    "pos": "transitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["creer", "parecer", "(to believe)"],
+    "targetExampleSentences": [
+      "I have to do what I think is in the best interest of my children.",
+      "I don't think it's a very good idea."
+    ],
+    "nativeExampleSentences": [
+      "I have to do what I think is in the best interest of my children.",
+      "I don't think it's a very good idea."
+    ],
+    "pos": "transitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["pensar", "(to expect)"],
+    "targetExampleSentences": ["I thought we'd meet again."],
+    "nativeExampleSentences": ["I thought we'd meet again."],
+    "pos": "transitive verb",
+    "word": "think"
+  },
+  {
+    "translations": ["reflexionar", "(consideration)"],
+    "targetExampleSentences": [
+      "After having a bit of a think, he decided to move on."
+    ],
+    "nativeExampleSentences": [
+      "After having a bit of a think, he decided to move on."
+    ],
+    "pos": "noun",
+    "word": "think"
+  }
+]

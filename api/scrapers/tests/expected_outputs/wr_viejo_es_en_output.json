@@ -1,0 +1,57 @@
+[
+  {
+    "definition": "(de mucha edad)",
+    "nativeExampleSentences": [
+      "ⓘEsta oración no es una traducción de la original.  Despite being old, John played tennis for an hour every day."
+    ],
+    "pos": "adj",
+    "targetExampleSentences": [
+      "En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo.",
+      "Hay un árbol muy viejo junto al lago."
+    ],
+    "translations": ["old"],
+    "word": "viejo"
+  },
+  {
+    "definition": "(objeto: desgastado)",
+    "nativeExampleSentences": [
+      "I want to change my old (or:  worn-out) car for a new one."
+    ],
+    "pos": "adj",
+    "targetExampleSentences": ["Voy a cambiar mi coche viejo por uno nuevo."],
+    "translations": ["old, worn out"],
+    "word": "viejo"
+  },
+  {
+    "definition": "(del pasado)",
+    "nativeExampleSentences": [
+      "Child abuse is an old  problem that keeps on claiming victims throughout the world."
+    ],
+    "pos": "adj",
+    "targetExampleSentences": [
+      "El maltrato infantil es un viejo problema que sigue cobrando víctimas por todo el mundo."
+    ],
+    "translations": [
+      "old, long-term, long-established",
+      "traditional, time-honored"
+    ],
+    "word": "viejo"
+  },
+  {
+    "definition": "(persona mayor) (old man)",
+    "nativeExampleSentences": [
+      "A group of old guys (or:  timers) plays domino every Friday."
+    ],
+    "pos": "nm, nf",
+    "targetExampleSentences": [
+      "Un grupo de viejos juega al dominó todos los viernes."
+    ],
+    "translations": [
+      "old guy, old timer",
+      "geezer, codger",
+      "old gal",
+      "old bag, old bat, biddy"
+    ],
+    "word": "viejo, vieja"
+  }
+]

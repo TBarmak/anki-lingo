@@ -1,0 +1,81 @@
+[
+  {
+    "definition": "(posséder)",
+    "nativeExampleSentences": ["We have a house in the country."],
+    "pos": "vtr",
+    "targetExampleSentences": ["Nous avons une maison à la campagne."],
+    "translations": ["have", "have got", "own", "possess"],
+    "word": "avoir⇒"
+  },
+  {
+    "definition": "(comporter, contenir)",
+    "nativeExampleSentences": ["This house has twelve rooms."],
+    "pos": "vtr",
+    "targetExampleSentences": ["Cette maison a 12 pièces."],
+    "translations": ["have", "contain", "have got"],
+    "word": "avoir"
+  },
+  {
+    "definition": "(obtenir) (informal)",
+    "nativeExampleSentences": [
+      "I got good marks in my exam.",
+      "My son had a bike for his birthday."
+    ],
+    "pos": "vtr",
+    "targetExampleSentences": [
+      "J'ai eu une bonne note à mon examen.  Mon fils a eu un vélo pour son anniversaire."
+    ],
+    "translations": ["get", "have"],
+    "word": "avoir"
+  },
+  {
+    "definition": "(être atteint par une maladie) (illness)",
+    "nativeExampleSentences": [
+      "My father has cancer.",
+      "My son didn't go to school because he's got a cold."
+    ],
+    "pos": "vtr",
+    "targetExampleSentences": [
+      "Mon fils n'est pas allé à l'école parce qu'il a un rhume.  Mon père a un cancer."
+    ],
+    "translations": ["have", "have got"],
+    "word": "avoir"
+  },
+  {
+    "definition": "(présenter un caractéristique)",
+    "nativeExampleSentences": ["She has a rather unpleasant personality."],
+    "pos": "vtr",
+    "targetExampleSentences": ["Ma collègue a plutôt mauvais caractère."],
+    "translations": ["have", "have got"],
+    "word": "avoir"
+  },
+  {
+    "definition": "(éprouver un sentiment)",
+    "nativeExampleSentences": ["I have a lot of respect for his work."],
+    "pos": "vtr",
+    "targetExampleSentences": ["J'ai beaucoup de respect pour son travail."],
+    "translations": ["have", "feel", "have got"],
+    "word": "avoir"
+  },
+  {
+    "definition": "(être âgé de) (age)",
+    "nativeExampleSentences": [
+      "My daughter is 5 years old.",
+      "My grandmother turned 90 last week."
+    ],
+    "pos": "vtr",
+    "targetExampleSentences": [
+      "Ma fille a 5 ans.  Ma grand-mère a eu 90 ans la semaine dernière."
+    ],
+    "translations": ["be", "turn"],
+    "word": "avoir"
+  },
+  {
+    "definition": "Grammaire (outil de formation des temps composés) (present perfect)",
+    "nativeExampleSentences": ["We have won the race."],
+    "pos": "aux",
+    "targetExampleSentences": ["Nous avons gagné la course."],
+    "translations": ["have"],
+    "word": "avoir"
+  }
+]

@@ -8,8 +8,10 @@ LANGUAGE_TO_ABBV = {
     'português': 'pt'
 }
 
+
 def create_url(word, target_lang_abbv, native_lang_abbv):
     return f'https://www.wordreference.com/{target_lang_abbv}{native_lang_abbv}/{"%20".join(word.split())}'
+
 
 def parse_first_table(table):
     '''
@@ -32,8 +34,10 @@ def parse_first_table(table):
                 if entry:
                     entries.append(entry)
                     entry = {}
-                entry['pos'] = row.find_all('td', {"class": "FrWrd"})[0].em.text
-                entry['word'] = row.find_all('td', {"class": "FrWrd"})[0].strong.contents[-1].strip()
+                entry['pos'] = row.find_all(
+                    'td', {"class": "FrWrd"})[0].em.text
+                entry['word'] = "".join(row.find_all('td', {"class": "FrWrd"})[
+                                        0].strong.findAll(string=True))
                 entry['definition'] = row.find_all('td')[1].text.strip()
                 entry['translations'] = []
                 entry['nativeExampleSentences'] = []
@@ -41,27 +45,34 @@ def parse_first_table(table):
             translation = row.find_all('td', {"class": "ToWrd"})
             if len(translation) > 0:
                 try:
-                    entry['translations'].append(translation[0].contents[0].strip())
+                    entry['translations'].append(
+                        translation[0].contents[0].strip())
                 except:
                     entry['translations'].append('Translation Unavailable')
             to_example = row.find_all('td', {"class": "ToEx"})
             from_example = row.find_all('td', {"class": "FrEx"})
             # Replace is necessary for correct formatting of import csv
             if len(to_example) > 0:
-                entry['nativeExampleSentences'].append(to_example[0].span.i.text.strip().replace("\n", ""))
+                entry['nativeExampleSentences'].append(
+                    to_example[0].span.i.text.strip().replace("\n", ""))
             if len(from_example) > 0:
-                entry['targetExampleSentences'].append(from_example[0].span.text.strip().replace("\n", ""))
+                entry['targetExampleSentences'].append(
+                    from_example[0].span.text.strip().replace("\n", ""))
     if entry:
         entries.append(entry)
     return entries
 
+
 def scrape_word_reference(word, target_lang, native_lang):
-    native_lang_abbv = LANGUAGE_TO_ABBV[native_lang.lower()]
-    target_lang_abbv = LANGUAGE_TO_ABBV[target_lang.lower()]
+    native_lang_abbv = LANGUAGE_TO_ABBV.get(native_lang.lower())
+    target_lang_abbv = LANGUAGE_TO_ABBV.get(target_lang.lower())
+    if not native_lang_abbv or not target_lang_abbv:
+        return []
+
     url = create_url(word, target_lang_abbv, native_lang_abbv)
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
-    tables = soup.find_all('table', {"class":"WRD"})
+    tables = soup.find_all('table', {"class": "WRD"})
     if len(tables) > 0:
         return parse_first_table(tables[0])
     return []
