@@ -784,7 +784,8 @@ class TestFormatCsv:
                     ],
                     "word": "viejo"
                 },
-            ]
+            ],
+            'urls': ['https://www.spanishdict.com/translate/viejo?langFrom=es']
         }
         card_format = {
             "sides": [
@@ -810,7 +811,7 @@ class TestFormatCsv:
         # Assert
         assert csv_sides == [
             'viejo',
-            'viejo adj<br>(de mucha edad)<br>old<br>En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo. Hay un árbol muy viejo junto al lago.<br>ⓘEsta oración no es una traducción de la original.  Despite being old, John played tennis for an hour every day.<br>(objeto: desgastado)<br>old, worn out<br>Voy a cambiar mi coche viejo por uno nuevo.<br>I want to change my old (or:  worn-out) car for a new one.'
+            "viejo adj<br>(de mucha edad)<br>old<br>En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo. Hay un árbol muy viejo junto al lago.<br>ⓘEsta oración no es una traducción de la original.  Despite being old, John played tennis for an hour every day.<br>(objeto: desgastado)<br>old, worn out<br>Voy a cambiar mi coche viejo por uno nuevo.<br>I want to change my old (or:  worn-out) car for a new one.<br><br><a href='https://www.spanishdict.com/translate/viejo?langFrom=es'>https://www.spanishdict.com/translate/viejo?langFrom=es</a>"
         ]
 
     def test_create_csv_sides_multiple_sides(self):
@@ -847,7 +848,8 @@ class TestFormatCsv:
                     ],
                     "word": "viejo"
                 },
-            ]
+            ],
+            'urls': ['https://www.spanishdict.com/translate/viejo?langFrom=es']
         }
         card_format = {
             "sides": [
@@ -876,7 +878,7 @@ class TestFormatCsv:
         # Assert
         assert csv_sides == [
             'viejo',
-            'viejo adj<br>(de mucha edad)<br>old<br>(objeto: desgastado)<br>old, worn out',
+            "viejo adj<br>(de mucha edad)<br>old<br>(objeto: desgastado)<br>old, worn out<br><br><a href='https://www.spanishdict.com/translate/viejo?langFrom=es'>https://www.spanishdict.com/translate/viejo?langFrom=es</a>",
             'En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo. Hay un árbol muy viejo junto al lago.<br>Voy a cambiar mi coche viejo por uno nuevo.'
         ]
 

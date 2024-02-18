@@ -106,6 +106,7 @@ export const abacaxiWordReferenceResponse: ScrapedResponse = {
       word: "abacaxi",
     },
   ],
+  url: "https://www.wordreference.com/pten/abacaxi",
 };
 
 export const homemWordReferenceResponse: ScrapedResponse = {
@@ -177,6 +178,7 @@ export const homemWordReferenceResponse: ScrapedResponse = {
     },
   ],
   inputWord: "homem",
+  url: "https://www.wordreference.com/pten/homem",
 };
 
 // TODO: Update after polishing Michaelis endpoint
@@ -232,6 +234,7 @@ export const abacaxiMichaelisResponse: ScrapedResponse = {
       word: "abacaxi",
     },
   ],
+  url: "https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/abacaxi",
 };
 
 export const homemMichaelisResponse: ScrapedResponse = {
@@ -419,4 +422,5 @@ export const homemMichaelisResponse: ScrapedResponse = {
     },
   ],
   inputWord: "homem",
+  url: "https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/homem",
 };

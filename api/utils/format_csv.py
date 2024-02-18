@@ -107,6 +107,13 @@ def create_csv_side(scraped_word_data: list[dict], side_format: dict):
     return formatted_side
 
 
+def format_urls(urls: list[str]):
+    '''
+    Formats the urls to be clickable in the anki flashcard 
+    '''
+    return "<br>".join([f"<a href='{url}'>{url}</a>" for url in urls])
+
+
 def create_csv_sides(word_data: dict, card_format: dict):
     '''
     Creates the sides for the flashcard
@@ -125,4 +132,9 @@ def create_csv_sides(word_data: dict, card_format: dict):
     front = word_data.get('inputWord', '')
     sides = [create_csv_side(word_data.get('scrapedWordData', []), side_format)
              for side_format in card_format['sides'][1:]]
+    formatted_urls = format_urls(word_data.get('urls', []))
+
+    if formatted_urls and len(sides) > 0 and sides[0]:
+        sides[0] += "<br><br>" + formatted_urls
+
     return [front] + sides

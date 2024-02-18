@@ -65,6 +65,7 @@ describe("getFlashcardData.ts", () => {
           expect(data[0].scrapedWordData).toEqual(
             abacaxiWordReferenceResponse.scrapedWordData
           );
+          expect(data[0].urls).toEqual([abacaxiWordReferenceResponse.url]);
         });
       });
 
@@ -79,6 +80,7 @@ describe("getFlashcardData.ts", () => {
           expect(data.length).toEqual(1);
           expect(data[0].inputWord).toEqual(abacaxiWordReferenceInput.words);
           expect(data[0].scrapedWordData.length).toEqual(0);
+          expect(data[0].urls).toEqual([]);
         });
       });
     });
@@ -103,6 +105,10 @@ describe("getFlashcardData.ts", () => {
             abacaxiMichaelisResponse.scrapedWordData.length +
               abacaxiWordReferenceResponse.scrapedWordData.length
           );
+          expect(data[0].urls).toEqual([
+            abacaxiWordReferenceResponse.url,
+            abacaxiMichaelisResponse.url,
+          ]);
         });
       });
 
@@ -122,6 +128,7 @@ describe("getFlashcardData.ts", () => {
           expect(data[0].scrapedWordData.length).toEqual(
             abacaxiMichaelisResponse.scrapedWordData.length
           );
+          expect(data[0].urls).toEqual([abacaxiMichaelisResponse.url]);
         });
       });
     });
@@ -144,15 +151,19 @@ describe("getFlashcardData.ts", () => {
         expect(data[0].scrapedWordData).toEqual(
           abacaxiMichaelisResponse.scrapedWordData
         );
+        expect(data[0].urls).toEqual([abacaxiMichaelisResponse.url]);
         expect(data[1].inputWord).toEqual(
           multiWordMichaelisInput.words.split("\n")[1]
         );
-        expect(data[1].scrapedWordData).toEqual(homemMichaelisResponse.scrapedWordData);
+        expect(data[1].scrapedWordData).toEqual(
+          homemMichaelisResponse.scrapedWordData
+        );
+        expect(data[1].urls).toEqual([homemMichaelisResponse.url]);
       });
     });
 
     describe("When multiple resources are selected", () => {
-      it("Then fetches all the words from all the resources", async () => {
+      it("Then fetches all the words from all of the resources", async () => {
         // Arrange
         const inputFields: InputFields = multiWordMultiResourceInput;
         fetchMocker.mockResponse((req: Request) => {
@@ -183,11 +194,19 @@ describe("getFlashcardData.ts", () => {
             abacaxiMichaelisResponse.scrapedWordData
           )
         );
+        expect(data[0].urls).toEqual([
+          abacaxiWordReferenceResponse.url,
+          abacaxiMichaelisResponse.url,
+        ]);
         expect(data[1].scrapedWordData).toEqual(
           homemWordReferenceResponse.scrapedWordData.concat(
             homemMichaelisResponse.scrapedWordData
           )
         );
+        expect(data[1].urls).toEqual([
+          homemWordReferenceResponse.url,
+          homemMichaelisResponse.url,
+        ]);
       });
     });
   });
