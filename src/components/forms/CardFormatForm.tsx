@@ -92,20 +92,19 @@ export default function CardFormatForm({
   }
 
   return (
-    <div className="flex flex-col w-full h-screen bg-blue-200">
-      <div className="w-full h-16 bg-blue-800" />
+    <div className="flex flex-col w-full min-h-full">
       <div className="w-full flex-1 flex flex-row px-10">
         <div className="flex-[4] flex flex-row items-center">
           <div className="flex flex-col items-center h-full flex-1 mx-2">
-            <p className="font-bold my-2">Side 1</p>
+            <p className="text-2xl font-bold my-2 secondary-text">Side 1</p>
             <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
-              <div className="absolute w-full h-full bg-[#00000020] flex flex-col justify-center items-center rounded">
-                <MdLock size={48} color="#777" />
+              <div className="absolute w-full h-full flex flex-col justify-center items-center rounded">
+                <MdLock size="48" color="#162e50" />
               </div>
               {cardFormat?.sides[0].fields.map((field, index) => (
                 <div
                   key={index}
-                  className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
+                  className="bg-white w-full text-lg p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
                 >
                   {fieldMapping ? fieldMapping[field] : field}
                 </div>
@@ -121,7 +120,9 @@ export default function CardFormatForm({
               })}
               className="flex flex-col items-center h-full w-full flex-1 mx-2"
             >
-              <p className="font-bold my-2">Side {sideIndex + 2}</p>
+              <p className="text-2xl font-bold my-2 secondary-text">
+                Side {sideIndex + 2}
+              </p>
               <div className="h-full bg-white rounded flex flex-col relative w-full">
                 {side.fields.map((field, index) => (
                   <div
@@ -133,7 +134,7 @@ export default function CardFormatForm({
                             handleOnDrag(e, field, sideIndex + 1),
                         }
                       : {})}
-                    className={`bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
+                    className={`bg-white w-full text-lg secondary-text p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
                       cardFormat.sides.length > 2 ? "hover:cursor-pointer" : ""
                     }`}
                   >
@@ -148,8 +149,9 @@ export default function CardFormatForm({
                         side.fields.splice(side.fields.indexOf(field), 1);
                         setCardFormat({ sides: sidesCopy });
                       }}
+                      className="mx-2"
                     >
-                      <MdOutlineRemoveCircle color="red" />
+                      <MdOutlineRemoveCircle color="#ad343e" size="20" />
                     </button>
                   </div>
                 ))}
@@ -165,7 +167,7 @@ export default function CardFormatForm({
                   setCardFormat({ sides: newSides });
                 }}
               >
-                <MdAddCircle size={32} color={"green"} />
+                <MdAddCircle size="48" color="#162e50" />
               </button>
             )}
             {cardFormat.sides.length > 2 && (
@@ -179,29 +181,31 @@ export default function CardFormatForm({
                   setCardFormat({ sides: newSides });
                 }}
               >
-                <MdRemoveCircle size={32} color={"red"} />
+                <MdRemoveCircle size="48" color="#ad343e" />
               </button>
             )}
           </div>
         </div>
-        <div className="h-full flex-1 mx-4 rounded flex flex-col justify-center">
-          <p className="font-bold text-2xl">Fields</p>
+        <div className="flex-1 mx-4 rounded flex flex-col justify-center items-center">
+          <p className="font-bold text-2xl secondary-text my-2">Fields</p>
           {exportFields.map((field, index) => (
             <div
               key={index}
               draggable
               onDragStart={(e) => handleOnDrag(e, field)}
-              className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center hover:cursor-pointer"
+              className="bg-white w-full secondary-text text-lg p-1 px-2 rounded border-[1px] flex flex-row justify-between items-center hover:cursor-pointer"
             >
               {fieldMapping ? fieldMapping[field] : field}
-              <MdDragIndicator />
+              <div className="mx-2">
+                <MdDragIndicator />
+              </div>
             </div>
           ))}
         </div>
       </div>
-      <div className="flex flex-row justify-center items-center mb-8 mt-4">
+      <div className="w-full flex flex-row justify-center items-center mb-8 mt-12">
         <button
-          className="bg-black text-white px-6 py-2 rounded"
+          className="button"
           onClick={formatCSV}
         >
           Create CSV

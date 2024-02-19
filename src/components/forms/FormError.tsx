@@ -3,5 +3,5 @@ interface Props {
 }
 
 export default function FormError({ message }: Props) {
-  return <p className="text-sm text-red-500">{message}</p>;
+  return <p className="text-sm accent-text">{message}</p>;
 }

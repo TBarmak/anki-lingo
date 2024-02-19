@@ -2,15 +2,19 @@ import "./App.css";
 import Landing from "./pages/Landing";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
+import Header from "./components/Header";
+import About from "./pages/About";
 
 function App() {
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/main" element={<Main />} />
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/main" element={<Main />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -7,6 +7,7 @@ import {
 } from "../../types/types";
 import FormError from "./FormError";
 import { getFlashcardData } from "./utils/getFlashcardData";
+import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 
 type Props = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -73,7 +74,10 @@ export default function ResourceForm({
       errors.nativeLanguage =
         "Native language must be different from target language";
     }
-    if (inputFields.languageResources.length === 0) {
+    if (
+      inputFields.languageResources.filter((resource) => resource.isSelected)
+        .length === 0
+    ) {
       errors.languageResources = "Please select at least one resource";
     }
     return errors;
@@ -120,13 +124,13 @@ export default function ResourceForm({
 
   return (
     <form
-      className="py-20 px-20 flex flex-row justify-between w-full h-full"
+      className="py-8 px-20 flex flex-col md:flex-row justify-between w-full min-h-full"
       onSubmit={handleSubmit}
     >
-      <div className="h-full flex-1 p-4">
+      <div className="flex-1 p-4">
         <textarea
           name="words"
-          className="w-full h-full resize-none p-3 rounded-lg"
+          className="w-full secondary-text h-full min-h-60 resize-none p-3 rounded-lg input text-lg"
           placeholder={
             "Enter words in the target language, with each word on a new line. For example:\nabacaxi\nfalar\npalavra"
           }
@@ -136,11 +140,11 @@ export default function ResourceForm({
         <FormError message={errors.words} />
       </div>
       <div className="h-full flex-1 p-4 flex flex-col items-center">
-        <div className="flex-1 w-full">
-          <div className="mb-4 w-full">
+        <div className="flex-1 flex flex-col items-center">
+          <div className="mb-4 w-full flex flex-col">
             <select
               name="targetLanguage"
-              className="p-2 pr-8 rounded-lg"
+              className="secondary-text p-2 pr-8 rounded-lg input text-lg"
               value={inputFields.targetLanguage}
               onChange={handleChange}
             >
@@ -155,10 +159,10 @@ export default function ResourceForm({
             </select>
             <FormError message={errors.targetLanguage} />
           </div>
-          <div className="mb-4 w-full">
+          <div className="mb-4 flex flex-col justify-center">
             <select
               name="nativeLanguage"
-              className="p-2 pr-8 rounded-lg"
+              className="secondary-text p-2 pr-8 rounded-lg input text-lg"
               value={inputFields.nativeLanguage}
               onChange={handleChange}
             >
@@ -174,23 +178,30 @@ export default function ResourceForm({
             <FormError message={errors.nativeLanguage} />
           </div>
         </div>
-        <div className="flex-1 flex flex-col w-full">
+        <div className="flex-1 flex flex-col w-full px-20 my-4">
           {inputFields.languageResources.length > 0 && (
-            <p>
+            <p className="text-lg my-2">
               Select the resources you would like to use to generate the
               flashcards:
             </p>
           )}
           {inputFields.languageResources.map((resource, index) => {
             return (
-              <label key={index}>
+              <label key={index} className="flex flex-row items-center text-lg">
                 <input
                   name={resource.name}
                   type="checkbox"
-                  className="mx-2"
+                  className="mx-2 hidden"
                   checked={resource.isSelected ?? false}
                   onChange={(e) => handleResourceCheckboxChange(e)}
                 />
+                <div className="mx-2">
+                  {resource.isSelected ? (
+                    <MdCheckBox color="#162e50" size={24} />
+                  ) : (
+                    <MdCheckBoxOutlineBlank color="#162e50" size={24} />
+                  )}
+                </div>
                 {resource.name}
               </label>
             );
@@ -200,10 +211,10 @@ export default function ResourceForm({
           )}
         </div>
 
-        <div className="">
+        <div className="mt-12">
           <button
             type="submit"
-            className="bg-black disabled:bg-gray-700 text-white rounded-xl px-8 py-2 transition-all duration-300"
+            className="button"
           >
             Generate
           </button>

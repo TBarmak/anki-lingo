@@ -12,26 +12,36 @@ export default function Main() {
   const [exportFields, setExportFields] = useState<string[]>([]);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="w-full h-screen route-component">
+        <Loading />
+      </div>
+    );
   }
 
   if (downloadUrl) {
-    return <Download downloadUrl={downloadUrl} />;
+    return (
+      <div className="w-full h-screen route-component">
+        <Download downloadUrl={downloadUrl} />
+      </div>
+    );
   }
 
   if (scrapedData.length > 0) {
     return (
-      <CardFormatForm
-        scrapedData={scrapedData}
-        exportFields={exportFields}
-        setDownloadUrl={setDownloadUrl}
-        setIsLoading={setIsLoading}
-      />
+      <div className="w-full h-screen route-component">
+        <CardFormatForm
+          scrapedData={scrapedData}
+          exportFields={exportFields}
+          setDownloadUrl={setDownloadUrl}
+          setIsLoading={setIsLoading}
+        />
+      </div>
     );
   }
 
   return (
-    <div className="w-full h-screen flex flex-row items-center justify-center bg-blue-200">
+    <div className="w-full h-screen route-component">
       <ResourceForm
         setIsLoading={setIsLoading}
         setScrapedData={setScrapedData}
