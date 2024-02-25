@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <div
-      className={`header fixed w-screen px-10 sm:px-24 transparent ${
+      className={`header fixed w-screen px-10 sm:px-24 transparent z-10 ${
         visible ? "top-0 ease-in" : "-top-20 ease-out"
       } transition-all duration-[400ms]`}
     >
