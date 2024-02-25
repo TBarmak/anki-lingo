@@ -1,23 +1,62 @@
 import { Link } from "react-router-dom";
 import waves from "../assets/waves.svg";
+import { motion } from "framer-motion";
 
 export default function Landing() {
   return (
-    <div className="route-component min-h-screen flex flex-col justify-center items-center">
-      <div className="flex flex-col justify-center items-center flex-1">
-        <p className="secondary-text text-6xl font-bold font-['Lora'] my-2">
+    <div className="route-component min-h-screen h-full relative flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center flex-1 min-h-96">
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: -100 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.75, delay: 0.25 }}
+          className="secondary-text text-6xl font-bold font-['Lora'] my-2"
+        >
           Anki Lingo
-        </p>
-        <p className="secondary-text text-lg text-center font-['Questrial'] my-2">
+        </motion.p>
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 100 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.75, delay: 1 }}
+          className="secondary-text text-lg text-center font-['Questrial'] my-2"
+        >
           Automate generating anki flashcards for learning foreign languages.
-        </p>
-        <Link className="button my-20" to="/main">
-          <div className="text-center">Get Started</div>
-        </Link>
+        </motion.p>
+        <motion.div
+          className="button mt-32 mb-12"
+          variants={{
+            hidden: { opacity: 0, y: 100 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.75, delay: 1.25 }}
+        >
+          <Link to="/main">
+            <div className="text-center">Get Started</div>
+          </Link>
+        </motion.div>
       </div>
-      <div className="w-full absolute bottom-0 -z-10">
+      <motion.div
+        variants={{
+          hidden: { opacity: 0, y: 100 },
+          visible: { opacity: 1, y: 0 },
+        }}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.75, delay: 1.25 }}
+        className="w-full absolute bottom-0 -z-10"
+      >
         <img src={waves} className="w-full h-full object-bottom object-cover" />
-      </div>
+      </motion.div>
     </div>
   );
 }

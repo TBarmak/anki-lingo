@@ -13,16 +13,12 @@
     "test-api": "api/env/bin/pytest"
   },
   "dependencies": {
-    "@react-three/drei": "^9.99.0",
-    "@react-three/fiber": "^8.15.16",
-    "@types/three": "^0.161.2",
-    "framer-motion-3d": "^11.0.5",
+    "framer-motion": "^11.0.6",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
-    "react-router-dom": "^6.21.3",
-    "three": "^0.161.0"
+    "react-router-dom": "^6.21.3"
   },
   "devDependencies": {
     "@testing-library/react": "^14.2.1",
