@@ -23,7 +23,7 @@ export default function Header() {
       <div className="flex flex-row justify-between items-center w-full h-full">
         <div className="flex flex-row justify-between items-center">
           <Link className="mr-4 hover:cursor-pointer" to="/">
-            <p className="text-lg secondary-text italic">Anki Lingo</p>
+            <p className="text-xl secondary-text font-bold font-['Lora']">Anki Lingo</p>
           </Link>
         </div>
         <div className="flex flex-row justify-between items-center">
