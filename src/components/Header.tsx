@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 export default function Header() {
   const [position, setPosition] = useState(window.scrollY);
   const [visible, setVisible] = useState(true);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +35,7 @@ export default function Header() {
           }}
           initial="hidden"
           animate="visible"
-          transition={{ duration: 0.75, delay: 2 }}
+          transition={{ duration: 0.75, delay: 1.25 }}
           className="flex flex-row justify-between items-center"
         >
           <Link className="mr-4 hover:cursor-pointer" to="/">
@@ -50,13 +52,19 @@ export default function Header() {
             }}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.75, delay: 2 }}
+            transition={{ duration: 0.75, delay: 1.25 }}
           >
             <Link
-              className="mr-1 sm:mr-6 hover:cursor-pointer w-16 flex flex-row justify-center items-center"
-              to="/main"
+              className="group mr-1 sm:mr-6 hover:cursor-pointer flex flex-col justify-center items-start"
+              to="/home"
             >
               <div className="text-lg secondary-text">Home</div>
+              <div
+                className={`${
+                  pathname != "/home" &&
+                  "max-w-0 group-hover:max-w-full transition-all duration-300 rounded-full"
+                } w-full h-0.5 bg-black`}
+              />
             </Link>
           </motion.div>
           <motion.div
@@ -66,13 +74,19 @@ export default function Header() {
             }}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.75, delay: 2 }}
+            transition={{ duration: 0.75, delay: 1.25 }}
           >
             <Link
-              className="ml-1 sm:ml-6 hover:cursor-pointer w-16 flex flex-row justify-center items-center"
+              className="group ml-1 sm:ml-6 hover:cursor-pointer justify-center items-start flex flex-col"
               to="/about"
             >
               <div className="text-lg secondary-text">About</div>
+              <div
+                className={`${
+                  pathname != "/about" &&
+                  "max-w-0 group-hover:max-w-full transition-all duration-300 rounded-full"
+                } w-full h-0.5 bg-black`}
+              />
             </Link>
           </motion.div>
         </div>

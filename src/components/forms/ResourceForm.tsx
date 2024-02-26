@@ -8,6 +8,7 @@ import {
 import FormError from "./FormError";
 import { getFlashcardData } from "./utils/getFlashcardData";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
+import { motion } from "framer-motion";
 
 type Props = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -124,10 +125,19 @@ export default function ResourceForm({
 
   return (
     <form
-      className="py-8 px-20 flex flex-col md:flex-row justify-between w-full min-h-full"
+      className="py-8 px-20 flex flex-col md:flex-row justify-between w-full min-h-full h-full"
       onSubmit={handleSubmit}
     >
-      <div className="flex-1 p-4">
+      <motion.div
+        className="flex-1 p-4"
+        variants={{
+          hidden: { opacity: 0, x: -100 },
+          visible: { opacity: 1, x: 0 },
+        }}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.75, delay: 0.25 }}
+      >
         <textarea
           name="words"
           className="w-full secondary-text h-full min-h-60 resize-none p-3 rounded-lg input text-lg"
@@ -138,10 +148,19 @@ export default function ResourceForm({
           onChange={handleChange}
         />
         <FormError message={errors.words} />
-      </div>
+      </motion.div>
       <div className="h-full flex-1 p-4 flex flex-col items-center">
         <div className="flex-1 flex flex-col items-center">
-          <div className="mb-4 w-full flex flex-col">
+          <motion.div
+            className="mb-4 flex flex-col"
+            variants={{
+              hidden: { opacity: 0, x: 100 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 0.5 }}
+          >
             <select
               name="targetLanguage"
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
@@ -158,8 +177,17 @@ export default function ResourceForm({
               })}
             </select>
             <FormError message={errors.targetLanguage} />
-          </div>
-          <div className="mb-4 flex flex-col justify-center">
+          </motion.div>
+          <motion.div
+            className="mb-4 flex flex-col"
+            variants={{
+              hidden: { opacity: 0, x: 100 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 0.75 }}
+          >
             <select
               name="nativeLanguage"
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
@@ -176,49 +204,79 @@ export default function ResourceForm({
               })}
             </select>
             <FormError message={errors.nativeLanguage} />
-          </div>
-        </div>
-        <div className="flex-1 flex flex-col w-full px-20 my-4">
-          {inputFields.languageResources.length > 0 && (
-            <p className="text-lg my-2">
-              Select the resources you would like to use to generate the
-              flashcards:
-            </p>
-          )}
-          {inputFields.languageResources.map((resource, index) => {
-            return (
-              <label key={index} className="flex flex-row items-center text-lg">
-                <input
-                  name={resource.name}
-                  type="checkbox"
-                  className="mx-2 hidden"
-                  checked={resource.isSelected ?? false}
-                  onChange={(e) => handleResourceCheckboxChange(e)}
-                />
-                <div className="mx-2">
-                  {resource.isSelected ? (
-                    <MdCheckBox color="#162e50" size={24} />
-                  ) : (
-                    <MdCheckBoxOutlineBlank color="#162e50" size={24} />
-                  )}
-                </div>
-                {resource.name}
-              </label>
-            );
-          })}
-          {languageResources.length > 0 && (
-            <FormError message={errors.languageResources} />
-          )}
-        </div>
+          </motion.div>
+          {inputFields.languageResources.length > 0 &&
+            inputFields.nativeLanguage && (
+              <motion.div
+                className="flex-1 flex flex-col w-full px-20 my-4"
+                variants={{
+                  hidden: { opacity: 0, x: 100 },
+                  visible: { opacity: 1, x: 0 },
+                }}
+                initial="hidden"
+                animate="visible"
+                transition={{ duration: 0.75, delay: 0 }}
+              >
+                <p className="text-lg my-2">
+                  Select the resources you would like to use to generate the
+                  flashcards:
+                </p>
 
-        <div className="mt-12">
-          <button
+                {inputFields.languageResources.map((resource, index) => {
+                  return (
+                    <motion.label
+                      key={index}
+                      className="flex flex-row items-center text-lg"
+                      variants={{
+                        hidden: { opacity: 0, x: 100 },
+                        visible: { opacity: 1, x: 0 },
+                      }}
+                      initial="hidden"
+                      animate="visible"
+                      transition={{ duration: 0.75, delay: (index + 1) * 0.25 }}
+                    >
+                      <input
+                        name={resource.name}
+                        type="checkbox"
+                        className="mx-2 hidden"
+                        checked={resource.isSelected ?? false}
+                        onChange={(e) => handleResourceCheckboxChange(e)}
+                      />
+                      <div className="mx-2">
+                        {resource.isSelected ? (
+                          <MdCheckBox color="#162e50" size={24} />
+                        ) : (
+                          <MdCheckBoxOutlineBlank color="#162e50" size={24} />
+                        )}
+                      </div>
+                      {resource.name}
+                    </motion.label>
+                  );
+                })}
+                {languageResources.length > 0 && (
+                  <FormError message={errors.languageResources} />
+                )}
+              </motion.div>
+            )}
+        </div>
+        <motion.div
+          className="mt-12"
+          variants={{
+            hidden: { opacity: 0, y: 100 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.75, delay: 1 }}
+        >
+          <motion.button
             type="submit"
             className="button"
+            whileHover={{ scale: 1.05 }}
           >
             Generate
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
     </form>
   );

@@ -26,24 +26,28 @@ export default function Landing() {
           initial="hidden"
           animate="visible"
           transition={{ duration: 0.75, delay: 1 }}
-          className="secondary-text text-lg text-center font-['Questrial'] my-2"
+          className="secondary-text text-xl text-center my-2"
         >
           Automate generating anki flashcards for learning foreign languages.
         </motion.p>
-        <motion.div
-          className="button mt-32 mb-12"
-          variants={{
-            hidden: { opacity: 0, y: 100 },
-            visible: { opacity: 1, y: 0 },
-          }}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.75, delay: 1.25 }}
-        >
-          <Link to="/main">
-            <div className="text-center">Get Started</div>
-          </Link>
-        </motion.div>
+        <Link to="/home">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 100 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 1.25 }}
+          >
+            <motion.div
+              className="button mt-32 mb-12"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-center">Get Started</div>
+            </motion.div>
+          </motion.div>
+        </Link>
       </div>
       <motion.div
         variants={{
