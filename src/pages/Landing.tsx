@@ -4,7 +4,17 @@ import { motion } from "framer-motion";
 
 export default function Landing() {
   return (
-    <div className="route-component min-h-screen h-full relative flex flex-col justify-center items-center">
+    <motion.div
+      className="route-component min-h-screen h-full relative flex flex-col justify-center items-center"
+      variants={{
+        exit: {
+          y: "100vh",
+          opacity: 0,
+          transition: { ease: "easeInOut", duration: 0.75 },
+        },
+      }}
+      exit="exit"
+    >
       <div className="flex flex-col justify-center items-center flex-1 min-h-96">
         <motion.p
           variants={{
@@ -61,6 +71,6 @@ export default function Landing() {
       >
         <img src={waves} className="w-full h-full object-bottom object-cover" />
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

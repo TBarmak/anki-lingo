@@ -136,7 +136,7 @@ export default function ResourceForm({
         }}
         initial="hidden"
         animate="visible"
-        transition={{ duration: 0.75, delay: 0.25 }}
+        transition={{ duration: 0.75, delay: 0.5 }}
       >
         <textarea
           name="words"
