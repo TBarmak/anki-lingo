@@ -8,7 +8,6 @@ export default function Landing() {
       className="route-component min-h-screen h-full relative flex flex-col justify-center items-center"
       variants={{
         exit: {
-          y: "100vh",
           opacity: 0,
           transition: { ease: "easeInOut", duration: 0.75 },
         },

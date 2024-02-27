@@ -7,7 +7,6 @@ export default function About() {
       className="route-component flex flex-col justify-center items-center min-h-screen"
       variants={{
         exit: {
-          y: "100vh",
           opacity: 0,
           transition: { ease: "easeInOut", duration: 0.75 },
         },
@@ -22,7 +21,7 @@ export default function About() {
         }}
         initial="hidden"
         animate="visible"
-        transition={{ duration: 0.75, delay: 0.25 }}
+        transition={{ duration: 1, delay: 0.25 }}
       >
         <span className="font-bold text-xl italic">Anki Lingo</span> is a tool
         for automating the creation of Anki flashcards for language learning.

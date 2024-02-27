@@ -7,6 +7,7 @@ import {
   MdAddCircle,
   MdRemoveCircle,
 } from "react-icons/md";
+import { motion } from "framer-motion";
 
 type Props = {
   scrapedData: ScrapedResponse[];
@@ -28,6 +29,8 @@ export default function CardFormatForm({
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
   const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
   const [lastDraggedSide, setLastDraggedSide] = useState<number>();
+  const MIN_SIDES = 2;
+  const MAX_SIDES = 5;
 
   useEffect(() => {
     fetch("/api/field-mapping")
@@ -92,10 +95,28 @@ export default function CardFormatForm({
   }
 
   return (
-    <div className="flex flex-col w-full min-h-full">
+    <motion.div
+      className="flex flex-col w-full min-h-full"
+      variants={{
+        exit: {
+          opacity: 0,
+          transition: { ease: "easeInOut", duration: 0.75 },
+        },
+      }}
+      exit="exit"
+    >
       <div className="w-full flex-1 flex flex-row px-10">
         <div className="flex-[4] flex flex-row items-center">
-          <div className="flex flex-col items-center h-full flex-1 mx-2">
+          <motion.div
+            className="flex flex-col items-center h-full flex-1 mx-2"
+            variants={{
+              hidden: { opacity: 0, x: -100 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 0.25 }}
+          >
             <p className="text-2xl font-bold my-2 secondary-text">Side 1</p>
             <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
               <div className="absolute w-full h-full flex flex-col justify-center items-center rounded">
@@ -110,15 +131,22 @@ export default function CardFormatForm({
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
           {cardFormat?.sides.slice(1).map((side, sideIndex) => (
-            <div
+            <motion.div
               key={sideIndex}
               {...(!side.fields.includes(lastDraggedValue) && {
                 onDrop: handleOnDrop,
                 onDragOver: (e) => handleDragOver(e, sideIndex + 1),
               })}
               className="flex flex-col items-center h-full w-full flex-1 mx-2"
+              variants={{
+                hidden: { opacity: 0, x: sideIndex == 0 ? -100 : 0 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.75, delay: sideIndex == 0 ? 0.25 : 0 }}
             >
               <p className="text-2xl font-bold my-2 secondary-text">
                 Side {sideIndex + 2}
@@ -156,37 +184,71 @@ export default function CardFormatForm({
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
           <div className="flex flex-col items-center justify-center mx-4">
-            {cardFormat?.sides.length < 5 && (
-              <button
-                className="m-1"
-                onClick={() => {
-                  const newSides = [...cardFormat?.sides, { fields: [] }];
-                  setCardFormat({ sides: newSides });
+            {cardFormat?.sides.length < MAX_SIDES && (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1 },
+                }}
+                initial="hidden"
+                animate="visible"
+                transition={{
+                  duration: 0.75,
+                  delay: cardFormat.sides.length == 1 ? 0.75 : 0,
                 }}
               >
-                <MdAddCircle size="48" color="#162e50" />
-              </button>
+                <motion.button
+                  className="m-1"
+                  onClick={() => {
+                    const newSides = [...cardFormat?.sides, { fields: [] }];
+                    setCardFormat({ sides: newSides });
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <MdAddCircle size="48" color="#162e50" />
+                </motion.button>
+              </motion.div>
             )}
-            {cardFormat.sides.length > 2 && (
-              <button
-                className="m-1"
-                onClick={() => {
-                  const newSides = cardFormat?.sides.slice(
-                    0,
-                    cardFormat.sides.length - 1
-                  );
-                  setCardFormat({ sides: newSides });
+            {cardFormat.sides.length > MIN_SIDES && (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1 },
                 }}
+                initial="hidden"
+                animate="visible"
+                transition={{ duration: 0.75 }}
               >
-                <MdRemoveCircle size="48" color="#ad343e" />
-              </button>
+                <motion.button
+                  className="m-1"
+                  onClick={() => {
+                    const newSides = cardFormat?.sides.slice(
+                      0,
+                      cardFormat.sides.length - 1
+                    );
+                    setCardFormat({ sides: newSides });
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <MdRemoveCircle size="48" color="#ad343e" />
+                </motion.button>
+              </motion.div>
             )}
           </div>
         </div>
-        <div className="flex-1 mx-4 rounded flex flex-col justify-center items-center">
+        <motion.div
+          className="flex-1 mx-4 rounded flex flex-col justify-center items-center"
+          variants={{
+            hidden: { opacity: 0, x: 100 },
+            visible: { opacity: 1, x: 0 },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.75, delay: 0.5 }}
+        >
           <p className="font-bold text-2xl secondary-text my-2">Fields</p>
           {exportFields.map((field, index) => (
             <div
@@ -201,16 +263,26 @@ export default function CardFormatForm({
               </div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
-      <div className="w-full flex flex-row justify-center items-center mb-8 mt-12">
-        <button
+      <motion.div
+        className="w-full flex flex-row justify-center items-center mb-8 mt-12"
+        variants={{
+          hidden: { opacity: 0, y: 100 },
+          visible: { opacity: 1, y: 0 },
+        }}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.75, delay: 1 }}
+      >
+        <motion.button
           className="button"
           onClick={formatCSV}
+          whileHover={{ scale: 1.05 }}
         >
           Create CSV
-        </button>
-      </div>
-    </div>
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 }

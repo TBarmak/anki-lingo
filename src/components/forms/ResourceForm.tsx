@@ -124,9 +124,16 @@ export default function ResourceForm({
   }
 
   return (
-    <form
+    <motion.form
       className="py-8 px-20 flex flex-col md:flex-row justify-between w-full min-h-full h-full"
       onSubmit={handleSubmit}
+      variants={{
+        exit: {
+          opacity: 0,
+          transition: { ease: "easeInOut", duration: 0.75 },
+        },
+      }}
+      exit="exit"
     >
       <motion.div
         className="flex-1 p-4"
@@ -278,6 +285,6 @@ export default function ResourceForm({
           </motion.button>
         </motion.div>
       </div>
-    </form>
+    </motion.form>
   );
 }
