@@ -35,7 +35,7 @@ export default function Download({ downloadUrl }: Props) {
       <a
         className="my-16"
         href={downloadUrl}
-        download={`anki-lang-${moment().format("YYYYMMDHHmmss")}.zip`}
+        download={`anki-lang-${moment().format("YYYYMMDDHHmmss")}.zip`}
       >
         <motion.div
           variants={{
