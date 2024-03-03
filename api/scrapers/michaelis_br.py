@@ -39,8 +39,8 @@ def parse_acn_row(row):
             definition += item
         elif item.name in ['abt', 'eu']:
             sentences.append(item.text.strip())
-        elif item.name in ['dr', 'ra', 'rdr', 'rn']:
-            definition += item.text
+        elif item.name in ['dr', 'ra', 'rdr', 'rn', 'rmt']:
+            definition += "<i>" + item.text + "</i>"
     # Clean up for definitions followed by sentences
     if definition.strip()[-3:] == ": .":
         definition = definition.strip()[:-3]
