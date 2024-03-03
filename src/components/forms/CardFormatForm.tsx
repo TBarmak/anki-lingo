@@ -7,6 +7,7 @@ import {
   MdAddCircle,
   MdRemoveCircle,
 } from "react-icons/md";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   scrapedData: ScrapedResponse[];
@@ -28,6 +29,8 @@ export default function CardFormatForm({
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
   const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
   const [lastDraggedSide, setLastDraggedSide] = useState<number>();
+  const MIN_SIDES = 2;
+  const MAX_SIDES = 5;
 
   useEffect(() => {
     fetch("/api/field-mapping")
@@ -42,7 +45,7 @@ export default function CardFormatForm({
     setCardFormat(defaultFormat);
   }, [exportFields]);
 
-  function handleOnDrag(e: React.DragEvent, field: string, side?: number) {
+  function handleOnDrag(field: string, side?: number) {
     setLastDraggedValue(field);
     setLastDraggedSide(side);
   }
@@ -69,12 +72,6 @@ export default function CardFormatForm({
   }
 
   function formatCSV() {
-    console.log(
-      JSON.stringify({
-        cardFormat: cardFormat,
-        scrapedData: scrapedData,
-      })
-    );
     fetch("/api/format-csv", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -92,121 +89,210 @@ export default function CardFormatForm({
   }
 
   return (
-    <div className="flex flex-col w-full h-screen bg-blue-200">
-      <div className="w-full h-16 bg-blue-800" />
+    <motion.div
+      className="flex flex-col w-full min-h-full"
+      variants={{
+        exit: {
+          opacity: 0,
+          transition: { ease: "easeInOut", duration: 0.75 },
+        },
+      }}
+      exit="exit"
+    >
       <div className="w-full flex-1 flex flex-row px-10">
         <div className="flex-[4] flex flex-row items-center">
-          <div className="flex flex-col items-center h-full flex-1 mx-2">
-            <p className="font-bold my-2">Side 1</p>
+          <motion.div
+            className="flex flex-col items-center h-full flex-1 mx-2"
+            variants={{
+              hidden: { opacity: 0, x: -100 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 0.25 }}
+          >
+            <p className="text-2xl font-bold my-2 secondary-text">Side 1</p>
             <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
-              <div className="absolute w-full h-full bg-[#00000020] flex flex-col justify-center items-center rounded">
-                <MdLock size={48} color="#777" />
+              <div className="absolute w-full h-full flex flex-col justify-center items-center rounded">
+                <MdLock size="48" color="#162e50" />
               </div>
               {cardFormat?.sides[0].fields.map((field, index) => (
                 <div
                   key={index}
-                  className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
+                  className="bg-white w-full text-lg p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
                 >
                   {fieldMapping ? fieldMapping[field] : field}
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
           {cardFormat?.sides.slice(1).map((side, sideIndex) => (
-            <div
+            <motion.div
               key={sideIndex}
               {...(!side.fields.includes(lastDraggedValue) && {
                 onDrop: handleOnDrop,
                 onDragOver: (e) => handleDragOver(e, sideIndex + 1),
               })}
               className="flex flex-col items-center h-full w-full flex-1 mx-2"
+              variants={{
+                hidden: { opacity: 0, x: sideIndex == 0 ? -100 : 0 },
+                visible: { opacity: 1, x: 0 },
+              }}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.75, delay: sideIndex == 0 ? 0.25 : 0 }}
             >
-              <p className="font-bold my-2">Side {sideIndex + 2}</p>
+              <p className="text-2xl font-bold my-2 secondary-text">
+                Side {sideIndex + 2}
+              </p>
               <div className="h-full bg-white rounded flex flex-col relative w-full">
-                {side.fields.map((field, index) => (
-                  <div
-                    key={index}
-                    {...(cardFormat.sides.length > 2
-                      ? {
-                          draggable: true,
-                          onDragStart: (e) =>
-                            handleOnDrag(e, field, sideIndex + 1),
-                        }
-                      : {})}
-                    className={`bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
-                      cardFormat.sides.length > 2 ? "hover:cursor-pointer" : ""
-                    }`}
-                  >
-                    {fieldMapping ? fieldMapping[field] : field}
-                    <button
-                      onClick={() => {
-                        const currSideIndex = sideIndex + 1;
-                        const sidesCopy: CardSide[] = JSON.parse(
-                          JSON.stringify(cardFormat.sides)
-                        );
-                        const side: CardSide = sidesCopy[currSideIndex];
-                        side.fields.splice(side.fields.indexOf(field), 1);
-                        setCardFormat({ sides: sidesCopy });
+                <AnimatePresence>
+                  {side.fields.map((field) => (
+                    <motion.div
+                      key={field}
+                      variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1 },
+                        exit: {
+                          opacity: 0,
+                          transition: { ease: "easeInOut" },
+                        },
                       }}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      transition={{ duration: 0.25 }}
+                      {...(cardFormat.sides.length > 2
+                        ? {
+                            draggable: true,
+                            onDragStart: (e) =>
+                              handleOnDrag(field, sideIndex + 1),
+                          }
+                        : {})}
+                      className={`bg-white w-full text-lg secondary-text p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
+                        cardFormat.sides.length > 2
+                          ? "hover:cursor-pointer"
+                          : ""
+                      }`}
                     >
-                      <MdOutlineRemoveCircle color="red" />
-                    </button>
-                  </div>
-                ))}
+                      {fieldMapping ? fieldMapping[field] : field}
+                      <button
+                        onClick={() => {
+                          const currSideIndex = sideIndex + 1;
+                          const sidesCopy: CardSide[] = JSON.parse(
+                            JSON.stringify(cardFormat.sides)
+                          );
+                          const side: CardSide = sidesCopy[currSideIndex];
+                          side.fields.splice(side.fields.indexOf(field), 1);
+                          setCardFormat({ sides: sidesCopy });
+                        }}
+                        className="mx-2"
+                      >
+                        <MdOutlineRemoveCircle color="#ad343e" size="20" />
+                      </button>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
-            </div>
+            </motion.div>
           ))}
           <div className="flex flex-col items-center justify-center mx-4">
-            {cardFormat?.sides.length < 5 && (
-              <button
-                className="m-1"
-                onClick={() => {
-                  const newSides = [...cardFormat?.sides, { fields: [] }];
-                  setCardFormat({ sides: newSides });
+            {cardFormat?.sides.length < MAX_SIDES && (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1 },
+                }}
+                initial="hidden"
+                animate="visible"
+                transition={{
+                  duration: 0.75,
+                  delay: cardFormat.sides.length == 1 ? 0.75 : 0,
                 }}
               >
-                <MdAddCircle size={32} color={"green"} />
-              </button>
+                <motion.button
+                  className="m-1"
+                  onClick={() => {
+                    const newSides = [...cardFormat?.sides, { fields: [] }];
+                    setCardFormat({ sides: newSides });
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <MdAddCircle size="48" color="#162e50" />
+                </motion.button>
+              </motion.div>
             )}
-            {cardFormat.sides.length > 2 && (
-              <button
-                className="m-1"
-                onClick={() => {
-                  const newSides = cardFormat?.sides.slice(
-                    0,
-                    cardFormat.sides.length - 1
-                  );
-                  setCardFormat({ sides: newSides });
+            {cardFormat.sides.length > MIN_SIDES && (
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1 },
                 }}
+                initial="hidden"
+                animate="visible"
+                transition={{ duration: 0.75 }}
               >
-                <MdRemoveCircle size={32} color={"red"} />
-              </button>
+                <motion.button
+                  className="m-1"
+                  onClick={() => {
+                    const newSides = cardFormat?.sides.slice(
+                      0,
+                      cardFormat.sides.length - 1
+                    );
+                    setCardFormat({ sides: newSides });
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <MdRemoveCircle size="48" color="#ad343e" />
+                </motion.button>
+              </motion.div>
             )}
           </div>
         </div>
-        <div className="h-full flex-1 mx-4 rounded flex flex-col justify-center">
-          <p className="font-bold text-2xl">Fields</p>
+        <motion.div
+          className="flex-1 mx-4 rounded flex flex-col justify-center items-center"
+          variants={{
+            hidden: { opacity: 0, x: 100 },
+            visible: { opacity: 1, x: 0 },
+          }}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.75, delay: 0.5 }}
+        >
+          <p className="font-bold text-2xl secondary-text my-2">Fields</p>
           {exportFields.map((field, index) => (
             <div
               key={index}
               draggable
-              onDragStart={(e) => handleOnDrag(e, field)}
-              className="bg-white w-full p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center hover:cursor-pointer"
+              onDragStart={(e) => handleOnDrag(field)}
+              className="bg-white w-full secondary-text text-lg p-1 px-2 rounded border-[1px] flex flex-row justify-between items-center hover:cursor-pointer"
             >
               {fieldMapping ? fieldMapping[field] : field}
-              <MdDragIndicator />
+              <div className="mx-2">
+                <MdDragIndicator />
+              </div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
-      <div className="flex flex-row justify-center items-center mb-8 mt-4">
-        <button
-          className="bg-black text-white px-6 py-2 rounded"
+      <motion.div
+        className="w-full flex flex-row justify-center items-center mb-8 mt-12"
+        variants={{
+          hidden: { opacity: 0, y: 100 },
+          visible: { opacity: 1, y: 0 },
+        }}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.75, delay: 1 }}
+      >
+        <motion.button
+          className="button"
           onClick={formatCSV}
+          whileHover={{ scale: 1.05 }}
         >
           Create CSV
-        </button>
-      </div>
-    </div>
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 }
