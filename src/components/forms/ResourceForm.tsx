@@ -8,7 +8,7 @@ import {
 import FormError from "./FormError";
 import { getFlashcardData } from "./utils/getFlashcardData";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,6 +45,8 @@ export default function ResourceForm({
       fetch(`/api/resources/${inputFields.targetLanguage}`)
         .then((res) => res.json())
         .then((data) => setLanguageResources(data.resources));
+    } else {
+      setLanguageResources([]);
     }
   }, [inputFields.targetLanguage]);
 
@@ -74,8 +76,11 @@ export default function ResourceForm({
     } else if (inputFields.nativeLanguage === inputFields.targetLanguage) {
       errors.nativeLanguage =
         "Native language must be different from target language";
+      errors.targetLanguage =
+        "Target language must be different from native language";
     }
     if (
+      inputFields.languageResources.length > 0 &&
       inputFields.languageResources.filter((resource) => resource.isSelected)
         .length === 0
     ) {
@@ -89,7 +94,24 @@ export default function ResourceForm({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
-    setInputFields({ ...inputFields, [e.target.name]: e.target.value });
+    const newInputFields: InputFields = {
+      ...inputFields,
+      [e.target.name]: e.target.value,
+    };
+
+    // Clear form errors that are no longer present
+    const newErrors = validateForm(newInputFields);
+    for (const key in errors) {
+      if (!newErrors[key as keyof FormErrors]) {
+        errors[key as keyof FormErrors] = "";
+      }
+    }
+
+    // Update the error for the changed field
+    errors[e.target.name as keyof FormErrors] =
+      newErrors[e.target.name as keyof FormErrors];
+    setErrors(errors);
+    setInputFields(newInputFields);
   }
 
   function handleResourceCheckboxChange(
@@ -101,10 +123,14 @@ export default function ResourceForm({
       }
       return field;
     });
-    setInputFields({
+    const newInputFields = {
       ...inputFields,
       languageResources: [...newCheckboxField],
-    });
+    };
+    const newErrors = validateForm(newInputFields);
+    errors.languageResources = newErrors.languageResources;
+    setErrors(errors);
+    setInputFields(newInputFields);
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -157,9 +183,9 @@ export default function ResourceForm({
         <FormError message={errors.words} />
       </motion.div>
       <div className="h-full flex-1 p-4 flex flex-col items-center">
-        <div className="flex-1 flex flex-col items-center">
+        <div className="flex-1 flex flex-col items-center w-full px-12 md:px-24">
           <motion.div
-            className="mb-4 flex flex-col"
+            className="mb-4 flex flex-col w-full"
             variants={{
               hidden: { opacity: 0, x: 100 },
               visible: { opacity: 1, x: 0 },
@@ -174,7 +200,7 @@ export default function ResourceForm({
               value={inputFields.targetLanguage}
               onChange={handleChange}
             >
-              <option value="-1">Select target language</option>
+              <option value="">Select target language</option>
               {supportedLanguages.map((language, index) => {
                 return (
                   <option key={index} value={language}>
@@ -186,7 +212,7 @@ export default function ResourceForm({
             <FormError message={errors.targetLanguage} />
           </motion.div>
           <motion.div
-            className="mb-4 flex flex-col"
+            className="mb-4 flex flex-col w-full"
             variants={{
               hidden: { opacity: 0, x: 100 },
               visible: { opacity: 1, x: 0 },
@@ -201,7 +227,7 @@ export default function ResourceForm({
               value={inputFields.nativeLanguage}
               onChange={handleChange}
             >
-              <option value="-1">Select native language</option>
+              <option value="">Select native language</option>
               {supportedLanguages.map((language, index) => {
                 return (
                   <option key={index} value={language}>
@@ -212,59 +238,70 @@ export default function ResourceForm({
             </select>
             <FormError message={errors.nativeLanguage} />
           </motion.div>
-          {inputFields.languageResources.length > 0 &&
-            inputFields.nativeLanguage && (
-              <motion.div
-                className="flex-1 flex flex-col w-full px-20 my-4"
-                variants={{
-                  hidden: { opacity: 0, x: 100 },
-                  visible: { opacity: 1, x: 0 },
-                }}
-                initial="hidden"
-                animate="visible"
-                transition={{ duration: 0.75, delay: 0 }}
-              >
-                <p className="text-lg my-2">
-                  Select the resources you would like to use to generate the
-                  flashcards:
-                </p>
+          <AnimatePresence>
+            {inputFields.languageResources.length > 0 &&
+              inputFields.nativeLanguage &&
+              inputFields.nativeLanguage !== inputFields.targetLanguage && (
+                <motion.div
+                  className="flex-1 flex flex-col w-full px-20 my-4"
+                  variants={{
+                    hidden: { opacity: 0, x: 100 },
+                    visible: { opacity: 1, x: 0 },
+                    exit: {
+                      opacity: 0,
+                      transition: { duration: 0.75 },
+                    },
+                  }}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  transition={{ duration: 0.75, delay: 0 }}
+                >
+                  <p className="text-lg my-2">
+                    Select the resources you would like to use to generate the
+                    flashcards:
+                  </p>
 
-                {inputFields.languageResources.map((resource, index) => {
-                  return (
-                    <motion.label
-                      key={index}
-                      className="flex flex-row items-center text-lg"
-                      variants={{
-                        hidden: { opacity: 0, x: 100 },
-                        visible: { opacity: 1, x: 0 },
-                      }}
-                      initial="hidden"
-                      animate="visible"
-                      transition={{ duration: 0.75, delay: (index + 1) * 0.25 }}
-                    >
-                      <input
-                        name={resource.name}
-                        type="checkbox"
-                        className="mx-2 hidden"
-                        checked={resource.isSelected ?? false}
-                        onChange={(e) => handleResourceCheckboxChange(e)}
-                      />
-                      <div className="mx-2">
-                        {resource.isSelected ? (
-                          <MdCheckBox color="#162e50" size={24} />
-                        ) : (
-                          <MdCheckBoxOutlineBlank color="#162e50" size={24} />
-                        )}
-                      </div>
-                      {resource.name}
-                    </motion.label>
-                  );
-                })}
-                {languageResources.length > 0 && (
-                  <FormError message={errors.languageResources} />
-                )}
-              </motion.div>
-            )}
+                  {inputFields.languageResources.map((resource, index) => {
+                    return (
+                      <motion.label
+                        key={resource.name + inputFields.targetLanguage}
+                        className="flex flex-row items-center text-lg"
+                        variants={{
+                          hidden: { opacity: 0, x: 100 },
+                          visible: { opacity: 1, x: 0 },
+                        }}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{
+                          duration: 0.75,
+                          delay: (index + 1) * 0.25,
+                        }}
+                      >
+                        <input
+                          name={resource.name}
+                          type="checkbox"
+                          className="mx-2 hidden"
+                          checked={resource.isSelected ?? false}
+                          onChange={(e) => handleResourceCheckboxChange(e)}
+                        />
+                        <div className="mx-2">
+                          {resource.isSelected ? (
+                            <MdCheckBox color="#162e50" size={24} />
+                          ) : (
+                            <MdCheckBoxOutlineBlank color="#162e50" size={24} />
+                          )}
+                        </div>
+                        {resource.name}
+                      </motion.label>
+                    );
+                  })}
+                  {languageResources.length > 0 && (
+                    <FormError message={errors.languageResources} />
+                  )}
+                </motion.div>
+              )}
+          </AnimatePresence>
         </div>
         <motion.div
           className="mt-12"

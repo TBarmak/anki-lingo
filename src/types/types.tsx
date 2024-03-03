@@ -21,10 +21,10 @@ export enum ResourceArgs {
 }
 
 export interface FormErrors {
-  words: string;
-  targetLanguage: string;
-  nativeLanguage: string;
-  languageResources: string;
+  words?: string;
+  targetLanguage?: string;
+  nativeLanguage?: string;
+  languageResources?: string;
 }
 
 export interface ScrapedResponse {

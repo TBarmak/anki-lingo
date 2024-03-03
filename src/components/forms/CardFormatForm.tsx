@@ -72,12 +72,6 @@ export default function CardFormatForm({
   }
 
   function formatCSV() {
-    console.log(
-      JSON.stringify({
-        cardFormat: cardFormat,
-        scrapedData: scrapedData,
-      })
-    );
     fetch("/api/format-csv", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
