@@ -7,7 +7,7 @@ import {
   MdAddCircle,
   MdRemoveCircle,
 } from "react-icons/md";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   scrapedData: ScrapedResponse[];
@@ -45,7 +45,7 @@ export default function CardFormatForm({
     setCardFormat(defaultFormat);
   }, [exportFields]);
 
-  function handleOnDrag(e: React.DragEvent, field: string, side?: number) {
+  function handleOnDrag(field: string, side?: number) {
     setLastDraggedValue(field);
     setLastDraggedSide(side);
   }
@@ -152,37 +152,53 @@ export default function CardFormatForm({
                 Side {sideIndex + 2}
               </p>
               <div className="h-full bg-white rounded flex flex-col relative w-full">
-                {side.fields.map((field, index) => (
-                  <div
-                    key={index}
-                    {...(cardFormat.sides.length > 2
-                      ? {
-                          draggable: true,
-                          onDragStart: (e) =>
-                            handleOnDrag(e, field, sideIndex + 1),
-                        }
-                      : {})}
-                    className={`bg-white w-full text-lg secondary-text p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
-                      cardFormat.sides.length > 2 ? "hover:cursor-pointer" : ""
-                    }`}
-                  >
-                    {fieldMapping ? fieldMapping[field] : field}
-                    <button
-                      onClick={() => {
-                        const currSideIndex = sideIndex + 1;
-                        const sidesCopy: CardSide[] = JSON.parse(
-                          JSON.stringify(cardFormat.sides)
-                        );
-                        const side: CardSide = sidesCopy[currSideIndex];
-                        side.fields.splice(side.fields.indexOf(field), 1);
-                        setCardFormat({ sides: sidesCopy });
+                <AnimatePresence>
+                  {side.fields.map((field) => (
+                    <motion.div
+                      key={field}
+                      variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1 },
+                        exit: {
+                          opacity: 0,
+                          transition: { ease: "easeInOut" },
+                        },
                       }}
-                      className="mx-2"
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      transition={{ duration: 0.25 }}
+                      {...(cardFormat.sides.length > 2
+                        ? {
+                            draggable: true,
+                            onDragStart: (e) =>
+                              handleOnDrag(field, sideIndex + 1),
+                          }
+                        : {})}
+                      className={`bg-white w-full text-lg secondary-text p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
+                        cardFormat.sides.length > 2
+                          ? "hover:cursor-pointer"
+                          : ""
+                      }`}
                     >
-                      <MdOutlineRemoveCircle color="#ad343e" size="20" />
-                    </button>
-                  </div>
-                ))}
+                      {fieldMapping ? fieldMapping[field] : field}
+                      <button
+                        onClick={() => {
+                          const currSideIndex = sideIndex + 1;
+                          const sidesCopy: CardSide[] = JSON.parse(
+                            JSON.stringify(cardFormat.sides)
+                          );
+                          const side: CardSide = sidesCopy[currSideIndex];
+                          side.fields.splice(side.fields.indexOf(field), 1);
+                          setCardFormat({ sides: sidesCopy });
+                        }}
+                        className="mx-2"
+                      >
+                        <MdOutlineRemoveCircle color="#ad343e" size="20" />
+                      </button>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
             </motion.div>
           ))}
@@ -254,7 +270,7 @@ export default function CardFormatForm({
             <div
               key={index}
               draggable
-              onDragStart={(e) => handleOnDrag(e, field)}
+              onDragStart={(e) => handleOnDrag(field)}
               className="bg-white w-full secondary-text text-lg p-1 px-2 rounded border-[1px] flex flex-row justify-between items-center hover:cursor-pointer"
             >
               {fieldMapping ? fieldMapping[field] : field}

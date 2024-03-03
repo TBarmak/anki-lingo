@@ -58,12 +58,14 @@ export default function About() {
           animate="visible"
           transition={{ duration: 0.75, delay: 1 }}
         >
-          <motion.div
-            className="mx-4 hover:cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            <FaGithub color="#162e50" size={64} />
-          </motion.div>
+          <a href="https://github.com/TBarmak">
+            <motion.div
+              className="mx-4 hover:cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FaGithub color="#162e50" size={64} />
+            </motion.div>
+          </a>
         </motion.div>
         <motion.div
           variants={{
@@ -74,12 +76,14 @@ export default function About() {
           animate="visible"
           transition={{ duration: 0.75, delay: 1.25 }}
         >
-          <motion.div
-            className="mx-4 hover:cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            <FaLinkedin color="#162e50" size={64} />
-          </motion.div>
+          <a href="https://www.linkedin.com/in/taylorbarmak/">
+            <motion.div
+              className="mx-4 hover:cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FaLinkedin color="#162e50" size={64} />
+            </motion.div>
+          </a>
         </motion.div>
       </div>
     </motion.div>

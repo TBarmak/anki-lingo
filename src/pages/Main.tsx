@@ -9,14 +9,7 @@ export default function Main() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [scrapedData, setScrapedData] = useState<ScrapedResponse[]>([]);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
-  const [exportFields, setExportFields] = useState<string[]>([
-    "word",
-    "pos",
-    "definition",
-    "translations",
-    "targetExampleSentences",
-    "nativeExampleSentences",
-  ]);
+  const [exportFields, setExportFields] = useState<string[]>([]);
 
   if (isLoading) {
     return (
@@ -34,18 +27,18 @@ export default function Main() {
     );
   }
 
-  // if (scrapedData.length > 0) {
-  return (
-    <div className="w-full h-screen route-component">
-      <CardFormatForm
-        scrapedData={scrapedData}
-        exportFields={exportFields}
-        setDownloadUrl={setDownloadUrl}
-        setIsLoading={setIsLoading}
-      />
-    </div>
-  );
-  // }
+  if (scrapedData.length > 0) {
+    return (
+      <div className="w-full h-screen route-component">
+        <CardFormatForm
+          scrapedData={scrapedData}
+          exportFields={exportFields}
+          setDownloadUrl={setDownloadUrl}
+          setIsLoading={setIsLoading}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-screen route-component">
