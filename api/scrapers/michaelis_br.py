@@ -7,19 +7,6 @@ def create_url(word):
 
 
 def reformat_to_rows(children):
-    '''
-    Converts the list of individual children into a list of lists based on the <br/> tag
-
-    Parameters
-    ------------
-        children: list of str and/or bs4.element.Tag
-            a list of the children of the main container
-
-    Return
-    ------------
-        rows: list of lists of str and/or bs4.element.Tag
-            a list of lists of the children separated into rows based on the <br/> tag
-    '''
     rows = []
     current_row = []
     for child in children:
@@ -27,10 +14,16 @@ def reformat_to_rows(children):
             # Only append if it contains non-whitespace characters
             if child.strip():
                 current_row.append(child)
-        elif child.name in ['br', 'sx', 'sm']:
+        elif child.name in ['br']:
             if current_row:
                 rows.append(current_row)
             current_row = []
+        # These tags represent new sections (ie EXPRESSÕES, INFORMAÇÕES COMPLEMENTARES, ETIMOLOGIA)
+        elif child.name in ['sm', 'sx', 'sv']:
+            if current_row:
+                rows.append(current_row)
+            current_row = []
+            rows.append([child])
         else:
             current_row.append(child)
     if len(current_row) > 0:
@@ -39,17 +32,6 @@ def reformat_to_rows(children):
 
 
 def parse_acn_row(row):
-    '''
-    Parses a row that starts with an <acn>. These are the numbered definitions.
-
-    Parameters
-    ------------
-        row: list of str and/or bs4.element.Tag
-
-    Return
-    ------------
-        entry: dict (str -> str) with keys 'word' and 'definition'
-    '''
     definition = ""
     sentences = []
     for item in row:
@@ -65,17 +47,6 @@ def parse_acn_row(row):
 
 
 def parse_ex_row(row):
-    '''
-    Parses a row that starts with an <ex>. These are expressions containing the target word.
-
-    Parameters
-    ------------
-        row: list of str and/or bs4.element.Tag
-
-    Return
-    ------------
-        entry: dict (str -> str) with keys 'word' and 'definition'
-    '''
     expression = row[0].text
     definition = "".join([item.text for item in row[1:]])
     # TODO: "expression" should eventually become its own separate key
@@ -83,20 +54,13 @@ def parse_ex_row(row):
     return entry
 
 
+def parse_ra_row(row):
+    definition = row[0].text + row[1]
+    entry = {'definition': definition}
+    return entry
+
+
 def parse_rows(rows):
-    '''
-    Parse the rows and convert them to entries containing word, part of speech, 
-    definition, and example sentences
-
-    Parameters
-    ------------
-        rows: list of lists of str and/or bs4.element.Tag 
-            the reformatted rows in the container
-
-    Return
-    ------------
-        entries: list of dicts with keys: 'word', 'pos', 'definition', and 'targetExampleSentences'
-    '''
     entries = []
     word = ""
     pos = ""
@@ -111,25 +75,24 @@ def parse_rows(rows):
             entry['word'] = word.strip()
             entry['pos'] = pos.strip()
             entries.append(entry)
+        elif tag == 'ra':
+            entry = parse_ra_row(row)
+            entry['word'] = word.strip()
+            entry['pos'] = pos.strip()
+            entries.append(entry)
         elif tag == 'ex':
             entry = parse_ex_row(row)
             entries.append(entry)
+        elif tag == None:
+            entry = {'definition': row[0].strip(
+            ), 'word': word.strip(), 'pos': pos.strip()}
+            entries.append(entry)
+        elif row[0].text in ['INFORMAÇÕES COMPLEMENTARES', 'ETIMOLOGIA']:
+            break
     return entries
 
 
 def scrape_michaelis(word):
-    '''
-    Scrapes the data from the Brazilian Portuguese dictionary Michaelis
-
-    Parameters
-    ------------
-        word: str
-            a word in Brazilian Portuguese
-
-    Return
-    ------------
-        parsed_rows: list of dicts with keys: 'word', 'pos', 'definition', and 'targetExampleSentences' 
-    '''
     url = create_url(word)
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
