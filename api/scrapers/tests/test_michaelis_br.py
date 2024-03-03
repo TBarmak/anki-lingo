@@ -46,11 +46,49 @@ class TestMichaelisBR:
         scraped_data, url = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}' 
+        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
 
     def test_scrape_michaelis_fiador(self, requests_mock):
         # Arrange
         word = 'fiador'
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        mock_file_path = os.path.join(
+            current_dir, 'mocks', f'michaelis_br_{word}.html')
+        response = ""
+        with open(mock_file_path, 'r') as f:
+            response = f.read()
+        requests_mock.get(
+            f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}', text=response)
+        expected_response = read_expected_output(
+            f'michaelis_br_{word}_output.json')
+        # Act
+        scraped_data, url = scrape_michaelis(word)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
+
+    def test_scrape_michaelis_mofo(self, requests_mock):
+        # Arrange
+        word = 'mofo'
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        mock_file_path = os.path.join(
+            current_dir, 'mocks', f'michaelis_br_{word}.html')
+        response = ""
+        with open(mock_file_path, 'r') as f:
+            response = f.read()
+        requests_mock.get(
+            f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}', text=response)
+        expected_response = read_expected_output(
+            f'michaelis_br_{word}_output.json')
+        # Act
+        scraped_data, url = scrape_michaelis(word)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
+
+    def test_scrape_michaelis_inegável(self, requests_mock):
+        # Arrange
+        word = 'inegável'
         current_dir = os.path.dirname(os.path.abspath(__file__))
         mock_file_path = os.path.join(
             current_dir, 'mocks', f'michaelis_br_{word}.html')
