@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  CombinedScrapedResponse,
   FormErrors,
   InputFields,
   LanguageResource,
@@ -12,7 +13,9 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setScrapedData: React.Dispatch<React.SetStateAction<ScrapedResponse[]>>;
+  setScrapedData: React.Dispatch<
+    React.SetStateAction<(ScrapedResponse | CombinedScrapedResponse)[]>
+  >;
   setExportFields: React.Dispatch<React.SetStateAction<string[]>>;
 };
 

@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { CardFormat, CardSide, ScrapedResponse } from "../../types/types";
+import {
+  CardFormat,
+  CardSide,
+  CombinedScrapedResponse,
+} from "../../types/types";
 import {
   MdOutlineRemoveCircle,
   MdDragIndicator,
@@ -10,7 +14,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
-  scrapedData: ScrapedResponse[];
+  scrapedData: CombinedScrapedResponse[];
   exportFields: string[];
   setDownloadUrl: React.Dispatch<React.SetStateAction<string>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;

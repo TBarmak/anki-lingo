@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Loading from "../components/Loading";
-import { ScrapedResponse } from "../types/types";
+import { CombinedScrapedResponse, ScrapedResponse } from "../types/types";
 import ResourceForm from "../components/forms/ResourceForm";
 import CardFormatForm from "../components/forms/CardFormatForm";
 import Download from "../components/Download";
 
 export default function Main() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [scrapedData, setScrapedData] = useState<ScrapedResponse[]>([]);
+  const [scrapedData, setScrapedData] = useState<
+    ScrapedResponse[] | CombinedScrapedResponse[]
+  >([]);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [exportFields, setExportFields] = useState<string[]>([]);
 
