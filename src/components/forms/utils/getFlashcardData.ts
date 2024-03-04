@@ -38,7 +38,12 @@ export function getFlashcardData(
                 res(data);
               })
               .catch((err) => {
-                res({ inputWord: word, scrapedWordData: [], url: "" });
+                res({
+                  inputWord: word,
+                  scrapedWordData: [],
+                  url: "",
+                  error: resource.name,
+                });
               });
           });
         });
@@ -46,7 +51,7 @@ export function getFlashcardData(
       Promise.all(resourcePromises).then((responses: ScrapedResponse[]) => {
         const combinedScrapedData: ScrapedItem[] = ([] as ScrapedItem[]).concat(
           ...responses
-            .filter((response) => response.scrapedWordData)
+            .filter((response) => response.scrapedWordData.length)
             .map((response) => response.scrapedWordData)
         );
         res({
@@ -55,6 +60,9 @@ export function getFlashcardData(
           urls: responses
             .filter((res) => res.url)
             .map((res) => res.url as string),
+          errors: responses
+            .filter((res) => res.error)
+            .map((res) => res.error as string),
         });
       });
     });

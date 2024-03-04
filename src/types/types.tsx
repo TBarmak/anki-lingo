@@ -27,16 +27,23 @@ export interface FormErrors {
   languageResources?: string;
 }
 
+export interface WordScrapeError {
+  word: string;
+  errors: string[];
+}
+
 export interface ScrapedResponse {
   inputWord: string;
   scrapedWordData: ScrapedItem[];
   url?: string;
+  error?: string;
 }
 
 export interface CombinedScrapedResponse {
   inputWord: string;
   scrapedWordData: ScrapedItem[];
   urls?: string[];
+  errors?: string[];
 }
 
 export interface ScrapedItem {
