@@ -5,6 +5,8 @@ FIELD_PRIORITY_RANKING = [
     "translations",
     "targetExampleSentences",
     "nativeExampleSentences",
+    "expression",
+    "expressionMeaning",
     "audioFilenames"
 ]
 

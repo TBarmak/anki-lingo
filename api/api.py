@@ -16,7 +16,9 @@ FLASHCARD_FIELDS = {
     "translations": "translations",
     "targetExampleSentences": "target example sentences",
     "nativeExampleSentences": "native example sentences",
-    "audioFilenames": "audio"
+    "audioFilenames": "audio",
+    "expression": "expression",
+    "expressionMeaning": "expression meaning"
 }
 
 LANGUAGE_RESOURCES = [
@@ -38,7 +40,7 @@ LANGUAGE_RESOURCES = [
         "name": "Michaelis BR",
         "route": "api/michaelis-br/",
                 "args": ["word"],
-                "outputs": ["word", "pos", "definition", "targetExampleSentences"],
+                "outputs": ["word", "pos", "definition", "targetExampleSentences", "expression", "expressionMeaning"],
                 "supportedLanguages": ["português"]
     },
     {

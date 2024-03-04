@@ -443,6 +443,18 @@ class TestFormatCsv:
         # Assert
         assert formatted_entry == "En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo. Hay un árbol muy viejo junto al lago."
 
+    def test_format_entry_expression_and_expression_meaning(self):
+        # Arrange
+        entry = {
+            "expression": "Homem de poucas palavras",
+            "expressionMeaning": ": indivíduo reservado, que fala pouco."
+        }
+        fields = ["targetExampleSentences", "expression", "expressionMeaning"]
+        # Act
+        formatted_entry = format_entry(entry, fields)
+        # Assert
+        assert formatted_entry == "Homem de poucas palavras<br>: indivíduo reservado, que fala pouco."
+
     def test_create_csv_side_no_fields(self):
         # Arrange
         entry = {

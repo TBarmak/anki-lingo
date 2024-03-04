@@ -51,9 +51,9 @@ def parse_acn_row(row):
 
 def parse_ex_row(row):
     expression = row[0].text
-    definition = "".join([item.text for item in row[1:]])
-    # TODO: "expression" should eventually become its own separate key
-    entry = {'word': expression.strip(), 'definition': definition.strip()}
+    expressionMeaning = "".join([item.text for item in row[1:]])
+    entry = {'expression': expression.strip(
+    ), 'expressionMeaning': expressionMeaning.strip()}
     return entry
 
 
