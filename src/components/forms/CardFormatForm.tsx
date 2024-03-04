@@ -169,7 +169,7 @@ export default function CardFormatForm({
                       {...(cardFormat.sides.length > 2
                         ? {
                             draggable: true,
-                            onDragStart: (e) =>
+                            onDragStart: () =>
                               handleOnDrag(field, sideIndex + 1),
                           }
                         : {})}
@@ -268,7 +268,7 @@ export default function CardFormatForm({
             <div
               key={index}
               draggable
-              onDragStart={(e) => handleOnDrag(field)}
+              onDragStart={() => handleOnDrag(field)}
               className="bg-white w-full secondary-text text-lg p-1 px-2 rounded border-[1px] flex flex-row justify-between items-center hover:cursor-pointer"
             >
               {fieldMapping ? fieldMapping[field] : field}

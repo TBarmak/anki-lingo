@@ -2,7 +2,6 @@ import { useState } from "react";
 import Loading from "../components/Loading";
 import {
   CombinedScrapedResponse,
-  ScrapedResponse,
   WordScrapeError,
 } from "../types/types";
 import ResourceForm from "../components/forms/ResourceForm";

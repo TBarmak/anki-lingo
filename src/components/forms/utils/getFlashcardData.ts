@@ -37,7 +37,7 @@ export function getFlashcardData(
               .then((data: ScrapedResponse) => {
                 res(data);
               })
-              .catch((err) => {
+              .catch(() => {
                 res({
                   inputWord: word,
                   scrapedWordData: [],

@@ -1,6 +1,6 @@
 import "./App.css";
 import Landing from "./pages/Landing";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Main from "./pages/Main";
 import Header from "./components/Header";
 import About from "./pages/About";
