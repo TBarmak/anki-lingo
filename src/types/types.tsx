@@ -41,12 +41,14 @@ export interface CombinedScrapedResponse {
 
 export interface ScrapedItem {
   pos?: string;
-  word: string;
-  definition: string;
+  word?: string;
+  definition?: string;
   translations?: string[];
   nativeExampleSentences?: string[];
   targetExampleSentences?: string[];
   audioFilenames?: string[];
+  expression?: string;
+  expressionMeaning?: string;
 }
 
 export interface CardFormat {

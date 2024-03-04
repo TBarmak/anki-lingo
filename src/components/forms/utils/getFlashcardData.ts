@@ -1,5 +1,5 @@
 import {
-  CombinedScrapedReponse,
+  CombinedScrapedResponse,
   InputFields,
   ResourceArgs,
   ScrapedItem,
@@ -8,7 +8,7 @@ import {
 
 export function getFlashcardData(
   inputFields: InputFields
-): Promise<CombinedScrapedReponse[]> {
+): Promise<CombinedScrapedResponse[]> {
   // Return an empty list if no words are passed
   if (inputFields.words.trim() === "") {
     return new Promise((res) => res([]));
@@ -18,7 +18,7 @@ export function getFlashcardData(
     (resource) => resource.isSelected
   );
   const words = inputFields.words.split("\n");
-  const wordPromises: Promise<CombinedScrapedReponse>[] = words.map((word) => {
+  const wordPromises: Promise<CombinedScrapedResponse>[] = words.map((word) => {
     return new Promise((res) => {
       const args: { [K in ResourceArgs]: string } = {
         word: word,
@@ -52,7 +52,9 @@ export function getFlashcardData(
         res({
           inputWord: word,
           scrapedWordData: combinedScrapedData,
-          urls: responses.filter((res) => res.url).map((res) => res.url),
+          urls: responses
+            .filter((res) => res.url)
+            .map((res) => res.url as string),
         });
       });
     });
