@@ -1,11 +1,13 @@
 import moment from "moment";
 import { motion } from "framer-motion";
+import { WordScrapeError } from "../types/types";
 
 interface Props {
   downloadUrl: string;
+  errors: WordScrapeError[];
 }
 
-export default function Download({ downloadUrl }: Props) {
+export default function Download({ downloadUrl, errors }: Props) {
   return (
     <motion.div
       variants={{
@@ -25,15 +27,29 @@ export default function Download({ downloadUrl }: Props) {
       <p className="text-5xl secondary-text my-2 font-bold">
         Your csv is ready to be downloaded.
       </p>
-      <p className="text-lg secondary-text mt-2 mb-16">
+      <p className="text-lg secondary-text mt-2 mb-4">
         For instructions on how to import the files into Anki, please see{" "}
         <a className="underline" href="https://github.com/TBarmak/anki-lang">
           this article
         </a>
         .
       </p>
+      {errors.length > 0 && (
+        <div>
+          <p className="accent-text">Error fetching data for:</p>
+          <div className="h-16 overflow-scroll">
+            {errors.map((error) => {
+              return (
+                <p className="accent-text">
+                  {error.word}: {error.errors.join(", ")}
+                </p>
+              );
+            })}
+          </div>
+        </div>
+      )}
       <a
-        className="my-16"
+        className="my-16 mt-24"
         href={downloadUrl}
         download={`anki-lang-${moment().format("YYYYMMDDHHmmss")}.zip`}
       >

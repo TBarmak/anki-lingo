@@ -1,17 +1,30 @@
 import { useState } from "react";
 import Loading from "../components/Loading";
-import { CombinedScrapedResponse, ScrapedResponse } from "../types/types";
+import {
+  CombinedScrapedResponse,
+  ScrapedResponse,
+  WordScrapeError,
+} from "../types/types";
 import ResourceForm from "../components/forms/ResourceForm";
 import CardFormatForm from "../components/forms/CardFormatForm";
 import Download from "../components/Download";
 
 export default function Main() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [scrapedData, setScrapedData] = useState<
-    ScrapedResponse[] | CombinedScrapedResponse[]
-  >([]);
+  const [scrapedData, setScrapedData] = useState<CombinedScrapedResponse[]>([]);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [exportFields, setExportFields] = useState<string[]>([]);
+
+  function getErrors(): WordScrapeError[] {
+    return scrapedData
+      .filter((scrapedWordData) => scrapedWordData.errors?.length)
+      .map((scrapedWordData) => {
+        return {
+          word: scrapedWordData.inputWord,
+          errors: scrapedWordData.errors ?? [],
+        };
+      });
+  }
 
   if (isLoading) {
     return (
@@ -24,7 +37,7 @@ export default function Main() {
   if (downloadUrl) {
     return (
       <div className="w-full h-screen route-component">
-        <Download downloadUrl={downloadUrl} />
+        <Download downloadUrl={downloadUrl} errors={getErrors()} />
       </div>
     );
   }

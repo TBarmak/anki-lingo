@@ -81,6 +81,7 @@ describe("getFlashcardData.ts", () => {
           expect(data[0].inputWord).toEqual(abacaxiWordReferenceInput.words);
           expect(data[0].scrapedWordData.length).toEqual(0);
           expect(data[0].urls).toEqual([]);
+          expect(data[0].errors).toEqual(["Word Reference"]);
         });
       });
     });
@@ -129,6 +130,7 @@ describe("getFlashcardData.ts", () => {
             abacaxiMichaelisResponse.scrapedWordData.length
           );
           expect(data[0].urls).toEqual([abacaxiMichaelisResponse.url]);
+          expect(data[0].errors).toEqual(["Word Reference"])
         });
       });
     });
