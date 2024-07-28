@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import base64
 import urllib.request
 import urllib.parse
+import requests
 
 # TODO: Give the user the option to pick the accent they want
 LANGUAGE_TO_ABBV = {
@@ -14,7 +15,6 @@ LANGUAGE_TO_ABBV = {
 
 def create_url(word: str, lang_abbv: str):
     url = f"https://forvo.com/word/{'_'.join(word.split())}/#{lang_abbv}"
-    print(url)
 
     # For handling non-ascii characters
     split_url = urllib.parse.urlsplit(url)
@@ -24,14 +24,16 @@ def create_url(word: str, lang_abbv: str):
 
 
 def get_soup(url: str):
-    opener = urllib.request.build_opener()
-    opener.addheaders = [
-        ('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0')]
-    urllib.request.install_opener(opener)
-    page = urllib.request.Request(url)
-    infile = urllib.request.urlopen(page).read()
-    data = infile.decode('UTF-8')
-    soup = BeautifulSoup(data, "html.parser")
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.google.com/',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+    }
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.content, "html.parser")
     return soup
 
 

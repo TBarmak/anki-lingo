@@ -10,4 +10,5 @@ services:
       dockerfile: Dockerfile.client
     image: anki-lang-client
     ports:
-      - "80:80"
+      # Set to "3000:80" when running locally, "80:80" for hosting with elastic beanstalk
+      - "3000:80"
