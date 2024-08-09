@@ -1,3 +1,4 @@
+from api.scrapers.semanticar_br import scrape_semanticar
 from api.utils.format_csv import create_csv_sides
 from api.scrapers.michaelis_br import scrape_michaelis
 from api.scrapers.spanishdict import scrape_spanishdict
@@ -49,6 +50,13 @@ LANGUAGE_RESOURCES = [
                 "args": ["targetLang", "word"],
                 "outputs": ["audioFilenames"],
                 "supportedLanguages": ["français", "português", "español", "english"]
+    },
+    {
+        "name": "Semanticar BR",
+        "route": "api/semanticar-br/",
+                "args": ["word"],
+                "outputs": ["targetExampleSentences"],
+                "supportedLanguages": ["português"]
     }
 ]
 
@@ -86,6 +94,11 @@ def create_app():
     @app.route('/api/michaelis-br/<word>')
     def get_michaelis_br_word(word):
         scraped_data, url = scrape_michaelis(word)
+        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+
+    @app.route('/api/semanticar-br/<word>')
+    def get_semanticar_br_word(word):
+        scraped_data, url = scrape_semanticar(word)
         return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
 
     @app.route('/api/forvo/<target_lang>/<word>')
