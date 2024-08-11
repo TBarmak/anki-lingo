@@ -76,6 +76,28 @@ class TestWordReference:
         assert scraped_data == expected_response
         assert url == f'https://www.wordreference.com/fren/{word}'
 
+    def test_scrape_word_reference_vérifier(self, requests_mock):
+        # Arrange
+        word = 'vérifier'
+        target_lang = 'Français'
+        native_lang = 'English'
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        mock_file_path = os.path.join(
+            current_dir, 'mocks', 'wr_vérifier_fr_en.html')
+        response = ""
+        with open(mock_file_path, 'r') as f:
+            response = f.read()
+        requests_mock.get(
+            f'https://www.wordreference.com/fren/{word}', text=response)
+        expected_response = read_expected_output(
+            'wr_vérifier_fr_en_output.json')
+        # Act
+        scraped_data, url = scrape_word_reference(
+            word, target_lang, native_lang)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == f'https://www.wordreference.com/fren/{word}'
+
     def test_scrape_word_reference_viejo(self, requests_mock):
         # Arrange
         word = 'viejo'
