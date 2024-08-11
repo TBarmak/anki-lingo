@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-<html lang="es,en" class="desktop other">
+<html lang="fr" class="desktop other">
 <head>
     <link rel="preload" as="script" type="text/javascript" href="https://www.wordreference.com/js/prebid_latest.js">
 <link rel="preload" as="script" type="text/javascript" href="https://c.amazon-adsystem.com/aax2/apstag.js">
@@ -27,17 +27,14 @@
 <link rel="preconnect" href="https://aax-eu.amazon-adsystem.com">
     
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<title>fakeword - Diccionario Inglés-Español WordReference.com</title>
-<meta name="description" content="fakeword - Traduccion ingles de diccionario ingles">
-<meta http-equiv="Content-Language" content="es,en">
-<link title="WR Spanish-English" rel="search" type="application/opensearchdescription+xml" href="https://www.wordreference.com/home/OpenSearch?dict=esen">
-
-<!-- Don't index if the word wasn't found -->
-<META NAME='ROBOTS' CONTENT='NOINDEX, NOFOLLOW'>
+<title>vérifier - traduction - Dictionnaire Français-Anglais WordReference.com</title>
+<meta name="description" content="vérifier - traduction français-anglais. Forums pour discuter de vérifier, voir ses formes composées, des exemples et poser vos questions. Gratuit.">
+<meta http-equiv="Content-Language" content="fr">
+<link title="WR French-English" rel="search" type="application/opensearchdescription+xml" href="https://www.wordreference.com/home/OpenSearch?dict=fren">
 <meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=4, minimum-scale=0.1, user-scalable=yes">
 <meta property="og:image" content="//www.wordreference.com/images/WR_fbicon_200x200.png" />
-<meta name="webkey" content="+U0oChwH6sTgXJcSsDmvWIHP+HgiyhTeETT8Ont3TRk=">
+<meta name="webkey" content="Rxtm2nG1aJz3cp2Pu4dLGSniZs1W/PVyGedp4/G59B8=">
 
 
 
@@ -94,7 +91,7 @@
 
     
     <script>
-        console.log(">> snigel 8/17 => False");
+        console.log(">> snigel 50/81 => False");
     </script>
 
 
@@ -626,10 +623,17 @@ function generateUUID() {
                     });
                     
                     googletag.cmd.push(function() {
+                        googletag.defineSlot('/1005951/Primis_VDU', [1, 1], 'adprimisvdu')
+                            .addService(googletag.pubads());
+                        //googletag.pubads().enableSingleRequest();
+                        //googletag.enableServices();
+                    });
+                    
+                    googletag.cmd.push(function() {
 
                         googletag.pubads().enableSingleRequest();
                         consoleDebug('>> SRA enabled');
-                                                    googletag.pubads().setTargeting('dict', 'esen');   // Page-level targeting.
+                                                    googletag.pubads().setTargeting('dict', 'fren');   // Page-level targeting.
                         googletag.enableServices();
                     });
 
@@ -1324,7 +1328,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
     var wrserver = {
   "Initialization": null,
   "ddict": {
-    "dict": "esen",
+    "dict": "fren",
     "dict_alt": "",
     "isDictionary": true,
     "isBase": false,
@@ -1345,11 +1349,11 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
     "isLarousse": false,
     "isLangenscheidt": false,
     "isConjugator": false,
-    "forumIDs": "2,14,22,23,35,36,50,81,83",
-    "defaultForumID": "83",
-    "defaultForumName": "Spanish-English",
+    "forumIDs": "3,71",
+    "defaultForumID": "3",
+    "defaultForumName": "French-English",
     "IsValidDictionary": true,
-    "dict_OppositeDirection": "enes"
+    "dict_OppositeDirection": "enfr"
   },
   "ipcc": "US",
   "ipcc2": [
@@ -1363,7 +1367,9 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
   "route": null,
   "IsVirtKeyboardNeeded": false,
   "servername": "www3",
-  "lineCount": {},
+  "lineCount": {
+    "compounds": 0
+  },
   "ad": {
     "AdMode": 0,
     "bGoogleOnly": false,
@@ -1424,12 +1430,12 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 <link rel="icon" href="/favicon.ico" sizes="any"><!-- 32×32 -->
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
-<link rel="manifest" href="/favicons/manifest.json?dict=esen">
+<link rel="manifest" href="/favicons/manifest.json?dict=fren">
 
 
 <meta name="theme-color" content="#ffffff">
 
-<script>var strOrig = "fakeword"; var strDic = "esen";</script>
+<script>var strOrig = "vérifier"; var strDic = "fren";</script>
 
 <script>
     function check_webp_feature(feature, callback) {
@@ -1479,12 +1485,12 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
     <header class="full-header">
         <div class="header-content">
             <div id="logo" >
-                <a href="https://www.wordreference.com/">WordReference<span>.com</span></a><span class="mobileremove">  |  </span><h1><span>Online</span> <span>Language</span> <span>Dictionaries</span></h1>
+                <a href="https://www.wordreference.com/">WordReference<span>.com</span></a><span class="mobileremove">  |  </span><h1><span>Dictionnaires</span> <span>de</span> <span>langue</span> <span>en</span> <span>ligne</span></h1>
             </div>
 
             <div id="nav" >
-                    <a href="/es/en/translation.asp?spen="><span>Spanish-English</span> <span>Dictionary</span></a>
-| <a href=""><span>fakeword</span></a>            </div>
+                    <a href="/fren/"><span>Dictionnaire</span> <span>Français-Anglais</span></a>
+| <a href=""><span>vérifier</span></a>            </div>
         </div>
     </header>
 
@@ -1506,7 +1512,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
             <form method="GET" action="/redirect/translation.aspx" id="text_form" name="sbox" onsubmit="return toSubmit(event);">
                 <div id="myAutoComplete" style="display:inline">
-                    <input type="search" name="w" id="si" oninvalid="alert('Invalid characters in search input field');" pattern="^[^<>%\\]*$" size="20" maxlength="200" tabindex="1" onKeyDown="keyDown(event)" accesskey="s" title="accesskey: s" value="fakeword" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="none">
+                    <input type="search" name="w" id="si" oninvalid="alert('Caractères non valables dans le champ de recherche');" pattern="^[^<>%\\]*$" size="20" maxlength="200" tabindex="1" onKeyDown="keyDown(event)" accesskey="s" title="accesskey: s" value="" placeholder="Recherche" autocomplete="off" autocorrect="off" autocapitalize="none">
                     <div id="myACContainer" style="display:inline"></div>
                     <div id="tipsModal" class="modal">
                       <div class="modal-content">
@@ -1517,23 +1523,23 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
                 </div>
                 <label class="custom-select">
                     <select size="1" name="dict" tabindex="2" id="fSelect">
-                            <option value='esen' title='Spanish-English'>Spanish-English</option>
-                            <option value='enes' title='English-Spanish'>English-Spanish</option>
-                            <option value='iten' title='Italian-English'>Italian-English</option>
-                            <option value='enit' title='English-Italian'>English-Italian</option>
-                            <option value='enfr' title='English-French'>English-French</option>
-                            <option value='fren' title='French-English'>French-English</option>
+                            <option value='fren' title='French-English'>Français-Anglais</option>
+                            <option value='enfr' title='English-French'>Anglais-Français</option>
+                            <option value='enit' title='English-Italian'>Anglais-Italien</option>
+                            <option value='iten' title='Italian-English'>Italien-Anglais</option>
+                            <option value='enes' title='English-Spanish'>Anglais-Espagnol</option>
+                            <option value='esen' title='Spanish-English'>Espagnol-Anglais</option>
                             <option value='enen' title=''>English definition</option>
-                            <option value='synonyms' title=''>English synonyms</option>
-                            <option value='esfr' title='Spanish-French'>Spanish-French</option>
-                            <option value='espt' title='Spanish-Portuguese'>Spanish-Portuguese</option>
-                            <option value='fres' title='French-Spanish'>French-Spanish</option>
-                            <option value='ptes' title='Portuguese-Spanish'>Portuguese-Spanish</option>
+                            <option value='synonyms' title=''>Synonymes anglais</option>
+                            <option value='esfr' title='Spanish-French'>Espagnol-Français</option>
+                            <option value='fres' title='French-Spanish'>Français-Espagnol</option>
+                            <option value='espt' title='Spanish-Portuguese'>Espagnol-Portugais</option>
+                            <option value='ptes' title='Portuguese-Spanish'>Portugais-Espagnol</option>
                             <option value='eses' title=''>Español: definición</option>
                             <option value='essin' title=''>Español: sinónimos</option>
                             <option value='esgram' title=''>Español: gramática</option>
                             <option value='caca' title=''>Català: definició</option>
-                            <option value='other' title=''>more...</option>
+                            <option value='other' title=''>Suite...</option>
                     </select>
                 </label>
                 <div id="reverseBtnContainer" class="inputcontainer">
@@ -1542,7 +1548,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
                 </div>
                 <div class="inputcontainer">
                     <i class="searchicon"></i>
-                    <input type="submit" id="searchBtn" name="B" title="Search" tabindex="4" value="">
+                    <input type="submit" id="searchBtn" name="B" title="Recherche" tabindex="4" value="">
                 </div>
 
                 <script>
@@ -1553,8 +1559,8 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
                             return false;
                         }
 
-                        if(document.sbox.dict.value=='esen'){
-                            location.href = '/esen/' + document.sbox.w.value;
+                        if(document.sbox.dict.value=='fren'){
+                            location.href = '/fren/' + document.sbox.w.value;
                             return(false);
                         }
                     }
@@ -1562,7 +1568,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
             </form>
 
             <div id="forumapi">
-                <span class="forum api bttn"><a href="https://forum.wordreference.com">Foros</a></span>
+                <span class="forum api bttn"><a href="https://forum.wordreference.com">Forums</a></span>
             </div>
         </div>
     </div>
@@ -1579,42 +1585,42 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
             
 
 <ul>
-    <li class="title1" title="See Also:">Ver También:</li>
+    <li class="title1" title="See Also:">Voir également :</li>
 </ul>
 <ul>
-    <li id="link" ><ul><li><a href="/es/en/translation.asp?spen=faja">faja</a></li>
-<li><a href="/es/en/translation.asp?spen=fajada">fajada</a></li>
-<li><a href="/es/en/translation.asp?spen=fajador">fajador</a></li>
-<li><a href="/es/en/translation.asp?spen=fajar">fajar</a></li>
-<li><a href="/es/en/translation.asp?spen=fajilla">fajilla</a></li>
-<li><a href="/es/en/translation.asp?spen=faj%C3%ADn">fajín</a></li>
-<li><a href="/es/en/translation.asp?spen=fajina">fajina</a></li>
-<li><a href="/es/en/translation.asp?spen=fajita">fajita</a></li>
-<li><a href="/es/en/translation.asp?spen=fajo">fajo</a></li>
-<li><a href="/es/en/translation.asp?spen=faj%C3%B3n">fajón</a></li>
-<li><a href="/es/en/translation.asp?spen=falacia">falacia</a></li>
-<li><a href="/es/en/translation.asp?spen=falange">falange</a></li>
-<li><a href="/es/en/translation.asp?spen=falangeta">falangeta</a></li>
-<li><a href="/es/en/translation.asp?spen=falangina">falangina</a></li>
-<li><a href="/es/en/translation.asp?spen=falangismo">falangismo</a></li>
-<li><a href="/es/en/translation.asp?spen=falangista">falangista</a></li>
-<li><a href="/es/en/translation.asp?spen=falansterio">falansterio</a></li>
-<li><a href="/es/en/translation.asp?spen=falaz">falaz</a></li>
-<li><a href="/es/en/translation.asp?spen=falca">falca</a></li>
-<li><a href="/es/en/translation.asp?spen=falciforme">falciforme</a></li>
-<li><a href="/es/en/translation.asp?spen=falc%C3%B3nidas">falcónidas</a></li>
+    <li id="link" ><ul><li><a href="/fren/vergne">vergne</a></li>
+<li><a href="/fren/vergogne">vergogne</a></li>
+<li><a href="/fren/vergue">vergue</a></li>
+<li><a href="/fren/v%C3%A9ridique">véridique</a></li>
+<li><a href="/fren/v%C3%A9rifiable">vérifiable</a></li>
+<li><a href="/fren/v%C3%A9rificateur">vérificateur</a></li>
+<li><a href="/fren/v%C3%A9rificateur%20des%20comptes">vérificateur des comptes</a></li>
+<li><a href="/fren/v%C3%A9rificatif">vérificatif</a></li>
+<li><a href="/fren/v%C3%A9rification">vérification</a></li>
+<li><a href="/fren/v%C3%A9rificatrice">vérificatrice</a></li>
+<li><a href="/fren/v%C3%A9rifier">vérifier</a></li>
+<li><a href="/fren/v%C3%A9rin">vérin</a></li>
+<li><a href="/fren/v%C3%A9ritable">véritable</a></li>
+<li><a href="/fren/v%C3%A9ritablement">véritablement</a></li>
+<li><a href="/fren/v%C3%A9rit%C3%A9">vérité</a></li>
+<li><a href="/fren/verjus">verjus</a></li>
+<li><a href="/fren/verjuter">verjuter</a></li>
+<li><a href="/fren/verlan">verlan</a></li>
+<li><a href="/fren/vermeil">vermeil</a></li>
+<li><a href="/fren/vermicelle">vermicelle</a></li>
+<li><a href="/fren/vermicellier">vermicellier</a></li>
 </ul></li>
 </ul>
 
             
 <ul>
-    <li class="title1" title="Recent searches:">Recent searches:</li>
+    <li class="title1" title="Recent searches:">Recherches récentes :</li>
 </ul>
 
 <ul>
         <li id="wrsave"></li>
         <li style="list-style-type:none;" id="viewallhistory">
-            <a href="/docs/searchHistory.aspx?dict=esen" target="_blank">View All</a>
+            <a href="/docs/searchHistory.aspx?dict=fren" target="_blank">Voir tout</a>
             <script>
                 if ('localStorage' in window && window['localStorage'] !== null) {
                     if ((localStorage["bWRsaveHistory"]) && (localStorage["bWRsaveHistory"] == "false")) {
@@ -1637,24 +1643,46 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
         
 
-                    <h3 class=headerWord>fakeword</h3>
+                    <h3 class="headerWord">vérifier</h3>
                 
             <div id="footerlink"><a href="#footer">[links]</a></div>
                 
- 
+<div id='listen_widget'><span id='listen_txt' style='display: none;'>Ecouter:</span><input type='hidden' id='audT' value='2' /><script>var audioFiles = ['/audio/fr/fr/fr101236-62.mp3','/audio/fr/Canadian/fr101236.mp3',];</script><span id='audiodrop'><select id='accentSelection'></select></span></div>
+<script>
+//Select Audio in local storage
+var audPref = localStorage['wr_audio-'+strDic.substr(0,2)];
+//Clear the cached selection
+var sel = document.getElementById('accentSelection')
+var audChoice = '<optgroup label="Accents"><option title="French pronunciation" value="0" >France</option><option title="Canadian French pronunciation" value="1" >Canada</option></optgroup><optgroup label="Playback rate"><option title="Speed at 100%" value="%100">100%</option><option title="Speed at 75%" value="%75">75%</option><option title="Speed at 50%" value="%50">50%</option></optgroup>';
+audChoice = audChoice.replace(/ selected=["']selected["']/gm, '');var audT = document.getElementById('audT');if ((audT) && (audPref)) {
+		//Parse the content
+		if(audPref.indexOf(':') > -1) {
+			var audPrefAccent = audPref.split(':')[0];
+			var playbackRate = audPref.split(':')[1];
+		} else {
+			var audPrefAccent = audPref;
+			var playbackRate = 1;
+		}
+		var re = new RegExp('(<option[^>]+)(>' + audPrefAccent + '<\/option>)','gm');		audChoice = audChoice.replace(re, "$1 selected='selected'$2");
+}
+sel.innerHTML = audChoice;
+var isIE11 = (!!window.MSInputMethodContext && !!document.documentMode)
+document.getElementById('listen_txt').style.display = 'inline';
+if(isIE11)
+	document.getElementById('listen_widget').style.display = 'none';
+</script>
+ &nbsp;<span id='pronWR' class='pronWR' dir='ltr' style='white-space:nowrap;' title='Prononciation'>[veʀifje]</span><div id='dummyspan'></div><br /> 
 
 
-            <div id="forumNotes"><a id="forumNotesLink">ⓘ One or more forum threads is an exact match of your searched term</a></div>
+            <div id="forumNotes"><a id="forumNotesLink">ⓘ Un ou plusieurs fils de discussions du forum correspondent exactement au terme que vous recherchez</a></div>
             
 
 <div id="WHlinks" style="padding-top: 8px;"> 
-    <a href='/definicion/fakeword'>Spanish definition</a> | 
-<a href='/sinonimos/fakeword'>Spanish synonyms</a> | 
-<a href='/gramatica/fakeword'>Gramática </a> | 
-<a title='conjugate Spanish verbs' rel='nofollow' href='/conj/esverbs.aspx'>Conjugación&nbsp;<span style='font-size:smaller'>[ES]</span></a> | 
-<a title='conjugate English verbs' rel='nofollow' href='/conj/enverbs.aspx'>Conjugator&nbsp;<span style='font-size:smaller'>[EN]</span></a> | 
-<a title='in Context' Target='gg' href='https://www.google.es/search?tbm=nws&amp;lr=lang_es&amp;q=%22fakeword%22'>in context</a> | 
-<a title='images' Target='gg' href='https://www.google.es/search?tbm=isch&amp;safe=active&amp;q=%22fakeword%22'>images</a>
+    <a href='/fres/vérifier'>en espagnol</a> | 
+<a title='conjugate French verbs' rel='nofollow' href='/conj/frverbs.aspx?v=vérifier'>Conjugaison&nbsp;<span style='font-size:smaller'>[FR]</span></a> | 
+<a title='conjugaison des verbes anglais' rel='nofollow' href='/conj/enverbs.aspx'>Conjugator&nbsp;<span style='font-size:smaller'>[EN]</span></a> | 
+<a title='in Context' Target='gg' href='https://www.google.fr/search?tbm=nws&amp;lr=lang_fr&amp;q=%22vérifier%22'>en contexte</a> | 
+<a title='images' Target='gg' href='https://www.google.fr/search?tbm=isch&amp;safe=active&amp;q=%22vérifier%22'>images</a>
 
 </div>
 
@@ -1681,8 +1709,14 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
                         
         <div id="headerTabs">
             <ul>
-                    <li id="tabWR" data-index="0" class="selected">
+                    <li id="tabWR" data-index="0" class="">
                         <span>WordReference</span>
+                    </li>
+                    <li id="tabHC" data-index="1" class="">
+                        <span>Collins</span>
+                    </li>
+                    <li id="tabRev" data-index="2" class="">
+                        <span>WR Reverse (30)</span>
                     </li>
             </ul>
         </div>
@@ -1694,9 +1728,39 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
                                         <div class="swiper-content">
                                             
 <!-- articleWRD -->
-                            <div id='articleWRD'></div><div id='collinsdiv'></div>
+                            <div id='articleWRD'><!-- copyright 2 --><div><p class='wrcopyright'><a name="v&#233;rifier118"></a><span dir='auto'>WordReference English-<span class='ph' data-ph='sLanguage'>French</span> Dictionary © 2024:</span></p></div><table class='WRD' data-dict='fren'><tr class='wrtopsection'><td colspan='3' title='Principal Translations'><strong><span class='ph' data-ph='sMainMeanings'>Principales traductions</span></strong></td></tr><tr class='langHeader' style='font-size: 13px;text-decoration: underline;font-weight:bold;'><td class='FrWrd'><span class='ph' data-ph='sLang_fr'>Français</span></td><td></td><td class='ToWrd'><span class='ph' data-ph='sLang_en'>Anglais</span></td></tr>
+<tr class='even' id='fren:8867'><td class='FrWrd'><strong>vérifier<a title="conjugate vérifier" class='conjugate' href="/conj/frverbs.aspx?v=v%C3%A9rifier">⇒</a></strong> <em class='POS2' data-lang='fr'>vtr</em></td><td> (prouver par les faits)</td><td class='ToWrd' >verify<a title="conjugate verify" class='conjugate' href="/conj/enverbs.aspx?v=verify">⇒</a>, confirm<a title="conjugate confirm" class='conjugate' href="/conj/enverbs.aspx?v=confirm">⇒</a>, prove<a title="conjugate prove" class='conjugate' href="/conj/enverbs.aspx?v=prove">⇒</a>, check<a title="conjugate check" class='conjugate' href="/conj/enverbs.aspx?v=check">⇒</a> <em class='POS2' data-lang='en'>vtr</em></td></tr>
+<tr class='even'><td>&nbsp;</td><td>&nbsp;</td><td class='ToWrd' >put to the test <em class='POS2' data-lang='en'>v expr</em></td></tr>
+<tr class='even'><td>&nbsp;</td><td>&nbsp;</td><td class='ToWrd' >check<a title="conjugate check" class='conjugate' href="/conj/enverbs.aspx?v=check">⇒</a> <em class='POS2' data-lang='en'>vtr</em></td></tr>
+<tr class='even'><td>&nbsp;</td><td colspan='2' class='FrEx'><span dir='ltr'>Nous vérifions toujours nos hypothèses sur le terrain.</span></td></tr>
+<tr class='even'><td>&nbsp;</td><td colspan='2' class='ToEx' dir='ltr'>We always confirm our hypotheses in the field.</td></tr>
+<tr class='odd' id='fren:8869'><td class='FrWrd'><strong>vérifier</strong> <em class='POS2' data-lang='fr'>vtr</em></td><td> (contrôler)&nbsp;<span class='dsense' data-lang='en' data-dict='fren' >(<i>eyesight</i>)</span></td><td class='ToWrd' >check<a title="conjugate check" class='conjugate' href="/conj/enverbs.aspx?v=check">⇒</a>, test<a title="conjugate test" class='conjugate' href="/conj/enverbs.aspx?v=test">⇒</a> <em class='POS2' data-lang='en'>vtr</em></td></tr>
+<tr class='odd'><td>&nbsp;</td><td>&nbsp;</td><td class='ToWrd' >keep a close eye on <em class='POS2' data-lang='en'>v expr</em></td></tr>
+<tr class='odd'><td>&nbsp;</td><td colspan='2' class='FrEx'><span dir='ltr'>Il faut faire vérifier sa vue après quarante ans.</span></td></tr>
+<tr class='odd'><td>&nbsp;</td><td colspan='2' class='ToEx' dir='ltr'>You should have your eyes tested after the age of 40.</td></tr>
+<tr class='even' id='fren:3025274'><td class='FrWrd'><strong>vérifier si</strong> <em class='POS2' data-lang='fr'>vtr</em></td><td> (contrôler, s'assurer que)</td><td class='ToWrd' >check<a title="conjugate check" class='conjugate' href="/conj/enverbs.aspx?v=check">⇒</a>, confirm<a title="conjugate confirm" class='conjugate' href="/conj/enverbs.aspx?v=confirm">⇒</a>, verify<a title="conjugate verify" class='conjugate' href="/conj/enverbs.aspx?v=verify">⇒</a> <em class='POS2' data-lang='en'>vtr</em></td></tr>
+<tr class='even'><td>&nbsp;</td><td>&nbsp;</td><td class='ToWrd' >make sure <em class='POS2' data-lang='en'>vtr + adv</em></td></tr>
+<tr class='even'><td>&nbsp;</td><td colspan='2' class='FrEx'><span dir='ltr'>Je vais vérifier si le candidat a bien travaillé dans cette banque, comme il le prétend.</span></td></tr>
+<tr class='even'><td>&nbsp;</td><td colspan='2' class='ToEx' dir='ltr'>I'm going to check that the candidate really worked in that bank, as he claims.</td></tr>
+<tr class='odd' id='fren:8866'><td class='FrWrd'><strong>se vérifier<a title="conjugate vérifier" class='conjugate' href="/conj/frverbs.aspx?v=se+v%C3%A9rifier">⇒</a></strong> <em class='POS2' data-lang='fr'>v pron</em></td><td> (être avéré)</td><td class='ToWrd' >be proven, be borne out <em class='POS2' data-lang='en'>v aux + v past p</em></td></tr>
+<tr class='odd'><td>&nbsp;</td><td>&nbsp;</td><td class='ToWrd' >be proven correct <em class='POS2' data-lang='en'>v expr</em></td></tr>
+<tr class='odd'><td>&nbsp;</td><td colspan='2' class='FrEx'><span dir='ltr'>Notre hypothèse s'est vérifiée à chaque essai.</span></td></tr>
+<tr class='odd'><td>&nbsp;</td><td colspan='2' class='ToEx' dir='ltr'>Our hypothesis has been proven at each test.</td></tr>
+</table><table class='WRreporterror'>
+<tr class='odd more'><td>&nbsp;</td>
+<td style='text-align:right;'><a target='WRsug' title='Is something important missing? Report an error or suggest an improvement.' href="https://forum.wordreference.com/forums/dictionary-error-reports-and-suggestions.30/post-thread?prefix_id=24&title=v%C3%A9rifier"><span class='ph' data-ph='sReportError'>Un oubli important ? Signalez une erreur ou suggérez une amélioration.</span></a></td></tr></table>
+<table class='WRD' data-dict='fren'><tr class='wrtopsection'><td colspan='3' title='Additional Translations' class='additional'><strong><span class='ph' data-ph='sAddTrans'>Traductions supplémentaires</span></strong></td></tr><tr class='langHeader' style='font-size: 13px;text-decoration: underline;font-weight:bold;'><td class='FrWrd'><span class='ph' data-ph='sLang_fr'>Français</span></td><td></td><td class='ToWrd'><span class='ph' data-ph='sLang_en'>Anglais</span></td></tr>
+<tr class='even' id='fren:8868'><td class='FrWrd'><strong>vérifier</strong> <em class='POS2' data-lang='fr'>vtr</em></td><td> (Mathématiques : satisfaire)&nbsp;<span class='dsense' data-lang='en' data-dict='fren' >(<i>Mathematics</i>)</span></td><td class='ToWrd' >prove<a title="conjugate prove" class='conjugate' href="/conj/enverbs.aspx?v=prove">⇒</a>, satisfy<a title="conjugate satisfy" class='conjugate' href="/conj/enverbs.aspx?v=satisfy">⇒</a>, verify<a title="conjugate verify" class='conjugate' href="/conj/enverbs.aspx?v=verify">⇒</a> <em class='POS2' data-lang='en'>vtr</em></td></tr>
+<tr class='even'><td>&nbsp;</td><td colspan='2' class='FrEx'><span dir='ltr'>Ces données vérifient bien notre équation.</span></td></tr>
+<tr class='even'><td>&nbsp;</td><td colspan='2' class='ToEx' dir='ltr'>These data prove our equation.</td></tr>
+</table>
+<table class='WRreporterror'>
+<tr class='odd more'><td>&nbsp;</td>
+<td style='text-align:right;'><a target='WRsug' title='Is something important missing? Report an error or suggest an improvement.' href="https://forum.wordreference.com/forums/dictionary-error-reports-and-suggestions.30/post-thread?prefix_id=24&title=v%C3%A9rifier"><span class='ph' data-ph='sReportError'>Un oubli important ? Signalez une erreur ou suggérez une amélioration.</span></a></td></tr></table>
+
+</div><div id='collinsdiv'></div>
                                             
-<div id='noTransFound'><p id='noEntryFound' title="No English translation found for 'fakeword'" style="padding-left: 2px;">No English translation found for 'fakeword'.</p><div id="spellSug" style="padding-left: 0px;margin-left:-5px;"></div><script async src="https://spell.wordreference.com/spell/spelljs.php?dict=esen&amp;w=fakeword"></script><p><a href="/es/translation.asp?tranword=fakeword" rel='nofollow' title="Did you want to translate 'fakeword' from English?">Did you want to translate 'fakeword' <b>to</b> Spanish?</a></p></div>
+
                                             
 
 <div id="article">
@@ -1705,11 +1769,74 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
 
                     <!--<div style="margin-bottom: 30px;">Click the Collins tab</div>-->
-                    
-      <br>
-
             </div>
                     
+<div id='FTintro'><div class='entrySeparator'></div><span class='ph' data-ph='sFTintro:vérifier'>'<b>vérifier</b>' également trouvé dans ces entrées :</span>
+</div>
+<div class='FTsource'><span class='ph' data-ph='strSource'>Dans la description française :</span></div><div class='FTlist'>
+<a href="/fren/%C3%A0%20l%27enquerre">&#224; l&#39;enquerre</a>
+ - <a href="/fren/apurer">apurer</a>
+ - <a href="/fren/assurer">assurer</a>
+ - <a href="/fren/avoir%20l%27%C5%93il%20%C3%A0%20tout">avoir l&#39;œil &#224; tout</a>
+ - <a href="/fren/%C3%A7a%20reste%20%C3%A0%20voir">&#231;a reste &#224; voir</a>
+ - <a href="/fren/cl%C3%B4turer%20le%20bilan">cl&#244;turer le bilan</a>
+ - <a href="/fren/collationner">collationner</a>
+ - <a href="/fren/corriger%20des%20copies">corriger des copies</a>
+ - <a href="/fren/croiser%20des%20informations">croiser des informations</a>
+ - <a href="/fren/droit%20de%20regard">droit de regard</a>
+ - <a href="/fren/en%20avoir%20le%20c%C5%93ur%20net">en avoir le cœur net</a>
+ - <a href="/fren/enquerre">enquerre</a>
+ - <a href="/fren/essayer">essayer</a>
+ - <a href="/fren/%C3%A9valuer">&#233;valuer</a>
+ - <a href="/fren/expertiser">expertiser</a>
+ - <a href="/fren/faire%20l%27appel">faire l&#39;appel</a>
+ - <a href="/fren/faire%20passer%20un%20test">faire passer un test</a>
+ - <a href="/fren/gabarier">gabarier</a>
+ - <a href="/fren/hypoth%C3%A8se%20de%20travail">hypoth&#232;se de travail</a>
+ - <a href="/fren/interpeller">interpeller</a>
+ - <a href="/fren/interroger">interroger</a>
+ - <a href="/fren/inv%C3%A9rifiable">inv&#233;rifiable</a>
+ - <a href="/fren/ne%20n%C3%A9gliger%20aucun%20d%C3%A9tail">ne n&#233;gliger aucun d&#233;tail</a>
+ - <a href="/fren/niveau%20%C3%A0%20bulle">niveau &#224; bulle</a>
+ - <a href="/fren/plonger%20son%20nez%20dans">plonger son nez dans</a>
+ - <a href="/fren/pointer">pointer</a>
+ - <a href="/fren/prendre%20le%20pouls">prendre le pouls</a>
+ - <a href="/fren/pr%C3%A9visualiser">pr&#233;visualiser</a>
+ - <a href="/fren/recoupement">recoupement</a>
+ - <a href="/fren/recouper">recouper</a>
+ - <a href="/fren/relever%20le%20courrier">relever le courrier</a>
+ - <a href="/fren/relire">relire</a>
+ - <a href="/fren/rev%C3%A9rifier">rev&#233;rifier</a>
+ - <a href="/fren/r%C3%A9viser">r&#233;viser</a>
+ - <a href="/fren/revoir">revoir</a>
+ - <a href="/fren/se%20rendre%20sur%20place">se rendre sur place</a>
+</div>
+<div id='FTintro'></div>
+<div class='FTsource'>
+Anglais :</div>
+<div class='FTlist'>
+<a href="/enfr/ascertain">ascertain</a>
+ - <a href="/enfr/check%20for">check for</a>
+ - <a href="/enfr/check%20out">check out</a>
+ - <a href="/enfr/check%20over">check over</a>
+ - <a href="/enfr/check%20up">check up</a>
+ - <a href="/enfr/bed%20check">bed check</a>
+ - <a href="/enfr/check">check</a>
+ - <a href="/enfr/check%20on">check on</a>
+ - <a href="/enfr/check%20up%20on">check up on</a>
+ - <a href="/enfr/confirm">confirm</a>
+ - <a href="/enfr/consider%20the%20source">consider the source</a>
+ - <a href="/enfr/countercheck">countercheck</a>
+ - <a href="/enfr/double-check">double-check</a>
+ - <a href="/enfr/hold%20true">hold true</a>
+ - <a href="/enfr/look">look</a>
+ - <a href="/enfr/make%20sure">make sure</a>
+ - <a href="/enfr/review">review</a>
+ - <a href="/enfr/sense-check">sense-check</a>
+ - <a href="/enfr/spellcheck">spellcheck</a>
+ - <a href="/enfr/verify">verify</a>
+ - <a href="/enfr/vet">vet</a>
+</div><br />
 
 
 </div> 
@@ -1721,7 +1848,37 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
 
     
-<br><p id='threadsHeader' title='Forum discussions with the word(s) "fakeword" in the title'><span class='ph' data-ph='sFDisc:fakeword'>Forum discussions with the word(s) "fakeword" in the title:</span></p><div id="lista_link"><span class='noThreads' title='No titles with the word(s) "fakeword"'>No titles with the word(s) "fakeword".</span><div class='extra_links'><a href='https://forum.wordreference.com/forums/83/' title="Visit the Spanish-English Forum"><span class='ph' data-ph='sVisitForum:Spanish-English|83'>Visit the Spanish-English Forum.</span></a><br /><a href='https://forum.wordreference.com/forums/83/' title="Ask in the forums yourself">Help WordReference: <span class='ph' data-ph='sAskYourself'>Ask in the forums yourself.</span></a></div></div> <!-- End lista_link -->
+<br><p id='threadsHeader' title='Forum discussions with the word(s) "vérifier" in the title'><span class='ph' data-ph='sFDisc:vérifier'>Forums WR - discussions dont le titre comprend le(s) mot(s) "vérifier" :</span></p><div id="lista_link"><a href='https://forum.wordreference.com/threads/%C3%A0-v%C3%A9rifier.1193498/'>&#192; v&#233;rifier</a><br>
+<a href='https://forum.wordreference.com/threads/candidat-id%C3%A9al-pour-v%C3%A9rifier.2365045/'>candidat id&#233;al pour v&#233;rifier ...</a><br>
+<a href='https://forum.wordreference.com/threads/checker-v%C3%A9rifier.1183479/'>checker (v&#233;rifier)</a><br>
+<a href='https://forum.wordreference.com/threads/d%C3%A9finit-par-doit-v%C3%A9rifier-mathematics.300919/'>d&#233;finit par/ doit v&#233;rifier (mathematics)</a><br>
+<a href='https://forum.wordreference.com/threads/dont-il-vous-appartient-de-v%C3%A9rifier-la-justesse.525781/'>dont il vous appartient de v&#233;rifier la justesse</a><br>
+<a href='https://forum.wordreference.com/threads/en-premi%C3%A8re-lecture-et-sous-r%C3%A9serve-de-v%C3%A9rifier-que.2014095/'>En premi&#232;re lecture, et sous r&#233;serve de v&#233;rifier que</a><br>
+<a href='https://forum.wordreference.com/threads/en-permettre-de-v%C3%A9rifier-visuellement.2277464/'>EN: permettre de v&#233;rifier visuellement</a> - grammaire<br>
+<a href='https://forum.wordreference.com/threads/est-quon-peut-verifier-ces-mots-pour-moi.242683/'>Est-qu&#39;on peut verifier ces mots pour moi?</a><br>
+<a href='https://forum.wordreference.com/threads/fr-v%C3%A9rifier-future.851136/'>FR: v&#233;rifier (future)</a> - grammaire<br>
+<a href='https://forum.wordreference.com/threads/fr-v%C3%A9rifier-que-mode.1750477/'>FR: v&#233;rifier que + mode</a> - grammaire<br>
+<a href='https://forum.wordreference.com/threads/ils-ne-doivent-se-v%C3%A9rifier-que-dans-une-dimension-de-respect-de-soi.3205162/'>ils ne doivent se v&#233;rifier que dans une dimension de respect de soi</a><br>
+<a href='https://forum.wordreference.com/threads/jai-quand-m%C3%AAme-voulu-v%C3%A9rifier.2015010/'>J&#39;ai quand m&#234;me voulu v&#233;rifier</a><br>
+<a href='https://forum.wordreference.com/threads/jaurais-besoin-de-v%C3%A9rifier-%C3%A7a.1077913/'>J&#39;aurais besoin de v&#233;rifier &#231;a</a><br>
+<a href='https://forum.wordreference.com/threads/je-lai-fait-corriger-pour-v%C3%A9rifier-lorthographe-et-la-grammaire.731368/'>Je l&#39;ai fait corriger pour v&#233;rifier l&#39;orthographe et la grammaire</a><br>
+<a href='https://forum.wordreference.com/threads/je-vais-verifier-quand-meme.2051192/'>je vais verifier quand meme</a><br>
+<a href='https://forum.wordreference.com/threads/les-chercheurs-se-sont-appliqu%C3%A9s-%C3%A0-v%C3%A9rifier.428236/'>Les chercheurs se sont appliqu&#233;s &#224; v&#233;rifier</a><br>
+<a href='https://forum.wordreference.com/threads/les-variables-doivent-v%C3%A9rifier-trois-conditions-de-coh%C3%A9rence.2137627/'>les variables doivent v&#233;rifier trois conditions de coh&#233;rence</a><br>
+<a href='https://forum.wordreference.com/threads/merci-de-vous-v%C3%A9rifier-quelle-quantit%C3%A9-de-produits-vous-pourrez-fournir.1731479/'>merci de vous v&#233;rifier quelle quantit&#233; de produits vous pourrez fournir</a><br>
+<a href='https://forum.wordreference.com/threads/permet-de-v%C3%A9rifier-si-le-panneau-a-les-bonnes-caract%C3%A9ristiques.947549/'>permet de v&#233;rifier si le panneau a les bonnes caract&#233;ristiques</a><br>
+<a href='https://forum.wordreference.com/threads/points-%C3%A0-v%C3%A9rifier.714739/'>points &#224; v&#233;rifier</a><br>
+<a href='https://forum.wordreference.com/threads/pour-v%C3%A9rifier-cela.1376153/'>Pour v&#233;rifier cela</a><br>
+<a href='https://forum.wordreference.com/threads/se-v%C3%A9rifier-la-n%C3%A9cessit%C3%A9.3275446/'>se v&#233;rifier la n&#233;cessit&#233;</a><br>
+<a href='https://forum.wordreference.com/threads/si-on-leur-demande-de-v%C3%A9rifier.1265541/'>si on leur demande de v&#233;rifier</a><br>
+<a href='https://forum.wordreference.com/threads/valider-v%C3%A9rifier.2815803/'>valider / v&#233;rifier</a><br>
+<a href='https://forum.wordreference.com/threads/valider-tous-les-parametres-optiques-et-v%C3%A9rifier-lactuit%C3%A9-retrouv%C3%A9e.720327/'>valider tous les parametres optiques et v&#233;rifier l&#39;actuit&#233; retrouv&#233;e</a><br>
+<a href='https://forum.wordreference.com/threads/v%C3%A9rifier.3366574/' id='matchedThread' style='font-weight: bold;'>v&#233;rifier</a><br>
+<a href='https://forum.wordreference.com/threads/v%C3%A9rifier-contr%C3%B4ler-sa-tenue.2302109/'>v&#233;rifier / contr&#244;ler sa tenue</a><br>
+<a href='https://forum.wordreference.com/threads/v%C3%A9rifier-d%E2%80%99une-nouvelle-adh%C3%A9sion.862444/'>v&#233;rifier d’une nouvelle adh&#233;sion</a><br>
+<a href='https://forum.wordreference.com/threads/v%C3%A9rifier-de-ton-c%C3%B4t%C3%A9.1679873/'>v&#233;rifier de ton c&#244;t&#233;</a><br>
+<a href='https://forum.wordreference.com/threads/v%C3%A9rifier-des-hypoth%C3%A8ses.403824/'>V&#233;rifier des hypoth&#232;ses</a><br>
+<a href="/fren/forumtitles/v%C3%A9rifier" title='more...'><strong>Suite...</strong></a><div class='extra_links'><a href='https://forum.wordreference.com/forums/3/' title="Visit the French-English Forum"><span class='ph' data-ph='sVisitForum:French-English|3'>Visitez le forum French-English.</span></a><br /><a href='https://forum.wordreference.com/forums/3/' title="Ask in the forums yourself">Aidez WordReference : <span class='ph' data-ph='sAskYourself'>Posez la question dans les forums.</span></a></div></div> <!-- End lista_link --><div id='extra_links'></div>
 
 
 
@@ -1779,28 +1936,31 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
         
 
-                <span style="border: 0 none;" id="gtrans" dir="auto"><a href="#" rel="nofollow" title="See Google Translate's machine translation of 'fakeword'." onclick="iframeGGapi(); return false">See Google Translate's machine translation of 'fakeword'.</a><br></span>
+                <span style="border: 0 none;" id="gtrans" dir="auto"><a href="#" rel="nofollow" title="See Google Translate's machine translation of 'vérifier'." onclick="iframeGGapi(); return false">Voir la traduction automatique de Google Translate de 'vérifier'.</a><br></span>
                 <script>
                     function iframeGGapi() {
-                        var sOriginal = 'fakeword';
+                        var sOriginal = 'vérifier';
                         var DestLang = "en";
-                        var SourceLang = "es";
+                        var SourceLang = "fr";
                         document.getElementById('gtrans').innerHTML = "<iframe style='border: 0 none;' src='/dictionary/googTranslate?dict=" + SourceLang + DestLang + "&w=" + sOriginal + "&sk=t' width='100%' height='55'><\/iframe>";
                     }
                 </script>
 
+            <p class='other_languages'><span title='In other languages:'>Dans d'autres langues :</span> <a href='/fres/vérifier'  title='Spanish'>Espagnol</a> | <a href='/frpt/vérifier' rel='nofollow' title='Portuguese'>Portugais</a> | <a href='/frit/vérifier'  title='Italian'>Italien</a> | <a href='/frde/vérifier' rel='nofollow' title='German'>Allemand</a> | <a href='/frnl/vérifier' rel='nofollow' title='Dutch'>néerlandais</a> | <a href='/frsv/vérifier' rel='nofollow' title='Swedish'>Suédois</a> | <a href='/frpl/vérifier' rel='nofollow' title='Polish'>Polonais</a> | <a href='/frro/vérifier' rel='nofollow' title='Romanian'>Roumain</a> | <a href='/frcz/vérifier' rel='nofollow' title='Czech'>Tchèque</a> | <a href='/frgr/vérifier' rel='nofollow' title='Greek'>Grec</a> | <a href='/frtr/vérifier' rel='nofollow' title='Turkish'>Turc</a> | <a href='/frzh/vérifier' rel='nofollow' title='Chinese'>Chinois</a> | <a href='/frja/vérifier' rel='nofollow' title='Japanese'>Japonais</a> | <a href='/frko/vérifier' rel='nofollow' title='Korean'>Coréen</a> | <a href='/frar/vérifier' rel='nofollow' title='Arabic'>Arabe</a> </p>
+        
 
         
 
     <div id="postLinks">
-        <span title="Links">Links:</span>
-        <a href='/Preferences'>⚙️Preferencias</a> | 
-<a title='Abbreviations' href='/english/abbreviationsWRD.aspx?dict=esen'>Abreviaturas</a> | 
-<a title='Pronunciations' href='/fr/French-Pronunciation.aspx/es/pronunciation-spanish.aspx'>Pron. Symbols</a> | 
-<a title='Privacy Policy' href='/english/Privacy%20Policy.htm'>Privacy Policy</a> | 
-<a title='Terms of Service' href='/english/TermsOfService.aspx'>Términos del Servicio</a> | 
-<a title='Support WR' href='/docs/support-wordreference.aspx'>Apoyar WR</a> | 
-<a title='Forums' href='https://forum.wordreference.com/'>Foros</a> | 
+        <span title="Links">Liens :</span>
+        <a href='/Preferences'>⚙️Préférences</a> | 
+<a title='Abbreviations' href='/english/abbreviationsWRD.aspx?dict=fren'>Abréviations</a> | 
+<a title='Pronunciations' href='/fr/French-Pronunciation.aspx'>Symboles phonétiques</a> | 
+<a title='Subjunctive' href='/docs/French-verbs-followed-by-the-subjunctive.aspx'>Subjonctif français</a> | 
+<a title='Privacy Policy' href='/english/Privacy%20Policy.htm'>Charte de confidentialité</a> | 
+<a title='Terms of Service' href='/english/TermsOfService.aspx'>Conditions d'utilisation</a> | 
+<a title='Support WR' href='/docs/support-wordreference.aspx'>Soutenez WR</a> | 
+<a title='Forums' href='https://forum.wordreference.com/'>Forums</a> | 
 <a title='Suggestions' href='https://forum.wordreference.com/misc/contact'>Suggestions</a>
 
     </div>
@@ -1812,12 +1972,35 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
                                             
 <script>
-    console.log(">> primis 5/17 => False");
+    console.log(">> primis 22/81 => True");
 </script>
 
+                        
+                        
+                            <script async src="/js/primisvideoplayer.min.js"></script>
+                        
+                        <script>
+                            gtag('event', 'Primis-Inserted', {
+                                'event_category': 'Primis',
+                                'event_label': 'Primis-Inserted',
+                                'value': '1',
+                                'non_interaction': true,
+                                'event_callback': function() {
+                                        consoleDebug(":> Primis: Primis-Inserted" + " -> GA");
+                                    }
+                            });
+                        </script>
 
                                         </div>
                                     </div>
+                                        <div class="swiper-slide" id="slide-tabHC" data-index="1">
+                                            <div class="spinner" id="spinner-tabHC"></div>
+                                            <div class="swiper-content"></div>
+                                        </div>
+                                        <div class="swiper-slide" id="slide-tabRev" data-index="2">
+                                            <div class="spinner" id="spinner-tabRev"></div>
+                                            <div class="swiper-content"></div>
+                                        </div>
                                 </div>
                             </div>
                     </td>
@@ -1828,7 +2011,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
         <table class="rightcolumn">
             <tbody>
                 
-            <tr class='adtitle' style='width:100%'><td colspan='2' style='text-align:center;color:gray;'>Advertisements</td></tr>
+            <tr class='adtitle' style='width:100%'><td colspan='2' style='text-align:center;color:gray;'>Publicités</td></tr>
             <tr style='width:100%'>
                 <td colspan='2' style='height:260px;border-bottom: solid 1px #dcdcdc;padding-bottom:5px'>
                             <div id='adrighttop'>
@@ -1840,7 +2023,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
                             </div>
                 </td>
             </tr>
-            <tr class='adtitle' style='width:100%'><td colspan='2' style='text-align: center;color: gray;'>Advertisements</td></tr>
+            <tr class='adtitle' style='width:100%'><td colspan='2' style='text-align: center;color: gray;'>Publicités</td></tr>
             <tr style='width: 100%;'>
                 <td colspan='2' style='height:260px;width: 100%; border-bottom: solid 1px #dcdcdc; padding-bottom: 5px;'>
                             <div id='adrightbottom'>
@@ -1854,7 +2037,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
             </tr>
             <tr style='width:100%'>
                 <td colspan='2' style='padding: 5px 0 7px 0;border-bottom: solid 1px #dcdcdc;'>
-                    <a href="/docs/report.ad.aspx?dict=esen" target="_blank" title="Report an inappropriate ad." style="font-size:12px;text-align:left;margin-left:5px;">Infórmanos de los anuncios inapropiados.</a>
+                    <a href="/docs/report.ad.aspx?dict=fren" target="_blank" title="Report an inappropriate ad." style="font-size:12px;text-align:left;margin-left:5px;">Signalez une publicité qui vous semble abusive.</a>
                 </td>
             </tr>
     <tr id='wotdTR' style='height: 35px; width:100%; display: table-row;'>
@@ -1883,7 +2066,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
         </tr>
     <tr style='width:100%'>
         <td colspan='2' class='wrSupportRightAdLink' style='border-collapse:collapse;font-size:12px;text-align:left;padding-left:5px;padding-top:6px'>
-            <a href="/docs/supporter.aspx" target="_blank" title="WordReference Supporter - no ads">Become a WordReference Supporter to view the site ad-free.</a>
+            <a href="/docs/supporter.aspx" target="_blank" title="WordReference Supporter - no ads">Devenez parrain de WordReference pour voir le site sans publicités.</a>
         </td>
     </tr>
 
@@ -1910,7 +2093,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
             <div id="eplinkContainer">
                 <a id='englishPageLink' href='javascript:;'><span><svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' aria-hidden='true' focusable='false' width='14px' height='14px' style='-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);' preserveAspectRatio='xMidYMid meet' viewBox='0 0 1536 1792'><path d='M654 1078q-1 3-12.5-.5T610 1066l-20-9q-44-20-87-49q-7-5-41-31.5T424 948q-67 103-134 181q-81 95-105 110q-4 2-19.5 4t-18.5 0q6-4 82-92q21-24 85.5-115T393 918q17-30 51-98.5t36-77.5q-8-1-110 33q-8 2-27.5 7.5T308 792t-17 5q-2 2-2 10.5t-1 9.5q-5 10-31 15q-23 7-47 0q-18-4-28-21q-4-6-5-23q6-2 24.5-5t29.5-6q58-16 105-32q100-35 102-35q10-2 43-19.5t44-21.5q9-3 21.5-8t14.5-5.5t6 .5q2 12-1 33q0 2-12.5 27T527 769.5T510 803q-25 50-77 131l64 28q12 6 74.5 32t67.5 28q4 1 10.5 25.5t4.5 30.5zM449 592q3 15-4 28q-12 23-50 38q-30 12-60 12q-26-3-49-26q-14-15-18-41l1-3q3 3 19.5 5t26.5 0t58-16q36-12 55-14q17 0 21 17zm698 129l63 227l-139-42zM39 1521l694-232V257L39 490v1031zm1241-317l102 31l-181-657l-100-31l-216 536l102 31l45-110l211 65zM777 242l573 184V46zm311 1323l158 13l-54 160l-40-66q-130 83-276 108q-58 12-91 12h-84q-79 0-199.5-39T318 1668q-8-7-8-16q0-8 5-13.5t13-5.5q4 0 18 7.5t30.5 16.5t20.5 11q73 37 159.5 61.5T714 1754q95 0 167-14.5t157-50.5q15-7 30.5-15.5t34-19t28.5-16.5zm448-1079v1079l-774-246q-14 6-375 127.5T19 1568q-13 0-18-13q0-1-1-3V474q3-9 4-10q5-6 20-11q107-36 149-50V19l558 198q2 0 160.5-55t316-108.5T1369 0q20 0 20 21v418z' fill='#626262'/><rect x='0' y='0' width='1536' height='1792' fill='rgba(0, 0, 0, 0)' /></svg></span>English version</a>
             </div>
-            <div style="text-align:right;white-space: nowrap;" title="Please report any problems.">Please <a href="https://forum.wordreference.com/misc/contact">report</a> any problems.</div>
+            <div style="text-align:right;white-space: nowrap;" title="Please report any problems."><a href="https://forum.wordreference.com/misc/contact">Signalez</a> un éventuel problème.</div>
         </td>
     </tr>
 </table>
@@ -1942,7 +2125,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 				if (!document.getElementById("ieupgrade")){
 					var upgradeDiv = document.createElement("div");
 					upgradeDiv.id = 'ieupgrade';
-					upgradeDiv.innerHTML = 'The audio on WordReference works best with the latest version of Internet Explorer. <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie/">Upgrade now!</a>';
+					upgradeDiv.innerHTML = 'L'audio sur WordReference marche mieux avec la dernière version d'Internet Explorer. <a target="_blank" href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie/">Passez à la dernière version maintenant !</a>';
 					document.getElementById("listen_widget").parentElement.insertBefore(upgradeDiv, document.getElementById("listen_widget").nextSibling);
 				}
 			}
@@ -1964,8 +2147,8 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
 
 <script>
-    var dMatch = false;
-    var fMatch = false;
+    var dMatch = true;
+    var fMatch = true;
     var isReverseDict = false;
     var isVirtualDict = false;
 
@@ -2008,15 +2191,15 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
     "@type": "ListItem",
     "position": 1,
     "item": {
-        "@id": "//www.wordreference.com/es/en/translation.asp?spen=",
-        "name": "Spanish-English Dictionary"
+        "@id": "//www.wordreference.com/fren/",
+        "name": "Dictionnaire Français-Anglais"
     }
     },{
         "@type": "ListItem",
         "position": 2,
         "item": {
-        "@id": "//www.wordreference.com/es/en/translation.asp?spen=fakeword",
-        "name": "fakeword"
+        "@id": "//www.wordreference.com/fren/vérifier",
+        "name": "vérifier"
         }
     }]
 }
@@ -2038,7 +2221,17 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
 
                         'tabWR': {
                             caption: "WordReference",
-                            url: `/dictionary/translation?dict=esen&w=fakeword`,
+                            url: `/fren/v%C3%A9rifier`,
+                        },
+                    
+                        'tabHC': {
+                            caption: "Collins",
+                            url: `/dictionary/GetCollins/fren/vérifier`,
+                        },
+                    
+                        'tabRev': {
+                            caption: "WR Reverse (30)",
+                            url: `/dictionary/reverse?dict=fren&w=vérifier`,
                         },
                                 };
                     
@@ -2065,9 +2258,7 @@ tr.even:hover, tr.odd:hover, tr.evenEx:hover, tr.oddEx:hover{background-color:go
                     if (idWRD && idWRD.innerHTML.length < 10) { loadCollinsJS(); }
                 }
             }, false, true);
-
-                window.swiper.selectSlide(0);
-                        });
+        });
     </script>
     <script>
         function loadCollinsJS() {

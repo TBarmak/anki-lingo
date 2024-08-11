@@ -54,10 +54,10 @@ def parse_first_table(table):
             # Replace is necessary for correct formatting of import csv
             if len(to_example) > 0:
                 entry['nativeExampleSentences'].append(
-                    to_example[0].span.i.text.strip().replace("\n", ""))
+                    to_example[0].text.strip().replace("\n", ""))
             if len(from_example) > 0:
                 entry['targetExampleSentences'].append(
-                    from_example[0].span.text.strip().replace("\n", ""))
+                    from_example[0].text.strip().replace("\n", ""))
     if entry:
         entries.append(entry)
     return entries

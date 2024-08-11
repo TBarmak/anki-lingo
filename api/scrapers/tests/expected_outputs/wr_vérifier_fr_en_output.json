@@ -1,0 +1,48 @@
+[
+  {
+    "definition": "(prouver par les faits)",
+    "nativeExampleSentences": [
+      "We always confirm our hypotheses in the field."
+    ],
+    "pos": "vtr",
+    "targetExampleSentences": [
+      "Nous vérifions toujours nos hypothèses sur le terrain."
+    ],
+    "translations": ["verify", "put to the test", "check"],
+    "word": "vérifier⇒"
+  },
+  {
+    "definition": "(contrôler) (eyesight)",
+    "nativeExampleSentences": [
+      "You should have your eyes tested after the age of 40."
+    ],
+    "pos": "vtr",
+    "targetExampleSentences": [
+      "Il faut faire vérifier sa vue après quarante ans."
+    ],
+    "translations": ["check", "keep a close eye on"],
+    "word": "vérifier"
+  },
+  {
+    "definition": "(contrôler, s'assurer que)",
+    "nativeExampleSentences": [
+      "I'm going to check that the candidate really worked in that bank, as he claims."
+    ],
+    "pos": "vtr",
+    "targetExampleSentences": [
+      "Je vais vérifier si le candidat a bien travaillé dans cette banque, comme il le prétend."
+    ],
+    "translations": ["check", "make sure"],
+    "word": "vérifier si"
+  },
+  {
+    "definition": "(être avéré)",
+    "nativeExampleSentences": ["Our hypothesis has been proven at each test."],
+    "pos": "v pron",
+    "targetExampleSentences": [
+      "Notre hypothèse s'est vérifiée à chaque essai."
+    ],
+    "translations": ["be proven, be borne out", "be proven correct"],
+    "word": "se vérifier⇒"
+  }
+]
