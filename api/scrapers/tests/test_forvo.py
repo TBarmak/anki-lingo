@@ -1,7 +1,6 @@
 from api.scrapers.forvo import create_url, scrape_forvo
 from unittest.mock import patch, mock_open
 import os
-import unittest
 
 
 class TestForvo:

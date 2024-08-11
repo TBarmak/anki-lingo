@@ -1,14 +1,8 @@
 from api.scrapers.semanticar_br import create_url, scrape_semanticar
+from api.scrapers.tests.utils.read_expected_output import read_expected_output
 import os
-import json
 
-def read_expected_output(file_name):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(current_dir, 'expected_outputs', file_name)
 
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return json.load(file)
-    
 class TestSemanticarBR:
     def test_create_url_one_word(self):
         # Arrange
@@ -17,7 +11,7 @@ class TestSemanticarBR:
         url = create_url(word)
         # Assert
         assert url == 'https://www.semanticar.com.br/homem'
-    
+
     def test_scrape_semanticar_abacaxi(self, requests_mock):
         # Arrange
         word = 'abacaxi'
