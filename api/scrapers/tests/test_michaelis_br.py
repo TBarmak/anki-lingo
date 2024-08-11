@@ -1,14 +1,6 @@
 from api.scrapers.michaelis_br import create_url, scrape_michaelis
+from api.scrapers.tests.utils.read_expected_output import read_expected_output
 import os
-import json
-
-
-def read_expected_output(file_name):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(current_dir, 'expected_outputs', file_name)
-
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return json.load(file)
 
 
 class TestMichaelisBR:
