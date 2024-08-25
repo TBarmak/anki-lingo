@@ -6,7 +6,7 @@ Since the websites that are being scraped are dynamic, I test the code against a
 1. `cd` into the `api/scrapers/tests/mocks` folder.
 2. Call `python3` to run a python shell in the terminal.
 3. In the python shell, `import requests`.
-4. Copy the `create_url` function from the file you are trying to test, and paste it into the shell. For example,
+4. Copy the `create_url` function from the file you are trying to test, and paste it into the shell. Also, import any necessary libraries. For example,
 ```python
 def create_url(word, target_lang_abbv, native_lang_abbv):
     return f'https://www.wordreference.com/{target_lang_abbv}{native_lang_abbv}/{"%20".join(word.split())}'

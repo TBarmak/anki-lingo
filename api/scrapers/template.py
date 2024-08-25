@@ -12,4 +12,4 @@ def scrape_site(word):
     url = create_url(word)
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
-    return parse_soup(soup)
+    return parse_soup(soup), url

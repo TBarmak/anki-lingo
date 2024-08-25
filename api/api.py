@@ -1,3 +1,4 @@
+from api.scrapers.larouse_fr import scrape_larouse
 from api.scrapers.semanticar_br import scrape_semanticar
 from api.utils.format_csv import create_csv_sides
 from api.scrapers.michaelis_br import scrape_michaelis
@@ -26,37 +27,44 @@ LANGUAGE_RESOURCES = [
     {
         "name": "Word Reference",
         "route": "api/wr/",
-                "args": ["targetLang", "nativeLang", "word"],
-                "outputs": ["word", "pos", "definition", "translations", "targetExampleSentences", "nativeExampleSentences"],
-                "supportedLanguages": ["english", "español", "português", "français"]
+        "args": ["targetLang", "nativeLang", "word"],
+        "outputs": ["word", "pos", "definition", "translations", "targetExampleSentences", "nativeExampleSentences"],
+        "supportedLanguages": ["english", "español", "português", "français"]
     },
     {
         "name": "SpanishDict",
         "route": "api/spanishdict/",
-                "args": ["targetLang", "word"],
-                "outputs": ["word", "pos", "translations", "targetExampleSentences", "nativeExampleSentences"],
-                "supportedLanguages": ["english", "español"]
+        "args": ["targetLang", "word"],
+        "outputs": ["word", "pos", "translations", "targetExampleSentences", "nativeExampleSentences"],
+        "supportedLanguages": ["english", "español"]
     },
     {
         "name": "Michaelis BR",
         "route": "api/michaelis-br/",
-                "args": ["word"],
-                "outputs": ["word", "pos", "definition", "targetExampleSentences", "expression", "expressionMeaning"],
-                "supportedLanguages": ["português"]
+        "args": ["word"],
+        "outputs": ["word", "pos", "definition", "targetExampleSentences", "expression", "expressionMeaning"],
+        "supportedLanguages": ["português"]
     },
     {
         "name": "Forvo",
         "route": "api/forvo/",
-                "args": ["targetLang", "word"],
-                "outputs": ["audioFilenames"],
-                "supportedLanguages": ["français", "português", "español", "english"]
+        "args": ["targetLang", "word"],
+        "outputs": ["audioFilenames"],
+        "supportedLanguages": ["français", "português", "español", "english"]
     },
     {
         "name": "Semanticar BR",
         "route": "api/semanticar-br/",
-                "args": ["word"],
-                "outputs": ["targetExampleSentences"],
-                "supportedLanguages": ["português"]
+        "args": ["word"],
+        "outputs": ["targetExampleSentences"],
+        "supportedLanguages": ["português"]
+    },
+    {
+        "name": "Larouse FR",
+        "route": "api/larouse-fr/",
+        "args": ["word"],
+        "outputs": ["definition", "targetExampleSentences"],
+        "supportedLanguages": ["français"]
     }
 ]
 
@@ -104,6 +112,11 @@ def create_app():
     @app.route('/api/forvo/<target_lang>/<word>')
     def get_forvo_audio(target_lang, word):
         scraped_data, url = scrape_forvo(word, target_lang)
+        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+
+    @app.route('/api/larouse-fr/<word>')
+    def get_larouse_fr_word(word):
+        scraped_data, url = scrape_larouse(word)
         return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
 
     @app.route('/api/format-csv', methods=['POST'])

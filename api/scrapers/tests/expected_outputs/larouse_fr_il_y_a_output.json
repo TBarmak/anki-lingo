@@ -1,0 +1,18 @@
+[
+  {
+    "definition": "Indique que quelque chose, quelqu'un existe, se trouve, est quelque part :",
+    "targetExampleSentences": ["Y a-t-il quelqu'un ici ?"]
+  },
+  {
+    "definition": "Indique la mesure, la somme, le nombre, etc. :",
+    "targetExampleSentences": ["Il y a deux kilomètres d'ici à la gare."]
+  },
+  {
+    "definition": "Indique le temps écoulé d'un moment passé au moment pris pour référence :",
+    "targetExampleSentences": ["Il y a trois mois que je ne l'ai pas vu."]
+  },
+  {
+    "definition": "Indique la nécessité :",
+    "targetExampleSentences": ["Il y a intérêt à agir vite.", "Il y a urgence."]
+  }
+]
