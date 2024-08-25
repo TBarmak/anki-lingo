@@ -6,7 +6,7 @@ from api.scrapers.tests.utils.read_expected_output import read_expected_output
 def get_mock_response(word):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     mock_file_path = os.path.join(
-        current_dir, 'mocks', f'larouse_fr_{word}.html')
+        current_dir, 'mocks', f'larouse_fr_{"_".join(word.split())}.html')
     response = ""
     with open(mock_file_path, 'r') as f:
         response = f.read()
@@ -59,4 +59,15 @@ class TestLarouseFR:
         assert url == f'https://www.larousse.fr/dictionnaires/francais/{word}'
 
     def test_scrape_larouse_il_y_a(self, requests_mock):
-        pass
+        # Arrange
+        phrase = 'il y a'
+        mock_response = get_mock_response(phrase)
+        requests_mock.get(
+            create_url(phrase), text=mock_response)
+        expected_response = read_expected_output(
+            f'larouse_fr_il_y_a_output.json')
+        # Act
+        scraped_data, url = scrape_larouse(phrase)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == create_url(phrase)
