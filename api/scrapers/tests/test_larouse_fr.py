@@ -4,6 +4,7 @@ from api.scrapers.tests.utils.read_expected_output import read_expected_output
 
 
 def get_mock_response(word):
+    # TODO: This should be pulled into the utils folder, and used by all scrape test suites
     current_dir = os.path.dirname(os.path.abspath(__file__))
     mock_file_path = os.path.join(
         current_dir, 'mocks', f'larouse_fr_{"_".join(word.split())}.html')
@@ -34,36 +35,33 @@ class TestLarouseFR:
         # Arrange
         word = 'avoir'
         mock_response = get_mock_response(word)
-        requests_mock.get(
-            f'https://www.larousse.fr/dictionnaires/francais/{word}', text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             f'larouse_fr_{word}_output.json')
         # Act
         scraped_data, url = scrape_larouse(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://www.larousse.fr/dictionnaires/francais/{word}'
+        assert url == create_url(word)
 
     def test_scrape_larouse_couteau(self, requests_mock):
         # Arrange
         word = 'couteau'
         mock_response = get_mock_response(word)
-        requests_mock.get(
-            f'https://www.larousse.fr/dictionnaires/francais/{word}', text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             f'larouse_fr_{word}_output.json')
         # Act
         scraped_data, url = scrape_larouse(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://www.larousse.fr/dictionnaires/francais/{word}'
+        assert url == create_url(word)
 
     def test_scrape_larouse_il_y_a(self, requests_mock):
         # Arrange
         phrase = 'il y a'
         mock_response = get_mock_response(phrase)
-        requests_mock.get(
-            create_url(phrase), text=mock_response)
+        requests_mock.get(create_url(phrase), text=mock_response)
         expected_response = read_expected_output(
             f'larouse_fr_il_y_a_output.json')
         # Act
