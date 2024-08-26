@@ -3,7 +3,7 @@ import requests
 
 
 def create_url(word):
-    return f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{"%20".join(word.split())}'
+    return f"https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{'%20'.join(word.split())}"
 
 
 def reformat_to_rows(children):
@@ -14,12 +14,12 @@ def reformat_to_rows(children):
             # Only append if it contains non-whitespace characters
             if child.strip():
                 current_row.append(child)
-        elif child.name in ['br']:
+        elif child.name in ["br"]:
             if current_row:
                 rows.append(current_row)
             current_row = []
         # These tags represent new sections (ie EXPRESSÕES, INFORMAÇÕES COMPLEMENTARES, ETIMOLOGIA)
-        elif child.name in ['sm', 'sx', 'sv']:
+        elif child.name in ["sm", "sx", "sv"]:
             if current_row:
                 rows.append(current_row)
             current_row = []
@@ -37,29 +37,29 @@ def parse_acn_row(row):
     for item in row:
         if isinstance(item, str):
             definition += item
-        elif item.name in ['abt', 'eu']:
+        elif item.name in ["abt", "eu"]:
             sentences.append(item.text.strip())
-        elif item.name in ['dr', 'ra', 'rdr', 'rn', 'rmt']:
+        elif item.name in ["dr", "ra", "rdr", "rn", "rmt"]:
             definition += "<i>" + item.text + "</i>"
     # Clean up for definitions followed by sentences
     if definition.strip()[-3:] == ": .":
         definition = definition.strip()[:-3]
-    entry = {'definition': definition.strip(
-    ), 'targetExampleSentences': sentences}
+    entry = {"definition": definition.strip(
+    ), "targetExampleSentences": sentences}
     return entry
 
 
 def parse_ex_row(row):
     expression = row[0].text
     expressionMeaning = "".join([item.text for item in row[1:]])
-    entry = {'expression': expression.strip(
-    ), 'expressionMeaning': expressionMeaning.strip()}
+    entry = {"expression": expression.strip(
+    ), "expressionMeaning": expressionMeaning.strip()}
     return entry
 
 
 def parse_ra_row(row):
     definition = row[0].text + row[1]
-    entry = {'definition': definition}
+    entry = {"definition": definition}
     return entry
 
 
@@ -69,28 +69,28 @@ def parse_rows(rows):
     pos = ""
     for row in rows:
         tag = row[0].name
-        if tag in ['e1', 'ef']:
+        if tag in ["e1", "ef"]:
             word = row[0].text
-        elif tag == 'cg':
+        elif tag == "cg":
             pos = " ".join(tag.text for tag in row)
-        elif tag == 'acn':
+        elif tag == "acn":
             entry = parse_acn_row(row)
-            entry['word'] = word.strip()
-            entry['pos'] = pos.strip()
+            entry["word"] = word.strip()
+            entry["pos"] = pos.strip()
             entries.append(entry)
-        elif tag == 'ra':
+        elif tag == "ra":
             entry = parse_ra_row(row)
-            entry['word'] = word.strip()
-            entry['pos'] = pos.strip()
+            entry["word"] = word.strip()
+            entry["pos"] = pos.strip()
             entries.append(entry)
-        elif tag == 'ex':
+        elif tag == "ex":
             entry = parse_ex_row(row)
             entries.append(entry)
         elif tag == None:
-            entry = {'definition': row[0].strip(
-            ), 'word': word.strip(), 'pos': pos.strip()}
+            entry = {"definition": row[0].strip(
+            ), "word": word.strip(), "pos": pos.strip()}
             entries.append(entry)
-        elif row[0].text in ['INFORMAÇÕES COMPLEMENTARES', 'ETIMOLOGIA']:
+        elif row[0].text in ["INFORMAÇÕES COMPLEMENTARES", "ETIMOLOGIA"]:
             break
     return entries
 
@@ -98,8 +98,8 @@ def parse_rows(rows):
 def scrape_michaelis(word):
     url = create_url(word)
     r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    container = soup.find('div', {"class": "verbete bs-component"})
+    soup = BeautifulSoup(r.text, "html.parser")
+    container = soup.find("div", {"class": "verbete bs-component"})
     children = [child for child in container.children]
     rows = reformat_to_rows(children)
     parsed_rows = parse_rows(rows)

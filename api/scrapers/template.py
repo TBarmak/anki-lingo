@@ -11,5 +11,5 @@ def parse_soup(soup):
 def scrape_site(word):
     url = create_url(word)
     r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'html.parser')
+    soup = BeautifulSoup(r.text, "html.parser")
     return parse_soup(soup), url

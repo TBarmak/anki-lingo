@@ -6,46 +6,46 @@ import os
 class TestSemanticarBR:
     def test_create_url_one_word(self):
         # Arrange
-        word = 'homem'
+        word = "homem"
         # Act
         url = create_url(word)
         # Assert
-        assert url == 'https://www.semanticar.com.br/homem'
+        assert url == "https://www.semanticar.com.br/homem"
 
     def test_scrape_semanticar_abacaxi(self, requests_mock):
         # Arrange
-        word = 'abacaxi'
+        word = "abacaxi"
         current_dir = os.path.dirname(os.path.abspath(__file__))
         mock_file_path = os.path.join(
-            current_dir, 'mocks', f'semanticar_br_{word}.html')
+            current_dir, "mocks", f"semanticar_br_{word}.html")
         response = ""
-        with open(mock_file_path, 'r') as f:
+        with open(mock_file_path, "r") as f:
             response = f.read()
         requests_mock.get(
-            f'https://www.semanticar.com.br/{word}', text=response)
+            f"https://www.semanticar.com.br/{word}", text=response)
         expected_response = read_expected_output(
-            f'semanticar_br_{word}_output.json')
+            f"semanticar_br_{word}_output.json")
         # Act
         scraped_data, url = scrape_semanticar(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://www.semanticar.com.br/{word}'
+        assert url == f"https://www.semanticar.com.br/{word}"
 
     def test_scrape_semanticar_mico(self, requests_mock):
         # Arrange
-        word = 'mico'
+        word = "mico"
         current_dir = os.path.dirname(os.path.abspath(__file__))
         mock_file_path = os.path.join(
-            current_dir, 'mocks', f'semanticar_br_{word}.html')
+            current_dir, "mocks", f"semanticar_br_{word}.html")
         response = ""
-        with open(mock_file_path, 'r') as f:
+        with open(mock_file_path, "r") as f:
             response = f.read()
         requests_mock.get(
-            f'https://www.semanticar.com.br/{word}', text=response)
+            f"https://www.semanticar.com.br/{word}", text=response)
         expected_response = read_expected_output(
-            f'semanticar_br_{word}_output.json')
+            f"semanticar_br_{word}_output.json")
         # Act
         scraped_data, url = scrape_semanticar(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://www.semanticar.com.br/{word}'
+        assert url == f"https://www.semanticar.com.br/{word}"

@@ -16,9 +16,9 @@ def runner(app):
 
 def test_supported_languages(client):
     # Act
-    response = client.get('/api/supported-languages')
+    response = client.get("/api/supported-languages")
     # Assert
     keys = list(response.json.keys())
-    languages = response.json['languages']
+    languages = response.json["languages"]
     assert len(response.json.keys()) == 1
     assert len(set(languages) - set(["Français", "Português", "Español", "English"])) == 0

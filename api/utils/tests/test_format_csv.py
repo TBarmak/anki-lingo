@@ -34,12 +34,12 @@ class TestFormatCsv:
                 "targetExampleSentences": [],
                 "word": "homens"
             }]
-        fields = ['word', 'pos']
+        fields = ["word", "pos"]
         # Act
         restructured_dict = restructure_scraped_dict(scraped_word_data, fields)
         # Assert
         assert restructured_dict == {
-            'homem sm': [
+            "homem sm": [
                 {
                     "definition": "",
                     "nativeExampleSentences": [],
@@ -64,7 +64,7 @@ class TestFormatCsv:
                     "word": "homem"
                 }
             ],
-            'homens sm pl': [
+            "homens sm pl": [
                 {
                     "definition": "A humanidade.",
                     "pos": "sm pl",
@@ -106,12 +106,12 @@ class TestFormatCsv:
                 "targetExampleSentences": [],
                 "word": "homens"
             }]
-        fields = ['word']
+        fields = ["word"]
         # Act
         restructured_dict = restructure_scraped_dict(scraped_word_data, fields)
         # Assert
         assert restructured_dict == {
-            'homem': [
+            "homem": [
                 {
                     "definition": "",
                     "nativeExampleSentences": [],
@@ -136,7 +136,7 @@ class TestFormatCsv:
                     "word": "homem"
                 }
             ],
-            'homens': [
+            "homens": [
                 {
                     "definition": "A humanidade.",
                     "pos": "sm pl",
@@ -178,12 +178,12 @@ class TestFormatCsv:
                 "targetExampleSentences": [],
                 "word": "homens"
             }]
-        fields = ['pos']
+        fields = ["pos"]
         # Act
         restructured_dict = restructure_scraped_dict(scraped_word_data, fields)
         # Assert
         assert restructured_dict == {
-            'sm': [
+            "sm": [
                 {
                     "definition": "",
                     "nativeExampleSentences": [],
@@ -208,7 +208,7 @@ class TestFormatCsv:
                     "word": "homem"
                 }
             ],
-            'sm pl': [
+            "sm pl": [
                 {
                     "definition": "A humanidade.",
                     "pos": "sm pl",
@@ -250,12 +250,12 @@ class TestFormatCsv:
                 "targetExampleSentences": [],
                 "word": "homens"
             }]
-        fields = ['definition']
+        fields = ["definition"]
         # Act
         restructured_dict = restructure_scraped_dict(scraped_word_data, fields)
         # Assert
         assert restructured_dict == {
-            '': [
+            "": [
                 {
                     "definition": "",
                     "nativeExampleSentences": [],
@@ -293,7 +293,7 @@ class TestFormatCsv:
         scraped_word_data = [{
             "targetExampleSentences": ["O Homem é uma invenção dele mesmo."]
         }]
-        fields = ['word', 'pos', 'targetExampleSentences']
+        fields = ["word", "pos", "targetExampleSentences"]
         # Act
         restructured_dict = restructure_scraped_dict(scraped_word_data, fields)
         # Assert
@@ -306,7 +306,7 @@ class TestFormatCsv:
     def test_restructure_scraped_dict_no_scraped_word_data(self):
         # Arrange
         scraped_word_data = []
-        fields = ['word', 'pos']
+        fields = ["word", "pos"]
         # Act
         restructured_dict = restructure_scraped_dict(scraped_word_data, fields)
         # Assert
@@ -349,7 +349,7 @@ class TestFormatCsv:
         # Act
         formatted_entry = format_entry(entry, fields)
         # Assert
-        assert formatted_entry == ''
+        assert formatted_entry == ""
 
     def test_format_entry_multiple_fields(self):
         # Arrange
@@ -368,7 +368,7 @@ class TestFormatCsv:
             ],
             "word": "viejo"
         }
-        fields = ['targetExampleSentences', 'definition', 'translations']
+        fields = ["targetExampleSentences", "definition", "translations"]
         # Act
         formatted_entry = format_entry(entry, fields)
         # Assert
@@ -377,11 +377,11 @@ class TestFormatCsv:
     def test_format_entry_empty_entry(self):
         # Arrange
         entry = {}
-        fields = ['definition', 'pos']
+        fields = ["definition", "pos"]
         # Act
         formatted_entry = format_entry(entry, fields)
         # Assert
-        assert formatted_entry == ''
+        assert formatted_entry == ""
 
     def test_format_entry_audio_filenames(self):
         # Arrange
@@ -391,7 +391,7 @@ class TestFormatCsv:
                 "pronunciation_es_es_viejo2.ogg"
             ]
         }
-        fields = ['definition', 'audioFilenames']
+        fields = ["definition", "audioFilenames"]
         # Act
         formatted_entry = format_entry(entry, fields)
         # Assert
@@ -414,7 +414,7 @@ class TestFormatCsv:
             ],
             "word": "viejo"
         }
-        fields = ['definition', 'targetExampleSentences', 'translations']
+        fields = ["definition", "targetExampleSentences", "translations"]
         # Act
         formatted_entry = format_entry(entry, fields)
         # Assert
@@ -437,7 +437,7 @@ class TestFormatCsv:
             ],
             "word": "viejo"
         }
-        fields = ['targetExampleSentences']
+        fields = ["targetExampleSentences"]
         # Act
         formatted_entry = format_entry(entry, fields)
         # Assert
@@ -797,7 +797,7 @@ class TestFormatCsv:
                     "word": "viejo"
                 },
             ],
-            'urls': ['https://www.spanishdict.com/translate/viejo?langFrom=es']
+            "urls": ["https://www.spanishdict.com/translate/viejo?langFrom=es"]
         }
         card_format = {
             "sides": [
@@ -822,7 +822,7 @@ class TestFormatCsv:
         csv_sides = create_csv_sides(word_data, card_format)
         # Assert
         assert csv_sides == [
-            'viejo',
+            "viejo",
             "viejo adj<br>(de mucha edad)<br>old<br>En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo. Hay un árbol muy viejo junto al lago.<br>ⓘEsta oración no es una traducción de la original.  Despite being old, John played tennis for an hour every day.<br>(objeto: desgastado)<br>old, worn out<br>Voy a cambiar mi coche viejo por uno nuevo.<br>I want to change my old (or:  worn-out) car for a new one.<br><br><a href='https://www.spanishdict.com/translate/viejo?langFrom=es'>https://www.spanishdict.com/translate/viejo?langFrom=es</a>"
         ]
 
@@ -861,7 +861,7 @@ class TestFormatCsv:
                     "word": "viejo"
                 },
             ],
-            'urls': ['https://www.spanishdict.com/translate/viejo?langFrom=es']
+            "urls": ["https://www.spanishdict.com/translate/viejo?langFrom=es"]
         }
         card_format = {
             "sides": [
@@ -889,9 +889,9 @@ class TestFormatCsv:
         csv_sides = create_csv_sides(word_data, card_format)
         # Assert
         assert csv_sides == [
-            'viejo',
+            "viejo",
             "viejo adj<br>(de mucha edad)<br>old<br>(objeto: desgastado)<br>old, worn out<br><br><a href='https://www.spanishdict.com/translate/viejo?langFrom=es'>https://www.spanishdict.com/translate/viejo?langFrom=es</a>",
-            'En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo. Hay un árbol muy viejo junto al lago.<br>Voy a cambiar mi coche viejo por uno nuevo.'
+            "En 2007, Tomoji Tanabe fue designado por Guinness como el hombre más viejo del mundo. Hay un árbol muy viejo junto al lago.<br>Voy a cambiar mi coche viejo por uno nuevo."
         ]
 
     def test_create_csv_sides_no_sides(self):
@@ -922,7 +922,7 @@ class TestFormatCsv:
         # Act
         csv_sides = create_csv_sides(word_data, card_format)
         # Assert
-        assert csv_sides == ['viejo']
+        assert csv_sides == ["viejo"]
 
     def test_create_csv_side_no_input_word(self):
         # Arrange
@@ -992,7 +992,7 @@ class TestFormatCsv:
         # Act
         csv_sides = create_csv_sides(word_data, card_format)
         # Assert
-        assert csv_sides == ['viejo', '']
+        assert csv_sides == ["viejo", ""]
 
     def test_create_csv_sides_empty_scraped_data(self):
         word_data = {
@@ -1019,4 +1019,4 @@ class TestFormatCsv:
         # Act
         csv_sides = create_csv_sides(word_data, card_format)
         # Assert
-        assert csv_sides == ['viejo', '']
+        assert csv_sides == ["viejo", ""]
