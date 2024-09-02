@@ -1,6 +1,14 @@
+from api.scrapers.tests.utils.get_mock_response import get_mock_response
 from api.scrapers.word_reference import create_url, scrape_word_reference
 from api.scrapers.tests.utils.read_expected_output import read_expected_output
-import os
+
+
+def get_mock_response_filename(word, target_lang_abbv, native_lang_abbv):
+    return f"wr_{word}_{target_lang_abbv}_{native_lang_abbv}.html"
+
+
+def get_expected_response_filename(word, target_lang_abbv, native_lang_abbv):
+    return f"wr_{word}_{target_lang_abbv}_{native_lang_abbv}_output.json"
 
 
 class TestWordReference:
@@ -29,88 +37,72 @@ class TestWordReference:
         word = "abacaxi"
         target_lang = "Português"
         native_lang = "English"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", "wr_abacaxi_pt_en.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'pt', 'en'))
         requests_mock.get(
-            f"https://www.wordreference.com/pten/{word}", text=response)
+            f"https://www.wordreference.com/pten/{word}", text=mock_response)
         expected_response = read_expected_output(
-            "wr_abacaxi_pt_en_output.json")
+            get_expected_response_filename(word, 'pt', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.wordreference.com/pten/{word}"
+        assert url == create_url(word, 'pt', 'en')
 
     def test_scrape_word_reference_avoir(self, requests_mock):
         # Arrange
         word = "avoir"
         target_lang = "Français"
         native_lang = "English"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", "wr_avoir_fr_en.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'fr', 'en'))
         requests_mock.get(
-            f"https://www.wordreference.com/fren/{word}", text=response)
+            f"https://www.wordreference.com/fren/{word}", text=mock_response)
         expected_response = read_expected_output(
-            "wr_avoir_fr_en_output.json")
+            get_expected_response_filename(word, 'fr', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.wordreference.com/fren/{word}"
+        assert url == create_url(word, 'fr', 'en')
 
     def test_scrape_word_reference_vérifier(self, requests_mock):
         # Arrange
         word = "vérifier"
         target_lang = "Français"
         native_lang = "English"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", "wr_vérifier_fr_en.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'fr', 'en'))
         requests_mock.get(
-            f"https://www.wordreference.com/fren/{word}", text=response)
+            f"https://www.wordreference.com/fren/{word}", text=mock_response)
         expected_response = read_expected_output(
-            "wr_vérifier_fr_en_output.json")
+            get_expected_response_filename(word, 'fr', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.wordreference.com/fren/{word}"
+        assert url == create_url(word, 'fr', 'en')
 
     def test_scrape_word_reference_viejo(self, requests_mock):
         # Arrange
         word = "viejo"
         target_lang = "Español"
         native_lang = "English"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", "wr_viejo_es_en.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'es', 'en'))
         requests_mock.get(
-            f"https://www.wordreference.com/esen/{word}", text=response)
+            f"https://www.wordreference.com/esen/{word}", text=mock_response)
         expected_response = read_expected_output(
-            "wr_viejo_es_en_output.json")
+            get_expected_response_filename(word, 'es', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.wordreference.com/esen/{word}"
+        assert url == create_url(word, 'es', 'en')
 
     def test_scrape_word_reference_bad_target_lang(self):
         # Arrange
@@ -141,17 +133,13 @@ class TestWordReference:
         word = "fakeword"
         target_lang = "Español"
         native_lang = "English"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", "wr_fakeword_es_en.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'es', 'en'))
         requests_mock.get(
-            f"https://www.wordreference.com/esen/{word}", text=response)
+            f"https://www.wordreference.com/esen/{word}", text=mock_response)
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == []
-        assert url == f"https://www.wordreference.com/esen/{word}"
+        assert url == create_url(word, 'es', 'en')

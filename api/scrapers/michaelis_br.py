@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
+from urllib.parse import quote
 
 
 def create_url(word):
-    return f"https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{'%20'.join(word.split())}"
+    return f"https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{quote(word)}"
 
 
 def reformat_to_rows(children):

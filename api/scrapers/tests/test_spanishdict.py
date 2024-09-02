@@ -1,6 +1,14 @@
 from api.scrapers.spanishdict import create_url, scrape_spanishdict
+from api.scrapers.tests.utils.get_mock_response import get_mock_response
 from api.scrapers.tests.utils.read_expected_output import read_expected_output
-import os
+
+
+def get_mock_response_filename(word, target_lang_abbv):
+    return f"spanishdict_{'_'.join(word.split())}_{target_lang_abbv}.html"
+
+
+def get_expected_response_filename(word, target_lang_abbv):
+    return f"spanishdict_{'_'.join(word.split())}_{target_lang_abbv}_output.json"
 
 
 class TestSpanishdict:
@@ -44,58 +52,46 @@ class TestSpanishdict:
         # Arrange
         word = "viejo"
         target_lang = "Español"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", f"spanishdict_{word}_es.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
-            requests_mock.get(
-                f"https://www.spanishdict.com/translate/{word}?langFrom=es", text=response)
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'es'))
+        requests_mock.get(
+            f"https://www.spanishdict.com/translate/{word}?langFrom=es", text=mock_response)
         expected_response = read_expected_output(
-            f"spanishdict_{word}_es_output.json")
+            get_expected_response_filename(word, 'es'))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.spanishdict.com/translate/{word}?langFrom=es"
+        assert url == create_url(word, 'es')
 
     def test_scrape_spanishdict_poner(self, requests_mock):
         # Arrange
         word = "poner"
         target_lang = "Español"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", f"spanishdict_{word}_es.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
-            requests_mock.get(
-                f"https://www.spanishdict.com/translate/{word}?langFrom=es", text=response)
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'es'))
+        requests_mock.get(
+            f"https://www.spanishdict.com/translate/{word}?langFrom=es", text=mock_response)
         expected_response = read_expected_output(
-            f"spanishdict_{word}_es_output.json")
+            get_expected_response_filename(word, 'es'))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.spanishdict.com/translate/{word}?langFrom=es"
+        assert url == create_url(word, 'es')
 
     def test_scrape_spanishdict_think(self, requests_mock):
         # Arrange
         word = "think"
         target_lang = "English"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", f"spanishdict_{word}_en.html")
-        response = ""
-        with open(mock_file_path, "r") as f:
-            response = f.read()
-            requests_mock.get(
-                f"https://www.spanishdict.com/translate/{word}?langFrom=en", text=response)
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, 'en'))
+        requests_mock.get(
+            f"https://www.spanishdict.com/translate/{word}?langFrom=en", text=mock_response)
         expected_response = read_expected_output(
-            f"spanishdict_{word}_en_output.json")
+            get_expected_response_filename(word, 'en'))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.spanishdict.com/translate/{word}?langFrom=en" 
+        assert url == create_url(word, 'en')

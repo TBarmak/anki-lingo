@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+from urllib.parse import quote
 
 LANGUAGE_TO_ABBV = {
     "english": "en",
@@ -9,7 +10,7 @@ LANGUAGE_TO_ABBV = {
 
 def create_url(word, target_lang_abbv):
     '''Creates the URL for SpanishDict using the word and target language abbreviation'''
-    return f"https://www.spanishdict.com/translate/{'%20'.join(word.split())}?langFrom={target_lang_abbv}"
+    return f"https://www.spanishdict.com/translate/{quote(word)}?langFrom={target_lang_abbv}"
 
 
 def parse_pos_block(pos_block, target_lang_abbv):

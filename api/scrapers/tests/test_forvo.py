@@ -31,6 +31,7 @@ class TestForvo:
         # Assert
         assert url == "https://forvo.com/word/ba%C3%AEller/#fr"
 
+    # TODO: Update to mock requests like the other tests
     @patch("urllib.request.urlopen")
     @patch("urllib.request.Request")
     @patch("urllib.request.install_opener")

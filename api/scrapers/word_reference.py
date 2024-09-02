@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+from urllib.parse import quote
 
 LANGUAGE_TO_ABBV = {
     "english": "en",
@@ -10,7 +11,7 @@ LANGUAGE_TO_ABBV = {
 
 
 def create_url(word, target_lang_abbv, native_lang_abbv):
-    return f"https://www.wordreference.com/{target_lang_abbv}{native_lang_abbv}/{'%20'.join(word.split())}"
+    return f"https://www.wordreference.com/{target_lang_abbv}{native_lang_abbv}/{quote(word)}"
 
 
 def parse_first_table(table):
