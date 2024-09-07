@@ -53,42 +53,42 @@ class TestSpanishdict:
         word = "viejo"
         target_lang = "Español"
         mock_response = get_mock_response(
-            get_mock_response_filename(word, 'es'))
-        requests_mock.get(create_url(word, 'es'), text=mock_response)
+            get_mock_response_filename(word, "es"))
+        requests_mock.get(create_url(word, "es"), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_output_filename(word, 'es'))
+            get_expected_output_filename(word, "es"))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == create_url(word, 'es')
+        assert url == create_url(word, "es")
 
     def test_scrape_spanishdict_poner(self, requests_mock):
         # Arrange
         word = "poner"
         target_lang = "Español"
         mock_response = get_mock_response(
-            get_mock_response_filename(word, 'es'))
-        requests_mock.get(create_url(word, 'es'), text=mock_response)
+            get_mock_response_filename(word, "es"))
+        requests_mock.get(create_url(word, "es"), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_output_filename(word, 'es'))
+            get_expected_output_filename(word, "es"))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == create_url(word, 'es')
+        assert url == create_url(word, "es")
 
     def test_scrape_spanishdict_think(self, requests_mock):
         # Arrange
         word = "think"
         target_lang = "English"
         mock_response = get_mock_response(
-            get_mock_response_filename(word, 'en'))
-        requests_mock.get(create_url(word, 'en'), text=mock_response)
+            get_mock_response_filename(word, "en"))
+        requests_mock.get(create_url(word, "en"), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_output_filename(word, 'en'))
+            get_expected_output_filename(word, "en"))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
         assert scraped_data == expected_response
-        assert url == create_url(word, 'en')
+        assert url == create_url(word, "en")

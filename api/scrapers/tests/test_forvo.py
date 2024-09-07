@@ -43,8 +43,8 @@ class TestForvo:
         word = "avoir"
         language = "français"
         mock_forvo_response = get_mock_response(
-            get_mock_response_filename(word, 'fr'))
-        requests_mock.get(create_url(word, 'fr'), text=mock_forvo_response)
+            get_mock_response_filename(word, "fr"))
+        requests_mock.get(create_url(word, "fr"), text=mock_forvo_response)
         mock_audio_response = ""
         mock_urlopen.return_value.read.return_value = mock_audio_response.encode(
             "UTF-8")
@@ -57,4 +57,4 @@ class TestForvo:
             "audio_files/pronunciation_fr_avoir.ogg", "b+w")
         assert audio_filenames == [
             {"audioFilenames": ["pronunciation_fr_avoir.ogg"]}]
-        assert url == create_url(word, 'fr')
+        assert url == create_url(word, "fr")

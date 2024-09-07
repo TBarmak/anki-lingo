@@ -26,7 +26,7 @@ def test_english_resources(client):
     # Act
     response = client.get("/api/resources/english")
     # Assert
-    resources = {obj['name'] for obj in response.json["resources"]}
+    resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
     assert resources == {"Word Reference", "SpanishDict", "Forvo"}
 
@@ -35,7 +35,7 @@ def test_español_resources(client):
     # Act
     response = client.get("/api/resources/español")
     # Assert
-    resources = {obj['name'] for obj in response.json["resources"]}
+    resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
     assert resources == {"Word Reference", "SpanishDict", "Forvo"}
 
@@ -44,7 +44,7 @@ def test_português_resources(client):
     # Act
     response = client.get("/api/resources/português")
     # Assert
-    resources = {obj['name'] for obj in response.json["resources"]}
+    resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
     assert resources == {"Word Reference",
                          "Michaelis BR", "Forvo", "Semanticar BR"}
@@ -54,7 +54,7 @@ def test_français_resources(client):
     # Act
     response = client.get("/api/resources/français")
     # Assert
-    resources = {obj['name'] for obj in response.json["resources"]}
+    resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
     assert resources == {"Word Reference", "Forvo", "Larouse FR"}
 
