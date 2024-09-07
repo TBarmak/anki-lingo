@@ -29,10 +29,11 @@ class TestSemanticarBR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url = scrape_semanticar(word)
+        scraped_data, url, status_code = scrape_semanticar(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.semanticar.com.br/{word}"
+        assert url == create_url(word)
+        assert status_code == 200
 
     def test_scrape_semanticar_mico(self, requests_mock):
         # Arrange
@@ -43,7 +44,19 @@ class TestSemanticarBR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url = scrape_semanticar(word)
+        scraped_data, url, status_code = scrape_semanticar(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f"https://www.semanticar.com.br/{word}"
+        assert url == create_url(word)
+        assert status_code == 200
+
+    def test_scrape_semanticar_unauthorized(self, requests_mock):
+        # Arrange
+        word = "mico"
+        requests_mock.get(create_url(word), status_code=403)
+        # Act
+        scraped_data, url, status_code = scrape_semanticar(word)
+        # Assert
+        assert scraped_data == []
+        assert url == create_url(word)
+        assert status_code == 403

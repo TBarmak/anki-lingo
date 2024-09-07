@@ -37,10 +37,11 @@ class TestMichaelisBR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url = scrape_michaelis(word)
+        scraped_data, url, status_code = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word)
+        assert status_code == 200
 
     def test_scrape_michaelis_fiador(self, requests_mock):
         # Arrange
@@ -50,10 +51,11 @@ class TestMichaelisBR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url = scrape_michaelis(word)
+        scraped_data, url, status_code = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word)
+        assert status_code == 200
 
     def test_scrape_michaelis_mofo(self, requests_mock):
         # Arrange
@@ -63,10 +65,11 @@ class TestMichaelisBR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url = scrape_michaelis(word)
+        scraped_data, url, status_code = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word)
+        assert status_code == 200
 
     def test_scrape_michaelis_inegável(self, requests_mock):
         # Arrange
@@ -76,7 +79,19 @@ class TestMichaelisBR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url = scrape_michaelis(word)
+        scraped_data, url, status_code = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word)
+        assert status_code == 200
+
+    def test_scrape_michaelis_unauthorized(self, requests_mock):
+        # Arrange
+        word = "inegável"
+        requests_mock.get(create_url(word), status_code=403)
+        # Act
+        scraped_data, url, status_code = scrape_michaelis(word)
+        # Assert
+        assert scraped_data == []
+        assert url == create_url(word)
+        assert status_code == 403
