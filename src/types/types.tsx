@@ -8,10 +8,12 @@ export interface InputFields {
 export interface LanguageResource {
   name: string;
   route: string;
+  healthRoute: string;
   args: ResourceArgs[];
   outputs: string[];
   supportedLanguages: string[];
   isSelected?: boolean;
+  isHealthy?: boolean;
 }
 
 export enum ResourceArgs {

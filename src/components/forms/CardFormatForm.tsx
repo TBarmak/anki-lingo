@@ -37,7 +37,7 @@ export default function CardFormatForm({
   const MAX_SIDES = 5;
 
   useEffect(() => {
-    fetch("/api/field-mapping")
+    fetch("api/field-mapping")
       .then((res) => res.json())
       .then((data) => setFieldMapping(data));
   }, []);
@@ -76,7 +76,7 @@ export default function CardFormatForm({
   }
 
   function formatCSV() {
-    fetch("/api/format-csv", {
+    fetch("api/format-csv", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

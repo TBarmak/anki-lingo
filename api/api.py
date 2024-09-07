@@ -27,6 +27,7 @@ LANGUAGE_RESOURCES = [
     {
         "name": "Word Reference",
         "route": "api/wr/",
+        "healthRoute": "api/wr/français/english/vérifier",
         "args": ["targetLang", "nativeLang", "word"],
         "outputs": ["word", "pos", "definition", "translations", "targetExampleSentences", "nativeExampleSentences"],
         "supportedLanguages": ["english", "español", "português", "français"]
@@ -34,6 +35,7 @@ LANGUAGE_RESOURCES = [
     {
         "name": "SpanishDict",
         "route": "api/spanishdict/",
+        "healthRoute": "api/spanishdict/español/hablar",
         "args": ["targetLang", "word"],
         "outputs": ["word", "pos", "translations", "targetExampleSentences", "nativeExampleSentences"],
         "supportedLanguages": ["english", "español"]
@@ -41,6 +43,7 @@ LANGUAGE_RESOURCES = [
     {
         "name": "Michaelis BR",
         "route": "api/michaelis-br/",
+        "healthRoute": "api/michaelis-br/abacaxi",
         "args": ["word"],
         "outputs": ["word", "pos", "definition", "targetExampleSentences", "expression", "expressionMeaning"],
         "supportedLanguages": ["português"]
@@ -48,6 +51,7 @@ LANGUAGE_RESOURCES = [
     {
         "name": "Forvo",
         "route": "api/forvo/",
+        "healthRoute": "api/forvo/português/abacaxi",
         "args": ["targetLang", "word"],
         "outputs": ["audioFilenames"],
         "supportedLanguages": ["français", "português", "español", "english"]
@@ -55,6 +59,7 @@ LANGUAGE_RESOURCES = [
     {
         "name": "Semanticar BR",
         "route": "api/semanticar-br/",
+        "healthRoute": "api/semanticar-br/abacaxi",
         "args": ["word"],
         "outputs": ["targetExampleSentences"],
         "supportedLanguages": ["português"]
@@ -62,6 +67,7 @@ LANGUAGE_RESOURCES = [
     {
         "name": "Larouse FR",
         "route": "api/larouse-fr/",
+        "healthRoute": "api/larouse-fr/homme",
         "args": ["word"],
         "outputs": ["definition", "targetExampleSentences"],
         "supportedLanguages": ["français"]

@@ -25,9 +25,6 @@ export default function ResourceForm({
   setExportFields,
 }: Props) {
   const [supportedLanguages, setSupportedLanguages] = useState<string[]>([]);
-  const [languageResources, setLanguageResources] = useState<
-    LanguageResource[]
-  >([]);
   const [inputFields, setInputFields] = useState<InputFields>({
     words: "",
     targetLanguage: "",
@@ -37,25 +34,35 @@ export default function ResourceForm({
   const [errors, setErrors] = useState<FormErrors>({} as FormErrors);
 
   useEffect(() => {
-    fetch("/api/supported-languages")
+    fetch("api/supported-languages")
       .then((res) => res.json())
       .then((data) => setSupportedLanguages(data.languages));
   }, []);
 
   useEffect(() => {
+    // setInputFields({ ...inputFields, languageResources: [] });
     const language = inputFields.targetLanguage;
     if (language) {
-      fetch(`/api/resources/${inputFields.targetLanguage}`)
+      fetch(`api/resources/${inputFields.targetLanguage}`)
         .then((res) => res.json())
-        .then((data) => setLanguageResources(data.resources));
+        .then(async (data) => {
+          const healthPromises: Promise<boolean>[] = data.resources.map(
+            (resource: LanguageResource) => {
+              return new Promise((res) => {
+                fetch(resource.healthRoute).then((response) => {
+                  resource["isHealthy"] = response.ok;
+                  res(true);
+                });
+              });
+            }
+          );
+          await Promise.all(healthPromises);
+          setInputFields({ ...inputFields, languageResources: data.resources });
+        });
     } else {
-      setLanguageResources([]);
+      setInputFields({ ...inputFields, languageResources: [] });
     }
   }, [inputFields.targetLanguage]);
-
-  useEffect(() => {
-    setInputFields({ ...inputFields, languageResources: languageResources });
-  }, [languageResources]);
 
   useEffect(() => {
     const exportFields = ([] as string[]).concat(
@@ -97,10 +104,19 @@ export default function ResourceForm({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
-    const newInputFields: InputFields = {
-      ...inputFields,
-      [e.target.name]: e.target.value,
-    };
+    let newInputFields: InputFields;
+    if (e.target.name === "targetLanguage") {
+      newInputFields = {
+        ...inputFields,
+        languageResources: [],
+        [e.target.name]: e.target.value,
+      };
+    } else {
+      newInputFields = {
+        ...inputFields,
+        [e.target.name]: e.target.value,
+      };
+    }
 
     // Clear form errors that are no longer present
     const newErrors = validateForm(newInputFields);
@@ -295,11 +311,12 @@ export default function ResourceForm({
                             <MdCheckBoxOutlineBlank color="#162e50" size={24} />
                           )}
                         </div>
-                        {resource.name}
+                        {resource.name} -{" "}
+                        {resource.isHealthy ? "healthy" : "bad"}
                       </motion.label>
                     );
                   })}
-                  {languageResources.length > 0 && (
+                  {inputFields.languageResources.length > 0 && (
                     <FormError message={errors.languageResources} />
                   )}
                 </motion.div>
