@@ -1,6 +1,10 @@
 from api.scrapers.forvo import create_url, scrape_forvo
 from unittest.mock import patch, mock_open
-import os
+from api.scrapers.tests.utils.get_mock_response import get_mock_response
+
+
+def get_mock_response_filename(word, lang_abbv):
+    return f"forvo_{word}_{lang_abbv}.html"
 
 
 class TestForvo:
@@ -31,21 +35,18 @@ class TestForvo:
         # Assert
         assert url == "https://forvo.com/word/ba%C3%AEller/#fr"
 
-    # TODO: Update to mock requests like the other tests
     @patch("urllib.request.urlopen")
     @patch("urllib.request.Request")
     @patch("urllib.request.install_opener")
-    def test_scrape_forvo_avoir(self, mock_install_opener, mock_request, mock_urlopen):
+    def test_scrape_forvo_avoir(self, mock_install_opener, mock_request, mock_urlopen, requests_mock):
         # Arrange
         word = "avoir"
         language = "français"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, "mocks", f"forvo_{word}_fr.html")
-        mock_response = ""
-        with open(mock_file_path, "r") as f:
-            mock_response = f.read()
-        mock_urlopen.return_value.read.return_value = mock_response.encode(
+        mock_forvo_response = get_mock_response(
+            get_mock_response_filename(word, 'fr'))
+        requests_mock.get(create_url(word, 'fr'), text=mock_forvo_response)
+        mock_audio_response = ""
+        mock_urlopen.return_value.read.return_value = mock_audio_response.encode(
             "UTF-8")
         mock_file_open = mock_open()
         # Act
@@ -56,4 +57,4 @@ class TestForvo:
             "audio_files/pronunciation_fr_avoir.ogg", "b+w")
         assert audio_filenames == [
             {"audioFilenames": ["pronunciation_fr_avoir.ogg"]}]
-        assert url == "https://forvo.com/word/avoir/#fr"
+        assert url == create_url(word, 'fr')
