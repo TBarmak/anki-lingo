@@ -72,74 +72,74 @@ LANGUAGE_RESOURCES = [
 def create_app():
     app = Flask(__name__)
 
-    @app.route('/api/supported-languages')
+    @app.route("/api/supported-languages")
     def get_languages():
         supported_languages = [language.capitalize(
-        ) for resource in LANGUAGE_RESOURCES for language in resource['supportedLanguages']]
-        return {'languages': sorted(list(set(supported_languages)))}
+        ) for resource in LANGUAGE_RESOURCES for language in resource["supportedLanguages"]]
+        return {"languages": sorted(list(set(supported_languages)))}
 
-    @app.route('/api/resources/<language>')
+    @app.route("/api/resources/<language>")
     def get_resources(language):
         resources = filter(lambda x: language.lower()
-                           in x['supportedLanguages'], LANGUAGE_RESOURCES)
-        return {'resources': list(resources)}
+                           in x["supportedLanguages"], LANGUAGE_RESOURCES)
+        return {"resources": list(resources)}
 
-    @app.route('/api/field-mapping')
+    @app.route("/api/field-mapping")
     def get_field_mapping():
         return FLASHCARD_FIELDS
 
-    @app.route('/api/wr/<target_lang>/<native_lang>/<word>')
+    @app.route("/api/wr/<target_lang>/<native_lang>/<word>")
     def get_wr_word(target_lang, native_lang, word):
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
-        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+        return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}
 
-    @app.route('/api/spanishdict/<target_lang>/<word>')
+    @app.route("/api/spanishdict/<target_lang>/<word>")
     def get_spanishdict_word(target_lang, word):
         scraped_data, url = scrape_spanishdict(word, target_lang)
-        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+        return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}
 
-    @app.route('/api/michaelis-br/<word>')
+    @app.route("/api/michaelis-br/<word>")
     def get_michaelis_br_word(word):
         scraped_data, url = scrape_michaelis(word)
-        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+        return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}
 
-    @app.route('/api/semanticar-br/<word>')
+    @app.route("/api/semanticar-br/<word>")
     def get_semanticar_br_word(word):
         scraped_data, url = scrape_semanticar(word)
-        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+        return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}
 
-    @app.route('/api/forvo/<target_lang>/<word>')
+    @app.route("/api/forvo/<target_lang>/<word>")
     def get_forvo_audio(target_lang, word):
         scraped_data, url = scrape_forvo(word, target_lang)
-        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+        return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}
 
-    @app.route('/api/larouse-fr/<word>')
+    @app.route("/api/larouse-fr/<word>")
     def get_larouse_fr_word(word):
         scraped_data, url = scrape_larouse(word)
-        return {'inputWord': word, 'scrapedWordData': scraped_data, 'url': url}
+        return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}
 
-    @app.route('/api/format-csv', methods=['POST'])
+    @app.route("/api/format-csv", methods=["POST"])
     def format_csv():
         req = request.json
         hash = hashlib.sha256(str(req).encode()).hexdigest()
-        zip_filename = f'anki-{hash}.zip'
-        audio_filepath = 'audio_files/'
-        output_filepath = os.getcwd() + '/zip_files/'
+        zip_filename = f"anki-{hash}.zip"
+        audio_filepath = "audio_files/"
+        output_filepath = os.getcwd() + "/zip_files/"
         rows = []
-        for word_data in req['scrapedData']:
-            audio_filenames = [filename for item in word_data['scrapedWordData']
-                               for filename in item.get('audioFilenames', [])]
-            with ZipFile(output_filepath + zip_filename, 'a') as zip_object:
+        for word_data in req["scrapedData"]:
+            audio_filenames = [filename for item in word_data["scrapedWordData"]
+                               for filename in item.get("audioFilenames", [])]
+            with ZipFile(output_filepath + zip_filename, "a") as zip_object:
                 for audio_filename in audio_filenames:
                     zip_object.write(audio_filepath + audio_filename,
-                                     arcname='audio_files/' + audio_filename)
-            card_sides = create_csv_sides(word_data, req['cardFormat'])
-            row = '|'.join(card_sides)
+                                     arcname="audio_files/" + audio_filename)
+            card_sides = create_csv_sides(word_data, req["cardFormat"])
+            row = "|".join(card_sides)
             rows.append(row)
-        csv = '\n'.join(rows)
-        with ZipFile(output_filepath + zip_filename, 'a') as zip_object:
-            zip_object.writestr('anki.csv', csv)
+        csv = "\n".join(rows)
+        with ZipFile(output_filepath + zip_filename, "a") as zip_object:
+            zip_object.writestr("anki.csv", csv)
         return send_file(output_filepath + zip_filename)
 
     return app

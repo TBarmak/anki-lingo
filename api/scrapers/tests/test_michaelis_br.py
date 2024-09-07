@@ -1,98 +1,82 @@
 from api.scrapers.michaelis_br import create_url, scrape_michaelis
+from api.scrapers.tests.utils.get_mock_response import get_mock_response
 from api.scrapers.tests.utils.read_expected_output import read_expected_output
-import os
+
+
+def get_mock_response_filename(word):
+    return f"michaelis_br_{word}.html"
+
+
+def get_expected_output_filename(word):
+    return f"michaelis_br_{word}_output.json"
 
 
 class TestMichaelisBR:
     def test_create_url_one_word(self):
         # Arrange
-        word = 'homem'
+        word = "homem"
         # Act
         url = create_url(word)
         # Assert
-        assert url == 'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/homem'
+        assert url == "https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/homem"
 
     def test_create_url_multi_word(self):
         # TODO: Find a multi-word phrase that has results to validate
         # Arrange
-        phrase = 'café da manhã'
+        phrase = "café da manhã"
         # Act
         url = create_url(phrase)
         # Assert
-        assert url == 'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/café%20da%20manhã'
+        assert url == "https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/caf%C3%A9%20da%20manh%C3%A3"
 
     def test_scrape_michaelis_abacaxi(self, requests_mock):
         # Arrange
-        word = 'abacaxi'
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, 'mocks', f'michaelis_br_{word}.html')
-        response = ""
-        with open(mock_file_path, 'r') as f:
-            response = f.read()
-        requests_mock.get(
-            f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}', text=response)
+        word = "abacaxi"
+        mock_response = get_mock_response(get_mock_response_filename(word))
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            f'michaelis_br_{word}_output.json')
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
+        assert url == create_url(word)
 
     def test_scrape_michaelis_fiador(self, requests_mock):
         # Arrange
-        word = 'fiador'
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, 'mocks', f'michaelis_br_{word}.html')
-        response = ""
-        with open(mock_file_path, 'r') as f:
-            response = f.read()
-        requests_mock.get(
-            f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}', text=response)
+        word = "fiador"
+        mock_response = get_mock_response(get_mock_response_filename(word))
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            f'michaelis_br_{word}_output.json')
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
+        assert url == create_url(word)
 
     def test_scrape_michaelis_mofo(self, requests_mock):
         # Arrange
-        word = 'mofo'
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, 'mocks', f'michaelis_br_{word}.html')
-        response = ""
-        with open(mock_file_path, 'r') as f:
-            response = f.read()
-        requests_mock.get(
-            f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}', text=response)
+        word = "mofo"
+        mock_response = get_mock_response(get_mock_response_filename(word))
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            f'michaelis_br_{word}_output.json')
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
+        assert url == create_url(word)
 
     def test_scrape_michaelis_inegável(self, requests_mock):
         # Arrange
-        word = 'inegável'
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        mock_file_path = os.path.join(
-            current_dir, 'mocks', f'michaelis_br_{word}.html')
-        response = ""
-        with open(mock_file_path, 'r') as f:
-            response = f.read()
-        requests_mock.get(
-            f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}', text=response)
+        word = "inegável"
+        mock_response = get_mock_response(get_mock_response_filename(word))
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            f'michaelis_br_{word}_output.json')
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_michaelis(word)
         # Assert
         assert scraped_data == expected_response
-        assert url == f'https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}'
+        assert url == create_url(word)
