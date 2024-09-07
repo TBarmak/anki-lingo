@@ -39,8 +39,7 @@ class TestWordReference:
         native_lang = "English"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'pt', 'en'))
-        requests_mock.get(
-            f"https://www.wordreference.com/pten/{word}", text=mock_response)
+        requests_mock.get(create_url(word, 'pt', 'en'), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word, 'pt', 'en'))
         # Act
@@ -57,8 +56,7 @@ class TestWordReference:
         native_lang = "English"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'fr', 'en'))
-        requests_mock.get(
-            f"https://www.wordreference.com/fren/{word}", text=mock_response)
+        requests_mock.get(create_url(word, 'fr', 'en'), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word, 'fr', 'en'))
         # Act
@@ -75,8 +73,7 @@ class TestWordReference:
         native_lang = "English"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'fr', 'en'))
-        requests_mock.get(
-            f"https://www.wordreference.com/fren/{word}", text=mock_response)
+        requests_mock.get(create_url(word, 'fr', 'en'), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word, 'fr', 'en'))
         # Act
@@ -93,8 +90,7 @@ class TestWordReference:
         native_lang = "English"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'es', 'en'))
-        requests_mock.get(
-            f"https://www.wordreference.com/esen/{word}", text=mock_response)
+        requests_mock.get(create_url(word, 'es', 'en'), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word, 'es', 'en'))
         # Act
@@ -135,8 +131,7 @@ class TestWordReference:
         native_lang = "English"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'es', 'en'))
-        requests_mock.get(
-            f"https://www.wordreference.com/esen/{word}", text=mock_response)
+        requests_mock.get(create_url(word, 'es', 'en'), text=mock_response)
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)

@@ -25,8 +25,7 @@ class TestSemanticarBR:
         word = "abacaxi"
         mock_response = get_mock_response(
             get_mock_response_filename(word))
-        requests_mock.get(
-            f"https://www.semanticar.com.br/{word}", text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word))
         # Act
@@ -40,8 +39,7 @@ class TestSemanticarBR:
         word = "mico"
         mock_response = get_mock_response(
             get_mock_response_filename(word))
-        requests_mock.get(
-            f"https://www.semanticar.com.br/{word}", text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word))
         # Act

@@ -54,8 +54,7 @@ class TestSpanishdict:
         target_lang = "Español"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'es'))
-        requests_mock.get(
-            f"https://www.spanishdict.com/translate/{word}?langFrom=es", text=mock_response)
+        requests_mock.get(create_url(word, 'es'), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word, 'es'))
         # Act
@@ -70,8 +69,7 @@ class TestSpanishdict:
         target_lang = "Español"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'es'))
-        requests_mock.get(
-            f"https://www.spanishdict.com/translate/{word}?langFrom=es", text=mock_response)
+        requests_mock.get(create_url(word, 'es'), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word, 'es'))
         # Act
@@ -86,8 +84,7 @@ class TestSpanishdict:
         target_lang = "English"
         mock_response = get_mock_response(
             get_mock_response_filename(word, 'en'))
-        requests_mock.get(
-            f"https://www.spanishdict.com/translate/{word}?langFrom=en", text=mock_response)
+        requests_mock.get(create_url(word, 'en'), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word, 'en'))
         # Act

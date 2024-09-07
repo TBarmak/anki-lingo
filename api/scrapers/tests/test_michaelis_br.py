@@ -33,8 +33,7 @@ class TestMichaelisBR:
         # Arrange
         word = "abacaxi"
         mock_response = get_mock_response(get_mock_response_filename(word))
-        requests_mock.get(
-            f"https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}", text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word))
         # Act
@@ -47,8 +46,7 @@ class TestMichaelisBR:
         # Arrange
         word = "fiador"
         mock_response = get_mock_response(get_mock_response_filename(word))
-        requests_mock.get(
-            f"https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}", text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word))
         # Act
@@ -61,8 +59,7 @@ class TestMichaelisBR:
         # Arrange
         word = "mofo"
         mock_response = get_mock_response(get_mock_response_filename(word))
-        requests_mock.get(
-            f"https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}", text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word))
         # Act
@@ -75,8 +72,7 @@ class TestMichaelisBR:
         # Arrange
         word = "inegável"
         mock_response = get_mock_response(get_mock_response_filename(word))
-        requests_mock.get(
-            f"https://michaelis.uol.com.br/moderno-portugues/busca/portugues-brasileiro/{word}", text=mock_response)
+        requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
             get_expected_response_filename(word))
         # Act
