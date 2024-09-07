@@ -12,6 +12,15 @@ LANGUAGE_TO_ABBV = {
     "português": "pt_br"
 }
 
+headers = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Referer": "https://www.google.com/",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1"
+}
+
 
 def create_url(word: str, lang_abbv: str):
     url = f"https://forvo.com/word/{'_'.join(word.split())}/#{lang_abbv}"
@@ -21,20 +30,6 @@ def create_url(word: str, lang_abbv: str):
     url_parts = list(split_url)
     url_parts[2] = urllib.parse.quote(url_parts[2])
     return urllib.parse.urlunsplit(url_parts)
-
-
-def get_soup(url: str):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Referer": "https://www.google.com/",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1"
-    }
-    response = requests.get(url, headers=headers)
-    soup = BeautifulSoup(response.content, "html.parser")
-    return soup
 
 
 def get_table(soup: BeautifulSoup, lang_abbv: str):
@@ -66,8 +61,12 @@ def download_audio(url: str, word: str, lang_abbv: str):
 def scrape_forvo(word: str, language: str):
     lang_abbv = LANGUAGE_TO_ABBV[language.lower()]
     url = create_url(word, lang_abbv)
-    soup = get_soup(url)
-    table = get_table(soup, lang_abbv)
-    pronunciation_url = get_top_pronunciation_url(table)
-    output_filename = download_audio(pronunciation_url, word, lang_abbv)
-    return [{"audioFilenames": [output_filename]}], url
+    response = requests.get(url, headers=headers)
+    if response.ok:
+        soup = BeautifulSoup(response.content, "html.parser")
+        table = get_table(soup, lang_abbv)
+        pronunciation_url = get_top_pronunciation_url(table)
+        output_filename = download_audio(pronunciation_url, word, lang_abbv)
+        return [{"audioFilenames": [output_filename]}], url, response.status_code
+    else:
+        return [], url, response.status_code

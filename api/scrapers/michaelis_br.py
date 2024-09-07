@@ -98,10 +98,13 @@ def parse_rows(rows):
 
 def scrape_michaelis(word):
     url = create_url(word)
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
-    container = soup.find("div", {"class": "verbete bs-component"})
-    children = [child for child in container.children]
-    rows = reformat_to_rows(children)
-    parsed_rows = parse_rows(rows)
-    return parsed_rows, url
+    response = requests.get(url)
+    if response.ok:
+        soup = BeautifulSoup(response.text, "html.parser")
+        container = soup.find("div", {"class": "verbete bs-component"})
+        children = [child for child in container.children]
+        rows = reformat_to_rows(children)
+        parsed_rows = parse_rows(rows)
+        return parsed_rows, url, response.status_code
+    else:
+        return [], url, response.status_code

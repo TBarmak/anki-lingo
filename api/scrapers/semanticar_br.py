@@ -19,7 +19,10 @@ def get_sentences(word, soup):
 
 def scrape_semanticar(word):
     url = create_url(word)
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
-    sentence_objects = get_sentences(word, soup)
-    return sentence_objects, url
+    response = requests.get(url)
+    if response.ok:
+        soup = BeautifulSoup(response.text, "html.parser")
+        sentence_objects = get_sentences(word, soup)
+        return sentence_objects, url, response.status_code
+    else:
+        return [], url, response.status_code

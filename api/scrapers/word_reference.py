@@ -71,9 +71,12 @@ def scrape_word_reference(word, target_lang, native_lang):
         return [], ""
 
     url = create_url(word, target_lang_abbv, native_lang_abbv)
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
-    tables = soup.find_all("table", {"class": "WRD"})
-    if len(tables) > 0:
-        return parse_first_table(tables[0]), url
-    return [], url
+    response = requests.get(url)
+    if response.ok:
+        soup = BeautifulSoup(response.text, "html.parser")
+        tables = soup.find_all("table", {"class": "WRD"})
+        if len(tables) > 0:
+            return parse_first_table(tables[0]), url, response.status_code
+        return [], url, response.status_code
+    else:
+        return [], url, response.status_code
