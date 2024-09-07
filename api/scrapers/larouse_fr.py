@@ -27,6 +27,9 @@ def parse_soup(soup):
 
 def scrape_larouse(word):
     url = create_url(word)
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
-    return parse_soup(soup), url
+    response = requests.get(url)
+    if response.ok:
+        soup = BeautifulSoup(response.text, "html.parser")
+        return parse_soup(soup), url, response.status_code
+    else:
+        return [], url, response.status_code

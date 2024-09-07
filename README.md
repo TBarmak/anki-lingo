@@ -44,7 +44,7 @@ The frontend is built with React and Typescript. The UI allows the user to enter
 ## Backend (Flask)
 The Flask (Python) backend uses Beautiful Soup to scrape popular websites.
 
-## Running Locally
+## Running Locally Without Docker
 1. Clone the repo with `git clone https://github.com/TBarmak/anki-lang.git`
 2. `cd anki-lang`
 3. Install the UI dependencies with `npm i`
@@ -55,3 +55,10 @@ The Flask (Python) backend uses Beautiful Soup to scrape popular websites.
 8. In a new terminal, from the root of the repo, run `npm run start-api` to start the api.
 9. In another terminal tab, run `npm run dev` to start the UI.
 10. Open `http://localhost:5173/` in the browser!
+
+## Running Locally With Docker
+** Note that some sites may be blocked when using the docker implementation
+1. Clone the repo with `git clone https://github.com/TBarmak/anki-lang.git`
+2. `cd anki-lang`
+3. `docker-compose up`
+4. Open `localhost:3000` in the browser!

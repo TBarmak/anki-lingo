@@ -43,11 +43,12 @@ class TestWordReference:
         expected_response = read_expected_output(
             get_expected_output_filename(word, "pt", "en"))
         # Act
-        scraped_data, url = scrape_word_reference(
+        scraped_data, url, status_code = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word, "pt", "en")
+        assert status_code == 200
 
     def test_scrape_word_reference_avoir(self, requests_mock):
         # Arrange
@@ -60,11 +61,12 @@ class TestWordReference:
         expected_response = read_expected_output(
             get_expected_output_filename(word, "fr", "en"))
         # Act
-        scraped_data, url = scrape_word_reference(
+        scraped_data, url, status_code = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word, "fr", "en")
+        assert status_code == 200
 
     def test_scrape_word_reference_vérifier(self, requests_mock):
         # Arrange
@@ -77,11 +79,12 @@ class TestWordReference:
         expected_response = read_expected_output(
             get_expected_output_filename(word, "fr", "en"))
         # Act
-        scraped_data, url = scrape_word_reference(
+        scraped_data, url, status_code = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word, "fr", "en")
+        assert status_code == 200
 
     def test_scrape_word_reference_viejo(self, requests_mock):
         # Arrange
@@ -94,11 +97,12 @@ class TestWordReference:
         expected_response = read_expected_output(
             get_expected_output_filename(word, "es", "en"))
         # Act
-        scraped_data, url = scrape_word_reference(
+        scraped_data, url, status_code = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word, "es", "en")
+        assert status_code == 200
 
     def test_scrape_word_reference_bad_target_lang(self):
         # Arrange
@@ -106,11 +110,12 @@ class TestWordReference:
         target_lang = "Fakelang"
         native_lang = "English"
         # Act
-        scraped_data, url = scrape_word_reference(
+        scraped_data, url, status_code = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == []
         assert url == ""
+        assert status_code == 400
 
     def test_scrape_word_reference_bad_input_lang(self):
         # Arrange
@@ -118,11 +123,12 @@ class TestWordReference:
         target_lang = "Español"
         native_lang = "Fakelang"
         # Act
-        scraped_data, url = scrape_word_reference(
+        scraped_data, url, status_code = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == []
         assert url == ""
+        assert status_code == 400
 
     def test_scrape_word_reference_bad_word(self, requests_mock):
         # Arrange
@@ -133,8 +139,24 @@ class TestWordReference:
             get_mock_response_filename(word, "es", "en"))
         requests_mock.get(create_url(word, "es", "en"), text=mock_response)
         # Act
-        scraped_data, url = scrape_word_reference(
+        scraped_data, url, status_code = scrape_word_reference(
             word, target_lang, native_lang)
         # Assert
         assert scraped_data == []
         assert url == create_url(word, "es", "en")
+        assert status_code == 404
+
+    def test_scrape_word_reference_unauthorized(self, requests_mock):
+        # Arrange
+        word = "fakeword"
+        target_lang = "Español"
+        native_lang = "English"
+        requests_mock.get(create_url(word, "es", "en"), status_code=403)
+        # Act
+        scraped_data, url, status_code = scrape_word_reference(
+            word, target_lang, native_lang)
+        # Assert
+        assert scraped_data == []
+        assert url == create_url(word, "es", "en")
+        assert status_code == 403
+

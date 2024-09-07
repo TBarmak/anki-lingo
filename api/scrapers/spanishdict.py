@@ -140,21 +140,24 @@ def scrape_spanishdict(word, target_lang):
     '''
     target_lang_abbv = LANGUAGE_TO_ABBV[target_lang.lower()]
     url = create_url(word, target_lang_abbv)
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
-    meanings_container = soup.find(
-        "div", {"id": f"dictionary-neodict-{target_lang_abbv}"})
+    response = requests.get(url)
+    if response.ok:
+        soup = BeautifulSoup(response.text, "html.parser")
+        meanings_container = soup.find(
+            "div", {"id": f"dictionary-neodict-{target_lang_abbv}"})
 
-    # Extract the word from SpanishDict in case it differs from the word submitted (ie due to a typo)
-    spanishdict_word = meanings_container.findChildren(
-        recursive=False)[0].findChildren(recursive=False)[0].find("span").contents[0]
-    pos_blocks = meanings_container.findChildren(
-        recursive=False)[0].findChildren(recursive=False)[1:]
-    parsed_pos_blocks = [parse_pos_block(
-        block, target_lang_abbv) for block in pos_blocks]
-    translations_list = []
-    for parsed_pos_block in parsed_pos_blocks:
-        translations_list += parsed_pos_block
-    for item in translations_list:
-        item["word"] = spanishdict_word
-    return translations_list, url
+        # Extract the word from SpanishDict in case it differs from the word submitted (ie due to a typo)
+        spanishdict_word = meanings_container.findChildren(
+            recursive=False)[0].findChildren(recursive=False)[0].find("span").contents[0]
+        pos_blocks = meanings_container.findChildren(
+            recursive=False)[0].findChildren(recursive=False)[1:]
+        parsed_pos_blocks = [parse_pos_block(
+            block, target_lang_abbv) for block in pos_blocks]
+        translations_list = []
+        for parsed_pos_block in parsed_pos_blocks:
+            translations_list += parsed_pos_block
+        for item in translations_list:
+            item["word"] = spanishdict_word
+        return translations_list, url, response.status_code
+    else:
+        return [], url, response.status_code

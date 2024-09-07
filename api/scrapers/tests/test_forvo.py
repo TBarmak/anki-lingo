@@ -51,10 +51,23 @@ class TestForvo:
         mock_file_open = mock_open()
         # Act
         with patch("builtins.open", mock_file_open, create=True):
-            audio_filenames, url = scrape_forvo(word, language)
+            audio_filenames, url, status_code = scrape_forvo(word, language)
         # Assert
         mock_file_open.assert_called_with(
             "audio_files/pronunciation_fr_avoir.ogg", "b+w")
         assert audio_filenames == [
             {"audioFilenames": ["pronunciation_fr_avoir.ogg"]}]
         assert url == create_url(word, "fr")
+        assert status_code == 200
+
+    def test_scrape_forvo_unauthorized(self, requests_mock):
+        # Arrange
+        word = "avoir"
+        language = "français"
+        requests_mock.get(create_url(word, "fr"), status_code=403)
+        # Act
+        audio_filenames, url, status_code = scrape_forvo(word, language)
+        # Assert
+        assert audio_filenames == []
+        assert url == create_url(word, "fr")
+        assert status_code == 403
