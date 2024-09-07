@@ -7,7 +7,7 @@ def get_mock_response_filename(word, target_lang_abbv, native_lang_abbv):
     return f"wr_{word}_{target_lang_abbv}_{native_lang_abbv}.html"
 
 
-def get_expected_response_filename(word, target_lang_abbv, native_lang_abbv):
+def get_expected_output_filename(word, target_lang_abbv, native_lang_abbv):
     return f"wr_{word}_{target_lang_abbv}_{native_lang_abbv}_output.json"
 
 
@@ -41,7 +41,7 @@ class TestWordReference:
             get_mock_response_filename(word, 'pt', 'en'))
         requests_mock.get(create_url(word, 'pt', 'en'), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word, 'pt', 'en'))
+            get_expected_output_filename(word, 'pt', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
@@ -58,7 +58,7 @@ class TestWordReference:
             get_mock_response_filename(word, 'fr', 'en'))
         requests_mock.get(create_url(word, 'fr', 'en'), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word, 'fr', 'en'))
+            get_expected_output_filename(word, 'fr', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
@@ -75,7 +75,7 @@ class TestWordReference:
             get_mock_response_filename(word, 'fr', 'en'))
         requests_mock.get(create_url(word, 'fr', 'en'), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word, 'fr', 'en'))
+            get_expected_output_filename(word, 'fr', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)
@@ -92,7 +92,7 @@ class TestWordReference:
             get_mock_response_filename(word, 'es', 'en'))
         requests_mock.get(create_url(word, 'es', 'en'), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word, 'es', 'en'))
+            get_expected_output_filename(word, 'es', 'en'))
         # Act
         scraped_data, url = scrape_word_reference(
             word, target_lang, native_lang)

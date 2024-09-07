@@ -7,7 +7,7 @@ def get_mock_response_filename(word):
     return f"semanticar_br_{word}.html"
 
 
-def get_expected_response_filename(word):
+def get_expected_output_filename(word):
     return f"semanticar_br_{word}_output.json"
 
 
@@ -27,7 +27,7 @@ class TestSemanticarBR:
             get_mock_response_filename(word))
         requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word))
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_semanticar(word)
         # Assert
@@ -41,7 +41,7 @@ class TestSemanticarBR:
             get_mock_response_filename(word))
         requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word))
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_semanticar(word)
         # Assert

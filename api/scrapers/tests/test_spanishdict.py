@@ -7,7 +7,7 @@ def get_mock_response_filename(word, target_lang_abbv):
     return f"spanishdict_{'_'.join(word.split())}_{target_lang_abbv}.html"
 
 
-def get_expected_response_filename(word, target_lang_abbv):
+def get_expected_output_filename(word, target_lang_abbv):
     return f"spanishdict_{'_'.join(word.split())}_{target_lang_abbv}_output.json"
 
 
@@ -56,7 +56,7 @@ class TestSpanishdict:
             get_mock_response_filename(word, 'es'))
         requests_mock.get(create_url(word, 'es'), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word, 'es'))
+            get_expected_output_filename(word, 'es'))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
@@ -71,7 +71,7 @@ class TestSpanishdict:
             get_mock_response_filename(word, 'es'))
         requests_mock.get(create_url(word, 'es'), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word, 'es'))
+            get_expected_output_filename(word, 'es'))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert
@@ -86,7 +86,7 @@ class TestSpanishdict:
             get_mock_response_filename(word, 'en'))
         requests_mock.get(create_url(word, 'en'), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word, 'en'))
+            get_expected_output_filename(word, 'en'))
         # Act
         scraped_data, url = scrape_spanishdict(word, target_lang)
         # Assert

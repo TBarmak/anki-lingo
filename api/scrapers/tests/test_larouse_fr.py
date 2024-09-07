@@ -7,7 +7,7 @@ def get_mock_response_filename(word):
     return f"larouse_fr_{'_'.join(word.split())}.html"
 
 
-def get_expected_response_filename(word):
+def get_expected_output_filename(word):
     return f"larouse_fr_{'_'.join(word.split())}_output.json"
 
 
@@ -35,7 +35,7 @@ class TestLarouseFR:
             get_mock_response_filename(word))
         requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word))
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_larouse(word)
         # Assert
@@ -49,7 +49,7 @@ class TestLarouseFR:
             get_mock_response_filename(word))
         requests_mock.get(create_url(word), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(word))
+            get_expected_output_filename(word))
         # Act
         scraped_data, url = scrape_larouse(word)
         # Assert
@@ -63,7 +63,7 @@ class TestLarouseFR:
             get_mock_response_filename(phrase))
         requests_mock.get(create_url(phrase), text=mock_response)
         expected_response = read_expected_output(
-            get_expected_response_filename(phrase))
+            get_expected_output_filename(phrase))
         # Act
         scraped_data, url = scrape_larouse(phrase)
         # Assert
