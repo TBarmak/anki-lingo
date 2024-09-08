@@ -26,6 +26,10 @@
   .accent-text {
     color: #ad343e;
   }
+
+  .green-background {
+    background-color: #34ad83;
+  }
 }
 
 :root {
