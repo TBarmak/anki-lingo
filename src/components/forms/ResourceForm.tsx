@@ -164,7 +164,7 @@ export default function ResourceForm({
 
   return (
     <motion.form
-      className="py-8 px-20 flex flex-col md:flex-row justify-between w-full min-h-full h-full"
+      className="py-8 px-16 md:px-24 flex flex-col md:flex-row justify-between w-full min-h-full"
       onSubmit={handleSubmit}
       variants={{
         exit: {
@@ -175,7 +175,7 @@ export default function ResourceForm({
       exit="exit"
     >
       <motion.div
-        className="flex-1 p-4"
+        className="flex-[3] mb-6 w-full"
         variants={{
           hidden: { opacity: 0, x: -100 },
           visible: { opacity: 1, x: 0 },
@@ -184,6 +184,7 @@ export default function ResourceForm({
         animate="visible"
         transition={{ duration: 0.75, delay: 0.5 }}
       >
+        <p className="font-bold secondary-text">Words/Phrases</p>
         <textarea
           name="words"
           className="w-full secondary-text h-full min-h-60 resize-none p-3 rounded-lg input text-lg"
@@ -195,8 +196,8 @@ export default function ResourceForm({
         />
         <FormError message={errors.words} />
       </motion.div>
-      <div className="h-full flex-1 p-4 flex flex-col items-center">
-        <div className="flex-1 flex flex-col items-center w-full px-12 md:px-24">
+      <div className="h-full w-full flex-[2] flex flex-col items-center md:pl-24">
+        <div className="flex-1 flex flex-col items-center w-full">
           <motion.div
             className="mb-4 flex flex-col w-full"
             variants={{
@@ -207,6 +208,7 @@ export default function ResourceForm({
             animate="visible"
             transition={{ duration: 0.75, delay: 0.5 }}
           >
+            <p className="font-bold secondary-text">Target language</p>
             <select
               name="targetLanguage"
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
@@ -234,6 +236,7 @@ export default function ResourceForm({
             animate="visible"
             transition={{ duration: 0.75, delay: 0.75 }}
           >
+            <p className="font-bold secondary-text">Native language</p>
             <select
               name="nativeLanguage"
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
@@ -256,7 +259,7 @@ export default function ResourceForm({
               inputFields.nativeLanguage &&
               inputFields.nativeLanguage !== inputFields.targetLanguage && (
                 <motion.div
-                  className="flex-1 flex flex-col w-full px-20 my-4"
+                  className="flex-1 flex flex-col w-full my-4"
                   variants={{
                     hidden: { opacity: 0, x: 100 },
                     visible: { opacity: 1, x: 0 },
