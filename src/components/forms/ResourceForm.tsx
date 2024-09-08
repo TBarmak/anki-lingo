@@ -104,19 +104,13 @@ export default function ResourceForm({
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) {
-    let newInputFields: InputFields;
-    if (e.target.name === "targetLanguage") {
-      newInputFields = {
-        ...inputFields,
-        languageResources: [],
-        [e.target.name]: e.target.value,
-      };
-    } else {
-      newInputFields = {
-        ...inputFields,
-        [e.target.name]: e.target.value,
-      };
-    }
+    // Clear the resources if the target language changed
+    const newInputFields: InputFields = {
+      ...inputFields,
+      languageResources:
+        e.target.name === "targetLanguage" ? [] : inputFields.languageResources,
+      [e.target.name]: e.target.value,
+    };
 
     // Clear form errors that are no longer present
     const newErrors = validateForm(newInputFields);
@@ -311,8 +305,20 @@ export default function ResourceForm({
                             <MdCheckBoxOutlineBlank color="#162e50" size={24} />
                           )}
                         </div>
-                        {resource.name} -{" "}
-                        {resource.isHealthy ? "healthy" : "bad"}
+                        {resource.name}
+                        <div
+                          className={`mx-2 w-4 h-4 rounded-full relative ${
+                            resource.isHealthy
+                              ? "green-background"
+                              : "accent-background"
+                          }`}
+                        >
+                          <div className="absolute z-50 opacity-0 hover:opacity-100 w-max bg-white px-2 p-1 rounded-lg text-sm -top-1 transition-all duration-300">
+                            {resource.isHealthy
+                              ? "Working as expected"
+                              : "Might be blocked or broken"}
+                          </div>
+                        </div>
                       </motion.label>
                     );
                   })}
