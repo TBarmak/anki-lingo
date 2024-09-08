@@ -40,7 +40,6 @@ export default function ResourceForm({
   }, []);
 
   useEffect(() => {
-    // setInputFields({ ...inputFields, languageResources: [] });
     const language = inputFields.targetLanguage;
     if (language) {
       fetch(`api/resources/${inputFields.targetLanguage}`)
