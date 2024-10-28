@@ -3,7 +3,7 @@ branch-defaults:
     environment: dev-env
     group_suffix: null
 global:
-  application_name: anki-lang
+  application_name: anki-lingo
   branch: null
   default_ec2_keyname: aws-eb
   default_platform: Docker running on 64bit Amazon Linux 2023

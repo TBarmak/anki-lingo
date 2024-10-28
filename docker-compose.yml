@@ -3,12 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
-    image: anki-lang-api
+    image: anki-lingo-api
   client:
     build:
       context: .
       dockerfile: Dockerfile.client
-    image: anki-lang-client
+    image: anki-lingo-client
     ports:
       # Set to "3000:80" when running locally, "80:80" for hosting with elastic beanstalk
       - "3000:80"

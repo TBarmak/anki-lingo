@@ -11,7 +11,7 @@ After the information is scraped, the user can design the flashcards by selectin
 <img src="./docs/photos/design_flashcards.png" alt="design flashcards" width="800"/>
 <img src="./docs/photos/csv_download.png" alt="csv download" width="800"/>
 
-Lastly, the CSV can be downloaded and imported into Anki. When you click the "Download" button, a zip file will be downloaded with name `anki-lang-<timestamp>.zip`.
+Lastly, the CSV can be downloaded and imported into Anki. When you click the "Download" button, a zip file will be downloaded with name `anki-lingo-<timestamp>.zip`.
 
 Expand the zip file to get the `anki.csv` and the `audio_files`, if applicable.
 
@@ -45,8 +45,8 @@ The frontend is built with React and Typescript. The UI allows the user to enter
 The Flask (Python) backend uses Beautiful Soup to scrape popular websites.
 
 ## Running Locally Without Docker
-1. Clone the repo with `git clone https://github.com/TBarmak/anki-lang.git`
-2. `cd anki-lang`
+1. Clone the repo with `git clone https://github.com/TBarmak/anki-lingo.git`
+2. `cd anki-lingo`
 3. Install the UI dependencies with `npm i`
 4. `cd api`
 5. Create a virtual env for python with `python -m venv env`
@@ -58,7 +58,7 @@ The Flask (Python) backend uses Beautiful Soup to scrape popular websites.
 
 ## Running Locally With Docker
 ** Note that some sites may be blocked when using the docker implementation
-1. Clone the repo with `git clone https://github.com/TBarmak/anki-lang.git`
-2. `cd anki-lang`
+1. Clone the repo with `git clone https://github.com/TBarmak/anki-lingo.git`
+2. `cd anki-lingo`
 3. `docker-compose up`
 4. Open `localhost:3000` in the browser!

@@ -29,7 +29,7 @@ export default function Download({ downloadUrl, errors }: Props) {
       </p>
       <p className="text-lg secondary-text mt-2 mb-4">
         For instructions on how to import the files into Anki, please see{" "}
-        <a className="underline" href="https://github.com/TBarmak/anki-lang">
+        <a className="underline" href="https://github.com/TBarmak/anki-lingo">
           this article
         </a>
         .
@@ -51,7 +51,7 @@ export default function Download({ downloadUrl, errors }: Props) {
       <a
         className="my-16 mt-24"
         href={downloadUrl}
-        download={`anki-lang-${moment().format("YYYYMMDDHHmmss")}.zip`}
+        download={`anki-lingo-${moment().format("YYYYMMDDHHmmss")}.zip`}
       >
         <motion.div
           variants={{
