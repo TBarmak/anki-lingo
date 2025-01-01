@@ -1,0 +1,33 @@
+[
+  {
+    "nativeExampleSentences": [
+      "The rain spoiled our picnic.",
+      "The corruption scandal ruined my political career."
+    ],
+    "pos": "transitive verb phrase",
+    "targetExampleSentences": [
+      "La lluvia echó a perder nuestro pícnic.",
+      "El escándalo por corrupción echó a perder mi carrera política."
+    ],
+    "translations": [
+      "to spoil",
+      "to ruin",
+      "(to mess up)"
+    ],
+    "word": "echar a perder"
+  },
+  {
+    "nativeExampleSentences": [
+      "The flood spoiled the whole harvest."
+    ],
+    "pos": "transitive verb phrase",
+    "targetExampleSentences": [
+      "La inundación echó a perder toda la cosecha."
+    ],
+    "translations": [
+      "to spoil",
+      "(to deteriorate)"
+    ],
+    "word": "echar a perder"
+  }
+]

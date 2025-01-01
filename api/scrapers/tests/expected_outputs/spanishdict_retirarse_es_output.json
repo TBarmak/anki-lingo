@@ -1,0 +1,109 @@
+[
+  {
+    "nativeExampleSentences": ["He retired after a 50-year career."],
+    "pos": "pronominal verb",
+    "targetExampleSentences": ["Se retiró tras pasar 50 años trabajando."],
+    "translations": ["to retire", "(to stop working)"],
+    "word": "retirarse"
+  },
+  {
+    "nativeExampleSentences": [
+      "Don't hang up.",
+      "Please hold!",
+      "The receptionist asked me to hold the line."
+    ],
+    "pos": "pronominal verb",
+    "targetExampleSentences": [
+      "¡No se retire!",
+      "¡No se retire, por favor!",
+      "El recepcionista me pidió que no me retirara."
+    ],
+    "translations": [
+      "to hang up",
+      "no direct translation",
+      "(telecommunications)"
+    ],
+    "word": "retirarse"
+  },
+  {
+    "nativeExampleSentences": ["I moved back to let him park."],
+    "pos": "pronominal verb",
+    "targetExampleSentences": ["Me retiré para que pudiera aparcar."],
+    "translations": ["to move back", "(to move oneself)"],
+    "word": "retirarse"
+  },
+  {
+    "nativeExampleSentences": [
+      "I'll go to bed now as I have an early start tomorrow.",
+      "I think I'll retire now; good night!"
+    ],
+    "pos": "pronominal verb",
+    "targetExampleSentences": [
+      "Me voy a retirar, que mañana madrugo.",
+      "Pues yo me retiro, ¡buenas noches!"
+    ],
+    "translations": ["to go to bed", "to retire", "(to go to sleep)"],
+    "word": "retirarse"
+  },
+  {
+    "nativeExampleSentences": [
+      "Many thanks; you can leave now if you wish.",
+      "If there isn't anything else, you may go now."
+    ],
+    "pos": "pronominal verb",
+    "targetExampleSentences": [
+      "Muchas gracias, ya puede retirarse si quiere.",
+      "Si no hay nada más, puede retirarse."
+    ],
+    "translations": ["to leave", "to go", "(to go away)"],
+    "word": "retirarse"
+  },
+  {
+    "nativeExampleSentences": [
+      "The soldiers retreated because of the enemy's superior forces."
+    ],
+    "pos": "pronominal verb",
+    "targetExampleSentences": [
+      "Los soldados se retiraron a causa de las fuerzas superiores enemigas."
+    ],
+    "translations": ["to retreat", "(to abandon the front line)"],
+    "word": "retirarse"
+  },
+  {
+    "nativeExampleSentences": [
+      "The cyclist pulled out of the race just a few meters from the finish.",
+      "I had to withdraw from the competition when I caught a cold."
+    ],
+    "pos": "pronominal verb",
+    "targetExampleSentences": [
+      "El ciclista se retiró de la carrera a pocos metros de la meta.",
+      "Tuve que retirarme del concurso cuando me resfrié."
+    ],
+    "translations": [
+      "to pull out",
+      "to withdraw",
+      "(to quit; used with \"de\")"
+    ],
+    "word": "retirarse"
+  },
+  {
+    "nativeExampleSentences": [
+      "The shaman took himself off to the depths of the jungle to find himself.",
+      "Tired of the city, she went away to an isolated spot in Patagonia.",
+      "Alfredo decided to retire to a monastery to meditate."
+    ],
+    "pos": "pronominal verb",
+    "targetExampleSentences": [
+      "El chamán se retiró a lo más profundo de la selva en busca de sí mismo.",
+      "Cansada de la ciudad, se retiró a un sitio alejado de la Patagonia.",
+      "Alfredo se decidió a retirarse a un monasterio para meditar."
+    ],
+    "translations": [
+      "to take oneself off",
+      "to go away",
+      "to retire",
+      "(to go somewhere for solitude)"
+    ],
+    "word": "retirarse"
+  }
+]
