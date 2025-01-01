@@ -1,111 +1,111 @@
 [
   {
-    "translations": ["to put", "to add", "(to place)"],
-    "targetExampleSentences": [
-      "¿Dónde pones las llaves?",
-      "Si pones más peso, se romperá."
-    ],
     "nativeExampleSentences": [
       "Where do you put the keys?",
       "If you add more weight, it will break."
     ],
     "pos": "transitive verb",
+    "targetExampleSentences": [
+      "¿Dónde pones las llaves?",
+      "Si pones más peso, se romperá."
+    ],
+    "translations": ["to put", "to add", "(to place)"],
     "word": "poner"
   },
   {
-    "translations": ["to put", "(figurative)(to cause to be)"],
-    "targetExampleSentences": ["Su renuncia me pone en una situación difícil."],
     "nativeExampleSentences": [
       "His resignation puts me in a difficult position."
     ],
     "pos": "transitive verb",
+    "targetExampleSentences": ["Su renuncia me pone en una situación difícil."],
+    "translations": ["to put", "(to cause to be)"],
     "word": "poner"
   },
   {
-    "translations": ["to put on", "(clothing)"],
-    "targetExampleSentences": [
-      "Después de bañar a la bebé, hay que ponerle ropa limpia."
-    ],
     "nativeExampleSentences": [
       "After giving the baby a bath, you have to put some clean clothes on her."
     ],
     "pos": "transitive verb",
+    "targetExampleSentences": [
+      "Después de bañar a la bebé, hay que ponerle ropa limpia."
+    ],
+    "translations": ["to put on", "(clothing)"],
     "word": "poner"
   },
   {
-    "translations": ["to put", "(to install)"],
-    "targetExampleSentences": ["Es lógico que pongan allí un colegio nuevo."],
     "nativeExampleSentences": ["It makes sense to put a new school there."],
     "pos": "transitive verb",
+    "targetExampleSentences": ["Es lógico que pongan allí un colegio nuevo."],
+    "translations": ["to put", "(to install)"],
     "word": "poner"
   },
   {
-    "translations": ["to send", "(to ship)"],
-    "targetExampleSentences": ["El mensaje que le puso era simple."],
     "nativeExampleSentences": ["The message he sent her was simple."],
     "pos": "transitive verb",
+    "targetExampleSentences": ["El mensaje que le puso era simple."],
+    "translations": ["to send", "(to ship)"],
     "word": "poner"
   },
   {
-    "translations": ["to give", "(to grade)"],
-    "targetExampleSentences": ["Mi profesor me puso mala nota."],
     "nativeExampleSentences": ["My professor gave me a bad grade."],
     "pos": "transitive verb",
+    "targetExampleSentences": ["Mi profesor me puso mala nota."],
+    "translations": ["to give", "(to grade)"],
     "word": "poner"
   },
   {
-    "translations": ["to lay", "(to produce)"],
-    "targetExampleSentences": ["Las gallinas ponen un huevo al día."],
     "nativeExampleSentences": ["Hens lay one egg a day."],
     "pos": "transitive verb",
+    "targetExampleSentences": ["Las gallinas ponen un huevo al día."],
+    "translations": ["to lay", "(to produce)"],
     "word": "poner"
   },
   {
-    "translations": ["to put in", "(to contribute)"],
-    "targetExampleSentences": [
-      "Podemos alquilar ese sitio si todos ponemos algo de dinero."
-    ],
     "nativeExampleSentences": [
       "We can rent the place if everybody puts in some cash."
     ],
     "pos": "transitive verb",
+    "targetExampleSentences": [
+      "Podemos alquilar ese sitio si todos ponemos algo de dinero."
+    ],
+    "translations": ["to put in", "(to contribute)"],
     "word": "poner"
   },
   {
-    "translations": ["to put on", "to turn on", "(to connect)"],
-    "targetExampleSentences": [
-      "Pon la televisión para ver las noticias.",
-      "¿Ponemos la calefacción?"
-    ],
     "nativeExampleSentences": [
       "Put the television on to watch the news.",
       "Shall we turn the heating on?"
     ],
     "pos": "transitive verb",
+    "targetExampleSentences": [
+      "Pon la televisión para ver las noticias.",
+      "¿Ponemos la calefacción?"
+    ],
+    "translations": ["to put on", "to turn on", "(to connect)"],
     "word": "poner"
   },
   {
-    "translations": ["to call", "to give", "(to name)"],
-    "targetExampleSentences": [
-      "Si tengo un niño le pondré Manuel, que es el nombre de mi padre.",
-      "¿Qué nombre le van a poner a la niña? - Todavía no lo sabemos."
-    ],
     "nativeExampleSentences": [
       "If I have a boy, I'll call him Manuel, which is my father's name.",
       "What name are you going to give your baby? - We don't know yet."
     ],
     "pos": "transitive verb",
+    "targetExampleSentences": [
+      "Si tengo un niño le pondré Manuel, que es el nombre de mi padre.",
+      "¿Qué nombre le van a poner a la niña? - Todavía no lo sabemos."
+    ],
+    "translations": ["to call", "to give", "(to name)"],
     "word": "poner"
   },
   {
-    "translations": ["to open", "(to establish)"],
-    "targetExampleSentences": [
-      "Sandy y su esposo van a poner una panadería en la calle principal."
-    ],
     "nativeExampleSentences": [
       "Sandy and her husband are going to open a bakery on main street."
     ],
     "pos": "transitive verb",
+    "targetExampleSentences": [
+      "Sandy y su esposo van a poner una panadería en la calle principal."
+    ],
+    "translations": ["to open", "(to establish)"],
     "word": "poner"
   }
 ]

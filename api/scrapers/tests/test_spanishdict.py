@@ -96,7 +96,39 @@ class TestSpanishdict:
         assert url == create_url(word, "en")
         assert status_code == 200
 
-    def test_scrape_spanishdict_think(self, requests_mock):
+    def test_scrape_spanishdict_retirarse(self, requests_mock):
+        # Arrange
+        word = "retirarse"
+        target_lang = "Español"
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, "es"))
+        requests_mock.get(create_url(word, "es"), text=mock_response)
+        expected_response = read_expected_output(
+            get_expected_output_filename(word, "es"))
+        # Act
+        scraped_data, url, status_code = scrape_spanishdict(word, target_lang)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == create_url(word, "es")
+        assert status_code == 200
+
+    def test_scrape_spanishdict_echar_a_perder(self, requests_mock):
+        # Arrange
+        phrase = "echar a perder"
+        target_lang = "Español"
+        mock_response = get_mock_response(
+            get_mock_response_filename(phrase, "es"))
+        requests_mock.get(create_url(phrase, "es"), text=mock_response)
+        expected_response = read_expected_output(
+            get_expected_output_filename(phrase, "es"))
+        # Act
+        scraped_data, url, status_code = scrape_spanishdict(phrase, target_lang)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == create_url(phrase, "es")
+        assert status_code == 200
+
+    def test_scrape_spanishdict_403(self, requests_mock):
         # Arrange
         word = "think"
         target_lang = "English"
