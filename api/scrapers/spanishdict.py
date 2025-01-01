@@ -32,7 +32,7 @@ def parse_pos_block(pos_block, target_lang_abbv):
                 targetExampleSentences (list): list of string example sentences in the target language
                 nativeExampleSentences (list): list of string example sentences in the native language 
     '''
-    pos = pos_block.findChildren(recursive=False)[0].find("a").contents[0]
+    pos = pos_block.findChildren(recursive=False)[0].find_all(string=True)[-1]
 
     translation_blocks = pos_block.findChildren(
         recursive=False)[1].findChildren(recursive=False)
@@ -100,16 +100,21 @@ def parse_translation_subblock(translation_subblock, target_lang_abbv):
                 nativeExampleSentences (list): list of string example sentences in the native language 
     '''
     native_lang_abbv = "en" if target_lang_abbv == "es" else "en"
-    translation = translation_subblock.findChildren(
-        recursive=False)[0].find("a").contents[0]
-    example_sentences = translation_subblock.findChildren(recursive=False)[
-        0].findChildren(recursive=False)[0].findChildren(recursive=False)[-1].findChildren(recursive=False)[0]
-    target_example_sentence = example_sentences.find(
-        "span", {"lang": target_lang_abbv}).contents[0]
-    native_example_sentence = example_sentences.find(
-        "span", {"lang": native_lang_abbv}).contents[0]
-    parsed_translation_subblock = {"translations": [translation], "targetExampleSentences": [
-        target_example_sentence], "nativeExampleSentences": [native_example_sentence]}
+    translation = "no direct translation"
+    try:
+        translation = translation_subblock.findChildren(
+            recursive=False)[0].find("a").contents[0]
+    except:
+        pass
+    target_example_sentences = [sentence.contents[0] for sentence in translation_subblock.findAll(
+        "span", {"lang": target_lang_abbv})]
+    native_example_sentences = [sentence.contents[0] for sentence in translation_subblock.findAll(
+        "span", {"lang": native_lang_abbv})]
+    parsed_translation_subblock = {
+        "translations": [translation], 
+        "targetExampleSentences": target_example_sentences, 
+        "nativeExampleSentences": native_example_sentences
+    }
     return parsed_translation_subblock
 
 
