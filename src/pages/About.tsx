@@ -40,22 +40,6 @@ export default function About() {
           }}
           initial="hidden"
           animate="visible"
-          transition={{ duration: 0.75, delay: 0.75 }}
-        >
-          <motion.div
-            className="mx-4 hover:cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            <FaYoutube color="#162e50" size={64} />
-          </motion.div>
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 100 },
-            visible: { opacity: 1, y: 0 },
-          }}
-          initial="hidden"
-          animate="visible"
           transition={{ duration: 0.75, delay: 1 }}
         >
           <a href="https://github.com/TBarmak">
