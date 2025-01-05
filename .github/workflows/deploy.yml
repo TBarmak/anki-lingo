@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - feat/deploy-ec2-github-actions
+      - main
 
 jobs:
   deploy:
