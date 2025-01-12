@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/anki.taylorbarmak.com
 
 jobs:
   deploy:
