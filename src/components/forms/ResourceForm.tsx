@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   CombinedScrapedResponse,
-  FormErrors,
-  InputFields,
   LanguageResource,
   ScrapedResponse,
 } from "../../types/types";
@@ -25,13 +23,13 @@ export default function ResourceForm({
   setExportFields,
 }: Props) {
   const [supportedLanguages, setSupportedLanguages] = useState<string[]>([]);
-  const [inputFields, setInputFields] = useState<InputFields>({
-    words: "",
-    targetLanguage: "",
-    nativeLanguage: "",
-    languageResources: [],
-  });
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors);
+  const [words, setWords] = useState<string>("");
+  const [targetLanguage, setTargetLanguage] = useState<string>("");
+  const [nativeLanguage, setNativeLanguage] = useState<string>("");
+  const [languageResources, setLanguageResources] = useState<
+    LanguageResource[]
+  >([]);
+  const [touchedFields, setTouchedFields] = useState(new Set());
 
   useEffect(() => {
     fetch("api/supported-languages")
@@ -40,9 +38,9 @@ export default function ResourceForm({
   }, []);
 
   useEffect(() => {
-    const language = inputFields.targetLanguage;
-    if (language) {
-      fetch(`api/resources/${inputFields.targetLanguage}`)
+    setLanguageResources([]);
+    if (targetLanguage) {
+      fetch(`api/resources/${targetLanguage}`)
         .then((res) => res.json())
         .then(async (data) => {
           const healthPromises: Promise<boolean>[] = data.resources.map(
@@ -56,105 +54,78 @@ export default function ResourceForm({
             }
           );
           await Promise.all(healthPromises);
-          setInputFields({ ...inputFields, languageResources: data.resources });
+          setLanguageResources(data.resources);
         });
     } else {
-      setInputFields({ ...inputFields, languageResources: [] });
+      setLanguageResources([]);
     }
-  }, [inputFields.targetLanguage]);
+  }, [targetLanguage]);
 
   useEffect(() => {
     const exportFields = ([] as string[]).concat(
-      ...inputFields.languageResources
+      ...languageResources
         .filter((resource: LanguageResource) => resource.isSelected)
         .map((resource: LanguageResource) => resource.outputs)
     );
     setExportFields([...new Set(exportFields)]);
-  }, [inputFields.languageResources]);
+  }, [languageResources]);
 
-  function validateForm(inputFields: InputFields): FormErrors {
-    let errors: FormErrors = {} as FormErrors;
-    if (inputFields.words.length === 0) {
-      errors.words = "Please enter words in the target language";
+  function isFormValid(): boolean {
+    if (words.length === 0) {
+      return false;
     }
-    if (inputFields.targetLanguage === "") {
-      errors.targetLanguage = "Please select the target language";
+    if (targetLanguage === "") {
+      return false;
     }
-    if (inputFields.nativeLanguage === "") {
-      errors.nativeLanguage = "Please select your native language";
-    } else if (inputFields.nativeLanguage === inputFields.targetLanguage) {
-      errors.nativeLanguage =
-        "Native language must be different from target language";
-      errors.targetLanguage =
-        "Target language must be different from native language";
+    if (nativeLanguage === "") {
+      return false;
+    } else if (nativeLanguage === targetLanguage) {
+      return false;
     }
     if (
-      inputFields.languageResources.length > 0 &&
-      inputFields.languageResources.filter((resource) => resource.isSelected)
-        .length === 0
+      languageResources.length > 0 &&
+      languageResources.filter((resource) => resource.isSelected).length === 0
     ) {
-      errors.languageResources = "Please select at least one resource";
+      return false;
     }
-    return errors;
-  }
-
-  function handleChange(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) {
-    // Clear the resources if the target language changed
-    const newInputFields: InputFields = {
-      ...inputFields,
-      languageResources:
-        e.target.name === "targetLanguage" ? [] : inputFields.languageResources,
-      [e.target.name]: e.target.value,
-    };
-
-    // Clear form errors that are no longer present
-    const newErrors = validateForm(newInputFields);
-    for (const key in errors) {
-      if (!newErrors[key as keyof FormErrors]) {
-        errors[key as keyof FormErrors] = "";
-      }
-    }
-
-    // Update the error for the changed field
-    errors[e.target.name as keyof FormErrors] =
-      newErrors[e.target.name as keyof FormErrors];
-    setErrors(errors);
-    setInputFields(newInputFields);
+    return true;
   }
 
   function handleResourceCheckboxChange(
     e: React.ChangeEvent<HTMLInputElement>
   ) {
-    const newCheckboxField = inputFields["languageResources"].map((field) => {
+    const newCheckboxField = languageResources.map((field) => {
       if (field.name === e.target.name) {
         field.isSelected = !field.isSelected;
       }
       return field;
     });
-    const newInputFields = {
-      ...inputFields,
-      languageResources: [...newCheckboxField],
-    };
-    const newErrors = validateForm(newInputFields);
-    errors.languageResources = newErrors.languageResources;
-    setErrors(errors);
-    setInputFields(newInputFields);
+    setLanguageResources(newCheckboxField);
   }
+
+  const handleBlur = (e: React.FocusEvent) => {
+    const target = e.target as HTMLInputElement;
+    setTouchedFields((prev) => new Set(prev.add(target.name)));
+  };
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const errors = validateForm(inputFields);
-    const isSubmittable: boolean = Object.values(errors).every(
-      (value) => value === ""
+    setTouchedFields(
+      new Set([
+        "words",
+        "targetLanguage",
+        "nativeLanguage",
+        "languageResources",
+      ])
     );
-    setErrors(errors);
-    if (isSubmittable) {
+    if (isFormValid()) {
       setIsLoading(true);
-      getFlashcardData(inputFields).then((res) => {
+      getFlashcardData({
+        words,
+        targetLanguage,
+        nativeLanguage,
+        languageResources,
+      }).then((res) => {
         setScrapedData(res);
         setIsLoading(false);
       });
@@ -186,14 +157,17 @@ export default function ResourceForm({
         <p className="font-bold secondary-text">Words/Phrases</p>
         <textarea
           name="words"
+          onBlur={handleBlur}
           className="w-full secondary-text h-full min-h-60 resize-none p-3 rounded-lg input text-lg"
           placeholder={
             "Enter words in the target language, with each word on a new line. For example:\nabacaxi\nfalar\npalavra"
           }
-          value={inputFields.words}
-          onChange={handleChange}
+          value={words}
+          onChange={(e) => setWords(e.target.value)}
         />
-        <FormError message={errors.words} />
+        {touchedFields.has("words") && words.length === 0 && (
+          <FormError message={"Please enter words in the target language"} />
+        )}
       </motion.div>
       <div className="h-full w-full flex-[2] flex flex-col items-center md:pl-24">
         <div className="flex-1 flex flex-col items-center w-full">
@@ -210,9 +184,10 @@ export default function ResourceForm({
             <p className="font-bold secondary-text">Target language</p>
             <select
               name="targetLanguage"
+              onBlur={handleBlur}
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
-              value={inputFields.targetLanguage}
-              onChange={handleChange}
+              value={targetLanguage}
+              onChange={(e) => setTargetLanguage(e.target.value)}
             >
               <option value="">Select target language</option>
               {supportedLanguages.map((language, index) => {
@@ -223,7 +198,16 @@ export default function ResourceForm({
                 );
               })}
             </select>
-            <FormError message={errors.targetLanguage} />
+            {touchedFields.has("targetLanguage") && targetLanguage === "" && (
+              <FormError message={"Please select the target language"} />
+            )}
+            {targetLanguage && targetLanguage === nativeLanguage && (
+              <FormError
+                message={
+                  "Target language must be different from native language"
+                }
+              />
+            )}
           </motion.div>
           <motion.div
             className="mb-4 flex flex-col w-full"
@@ -238,9 +222,10 @@ export default function ResourceForm({
             <p className="font-bold secondary-text">Native language</p>
             <select
               name="nativeLanguage"
+              onBlur={handleBlur}
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
-              value={inputFields.nativeLanguage}
-              onChange={handleChange}
+              value={nativeLanguage}
+              onChange={(e) => setNativeLanguage(e.target.value)}
             >
               <option value="">Select native language</option>
               {supportedLanguages.map((language, index) => {
@@ -251,12 +236,21 @@ export default function ResourceForm({
                 );
               })}
             </select>
-            <FormError message={errors.nativeLanguage} />
+            {touchedFields.has("nativeLanguage") && nativeLanguage === "" && (
+              <FormError message={"Please select your native language"} />
+            )}
+            {nativeLanguage && nativeLanguage === targetLanguage && (
+              <FormError
+                message={
+                  "Native language must be different from target language"
+                }
+              />
+            )}
           </motion.div>
           <AnimatePresence>
-            {inputFields.languageResources.length > 0 &&
-              inputFields.nativeLanguage &&
-              inputFields.nativeLanguage !== inputFields.targetLanguage && (
+            {languageResources.length > 0 &&
+              nativeLanguage &&
+              nativeLanguage !== targetLanguage && (
                 <motion.div
                   className="flex-1 flex flex-col w-full my-4"
                   variants={{
@@ -277,10 +271,10 @@ export default function ResourceForm({
                     flashcards:
                   </p>
 
-                  {inputFields.languageResources.map((resource, index) => {
+                  {languageResources.map((resource, index) => {
                     return (
                       <motion.label
-                        key={resource.name + inputFields.targetLanguage}
+                        key={resource.name + targetLanguage}
                         className="flex flex-row items-center text-lg"
                         variants={{
                           hidden: { opacity: 0, x: 100 },
@@ -324,9 +318,14 @@ export default function ResourceForm({
                       </motion.label>
                     );
                   })}
-                  {inputFields.languageResources.length > 0 && (
-                    <FormError message={errors.languageResources} />
-                  )}
+                  {languageResources.length > 0 &&
+                    touchedFields.has("languageResources") &&
+                    languageResources.filter((resource) => resource.isSelected)
+                      .length === 0 && (
+                      <FormError
+                        message={"Please select at least one resource"}
+                      />
+                    )}
                 </motion.div>
               )}
           </AnimatePresence>
