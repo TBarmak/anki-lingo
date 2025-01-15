@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   CombinedScrapedResponse,
+  InputFields,
   LanguageResource,
   ScrapedResponse,
 } from "../../types/types";
@@ -29,7 +30,9 @@ export default function ResourceForm({
   const [languageResources, setLanguageResources] = useState<
     LanguageResource[]
   >([]);
-  const [touchedFields, setTouchedFields] = useState(new Set());
+  const [inputFields, setInputFields] = useState<InputFields>(
+    {} as InputFields
+  );
 
   useEffect(() => {
     fetch("api/supported-languages")
@@ -70,27 +73,6 @@ export default function ResourceForm({
     setExportFields([...new Set(exportFields)]);
   }, [languageResources]);
 
-  function isFormValid(): boolean {
-    if (words.length === 0) {
-      return false;
-    }
-    if (targetLanguage === "") {
-      return false;
-    }
-    if (nativeLanguage === "") {
-      return false;
-    } else if (nativeLanguage === targetLanguage) {
-      return false;
-    }
-    if (
-      languageResources.length > 0 &&
-      languageResources.filter((resource) => resource.isSelected).length === 0
-    ) {
-      return false;
-    }
-    return true;
-  }
-
   function handleResourceCheckboxChange(
     e: React.ChangeEvent<HTMLInputElement>
   ) {
@@ -103,74 +85,26 @@ export default function ResourceForm({
     setLanguageResources(newCheckboxField);
   }
 
-  const handleBlur = (e: React.FocusEvent) => {
-    const target = e.target as HTMLInputElement;
-    setTouchedFields((prev) => new Set(prev.add(target.name)));
-  };
-
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setTouchedFields(
-      new Set([
-        "words",
-        "targetLanguage",
-        "nativeLanguage",
-        "languageResources",
-      ])
-    );
-    if (isFormValid()) {
-      setIsLoading(true);
-      getFlashcardData({
-        words,
-        targetLanguage,
-        nativeLanguage,
-        languageResources,
-      }).then((res) => {
-        setScrapedData(res);
-        setIsLoading(false);
-      });
-    }
+    setIsLoading(true);
+    getFlashcardData({ ...inputFields, languageResources }).then((res) => {
+      setScrapedData(res);
+      setIsLoading(false);
+    });
   }
 
-  return (
-    <motion.form
-      className="py-8 px-16 md:px-24 flex flex-col md:flex-row justify-between w-full min-h-full"
-      onSubmit={handleSubmit}
-      variants={{
-        exit: {
-          opacity: 0,
-          transition: { ease: "easeInOut", duration: 0.75 },
-        },
-      }}
-      exit="exit"
-    >
-      <motion.div
-        className="flex-[3] mb-6 w-full"
-        variants={{
-          hidden: { opacity: 0, x: -100 },
-          visible: { opacity: 1, x: 0 },
-        }}
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 0.75, delay: 0.5 }}
-      >
-        <p className="font-bold secondary-text">Words/Phrases</p>
-        <textarea
-          name="words"
-          onBlur={handleBlur}
-          className="w-full secondary-text h-full min-h-60 resize-none p-3 rounded-lg input text-lg"
-          placeholder={
-            "Enter words in the target language, with each word on a new line. For example:\nabacaxi\nfalar\npalavra"
-          }
-          value={words}
-          onChange={(e) => setWords(e.target.value)}
-        />
-        {touchedFields.has("words") && words.length === 0 && (
-          <FormError message={"Please enter words in the target language"} />
-        )}
-      </motion.div>
-      <div className="h-full w-full flex-[2] flex flex-col items-center md:pl-24">
-        <div className="flex-1 flex flex-col items-center w-full">
+  if (
+    !inputFields.targetLanguage ||
+    !inputFields.nativeLanguage ||
+    inputFields.targetLanguage === inputFields.nativeLanguage
+  ) {
+    return (
+      <div className="py-8 px-16 md:px-24 flex flex-col justify-center w-full min-h-full">
+        <div className="md:px-24">
+          <p className="text-3xl font-bold text-center my-4">
+            Enter your target language and native language
+          </p>
           <motion.div
             className="mb-4 flex flex-col w-full"
             variants={{
@@ -184,7 +118,6 @@ export default function ResourceForm({
             <p className="font-bold secondary-text">Target language</p>
             <select
               name="targetLanguage"
-              onBlur={handleBlur}
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
               value={targetLanguage}
               onChange={(e) => setTargetLanguage(e.target.value)}
@@ -198,9 +131,6 @@ export default function ResourceForm({
                 );
               })}
             </select>
-            {touchedFields.has("targetLanguage") && targetLanguage === "" && (
-              <FormError message={"Please select the target language"} />
-            )}
             {targetLanguage && targetLanguage === nativeLanguage && (
               <FormError
                 message={
@@ -222,7 +152,6 @@ export default function ResourceForm({
             <p className="font-bold secondary-text">Native language</p>
             <select
               name="nativeLanguage"
-              onBlur={handleBlur}
               className="secondary-text p-2 pr-8 rounded-lg input text-lg"
               value={nativeLanguage}
               onChange={(e) => setNativeLanguage(e.target.value)}
@@ -236,9 +165,6 @@ export default function ResourceForm({
                 );
               })}
             </select>
-            {touchedFields.has("nativeLanguage") && nativeLanguage === "" && (
-              <FormError message={"Please select your native language"} />
-            )}
             {nativeLanguage && nativeLanguage === targetLanguage && (
               <FormError
                 message={
@@ -247,108 +173,178 @@ export default function ResourceForm({
               />
             )}
           </motion.div>
-          <AnimatePresence>
-            {languageResources.length > 0 &&
-              nativeLanguage &&
-              nativeLanguage !== targetLanguage && (
-                <motion.div
-                  className="flex-1 flex flex-col w-full my-4"
-                  variants={{
-                    hidden: { opacity: 0, x: 100 },
-                    visible: { opacity: 1, x: 0 },
-                    exit: {
-                      opacity: 0,
-                      transition: { duration: 0.75 },
-                    },
-                  }}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  transition={{ duration: 0.75, delay: 0 }}
-                >
-                  <p className="text-lg my-2">
-                    Select the resources you would like to use to generate the
-                    flashcards:
-                  </p>
-
-                  {languageResources.map((resource, index) => {
-                    return (
-                      <motion.label
-                        key={resource.name + targetLanguage}
-                        className="flex flex-row items-center text-lg"
-                        variants={{
-                          hidden: { opacity: 0, x: 100 },
-                          visible: { opacity: 1, x: 0 },
-                        }}
-                        initial="hidden"
-                        animate="visible"
-                        transition={{
-                          duration: 0.75,
-                          delay: (index + 1) * 0.25,
-                        }}
-                      >
-                        <input
-                          name={resource.name}
-                          type="checkbox"
-                          className="mx-2 hidden"
-                          checked={resource.isSelected ?? false}
-                          onChange={(e) => handleResourceCheckboxChange(e)}
-                        />
-                        <div className="mx-2">
-                          {resource.isSelected ? (
-                            <MdCheckBox color="#162e50" size={24} />
-                          ) : (
-                            <MdCheckBoxOutlineBlank color="#162e50" size={24} />
-                          )}
-                        </div>
-                        {resource.name}
-                        <div
-                          className={`mx-2 w-4 h-4 rounded-full relative ${
-                            resource.isHealthy
-                              ? "green-background"
-                              : "accent-background"
-                          }`}
-                        >
-                          <div className="absolute z-50 opacity-0 hover:opacity-100 w-max bg-white px-2 p-1 rounded-lg text-sm -top-1 transition-all duration-300">
-                            {resource.isHealthy
-                              ? "Working as expected"
-                              : "Might be blocked or broken"}
-                          </div>
-                        </div>
-                      </motion.label>
-                    );
-                  })}
-                  {languageResources.length > 0 &&
-                    touchedFields.has("languageResources") &&
-                    languageResources.filter((resource) => resource.isSelected)
-                      .length === 0 && (
-                      <FormError
-                        message={"Please select at least one resource"}
-                      />
-                    )}
-                </motion.div>
-              )}
-          </AnimatePresence>
         </div>
-        <motion.div
-          className="mt-12"
-          variants={{
-            hidden: { opacity: 0, y: 100 },
-            visible: { opacity: 1, y: 0 },
-          }}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.75, delay: 1 }}
-        >
-          <motion.button
-            type="submit"
+        <div className="flex flex-row w-full justify-center my-8">
+          <button
             className="button"
-            whileHover={{ scale: 1.05 }}
+            disabled={
+              !nativeLanguage ||
+              !targetLanguage ||
+              nativeLanguage === targetLanguage
+            }
+            onClick={() => {
+              setInputFields({
+                nativeLanguage: nativeLanguage,
+                targetLanguage: targetLanguage,
+              } as InputFields);
+            }}
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    );
+  } else if (!inputFields.words) {
+    return (
+      <div className="py-8 px-16 md:px-24 flex flex-col justify-center w-full min-h-full">
+        <div className="md:px-24">
+          <motion.div
+            className="flex-[3] mb-6 w-full"
+            variants={{
+              hidden: { opacity: 0, x: -100 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 0.5 }}
+          >
+            <button onClick={() => setInputFields({} as InputFields)}>
+              Go back
+            </button>
+            <p className="text-3xl font-bold text-center my-4">
+              Enter words and/or phrases in the target language
+            </p>
+            <p className="font-bold secondary-text">Words/Phrases</p>
+            <textarea
+              name="words"
+              className="w-full secondary-text h-full min-h-60 resize-none p-3 rounded-lg input text-lg"
+              placeholder={
+                "Enter words in the target language, with each word on a new line. For example:\nabacaxi\nfalar\npalavra"
+              }
+              value={words}
+              onChange={(e) => setWords(e.target.value)}
+            />
+          </motion.div>
+        </div>
+        <div className="flex flex-row w-full justify-center my-8">
+          <button
+            className="button"
+            disabled={!words}
+            onClick={() => {
+              setInputFields((oldFields) => {
+                return {
+                  ...oldFields,
+                  words: words,
+                };
+              });
+            }}
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="py-8 px-16 md:px-24 flex flex-col justify-center w-full min-h-full">
+      <div className="md:px-24">
+        <button
+          onClick={() =>
+            setInputFields((oldFields) => {
+              return { ...oldFields, words: "" } as InputFields;
+            })
+          }
+        >
+          Go back
+        </button>
+        <p className="text-3xl font-bold text-center my-4">Select resources</p>
+        <AnimatePresence>
+          {languageResources.length > 0 &&
+            nativeLanguage &&
+            nativeLanguage !== targetLanguage && (
+              <motion.div
+                className="flex-1 flex flex-col w-full my-4"
+                variants={{
+                  hidden: { opacity: 0, x: 100 },
+                  visible: { opacity: 1, x: 0 },
+                  exit: {
+                    opacity: 0,
+                    transition: { duration: 0.75 },
+                  },
+                }}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ duration: 0.75, delay: 0 }}
+              >
+                <p className="text-lg my-2">
+                  Select the resources you would like to use to generate the
+                  flashcards:
+                </p>
+
+                {languageResources.map((resource, index) => {
+                  return (
+                    <motion.label
+                      key={resource.name + targetLanguage + index}
+                      className="flex flex-row items-center text-lg"
+                      variants={{
+                        hidden: { opacity: 0, x: 100 },
+                        visible: { opacity: 1, x: 0 },
+                      }}
+                      initial="hidden"
+                      animate="visible"
+                      transition={{
+                        duration: 0.75,
+                        delay: (index + 1) * 0.25,
+                      }}
+                    >
+                      <input
+                        name={resource.name}
+                        type="checkbox"
+                        className="mx-2 hidden"
+                        checked={resource.isSelected ?? false}
+                        onChange={(e) => handleResourceCheckboxChange(e)}
+                      />
+                      <div className="mx-2">
+                        {resource.isSelected ? (
+                          <MdCheckBox color="#162e50" size={24} />
+                        ) : (
+                          <MdCheckBoxOutlineBlank color="#162e50" size={24} />
+                        )}
+                      </div>
+                      {resource.name}
+                      <div
+                        className={`mx-2 w-4 h-4 rounded-full relative ${
+                          resource.isHealthy
+                            ? "green-background"
+                            : "accent-background"
+                        }`}
+                      >
+                        <div className="absolute z-50 opacity-0 hover:opacity-100 w-max bg-white px-2 p-1 rounded-lg text-sm -top-1 transition-all duration-300">
+                          {resource.isHealthy
+                            ? "Working as expected"
+                            : "Might be blocked or broken"}
+                        </div>
+                      </div>
+                    </motion.label>
+                  );
+                })}
+              </motion.div>
+            )}
+        </AnimatePresence>
+        <div className="flex flex-row justify-center my-8">
+          <button
+            onClick={handleSubmit}
+            disabled={
+              !languageResources.some((resource) => resource.isSelected)
+            }
+            className="button"
           >
             Generate
-          </motion.button>
-        </motion.div>
+          </button>
+        </div>
       </div>
-    </motion.form>
+    </div>
   );
 }

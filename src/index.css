@@ -70,3 +70,9 @@ body {
 .button:hover {
   cursor: pointer;
 }
+
+.button:disabled {
+  background-color: #9aa5b1; /* Muted gray to indicate disabled */
+  color: #d1d5db; /* Softer text color */
+  cursor: not-allowed;
+}
