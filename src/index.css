@@ -65,11 +65,10 @@ body {
   padding: 0.5rem 1.5rem;
   font-size: large;
   border-radius: 10px;
-  border: none;
 }
 
 .button:disabled {
-  background-color: #9aa5b1; /* Muted gray to indicate disabled */
-  color: #d1d5db; /* Softer text color */
+  background-color: #9aa5b1;
+  color: #d1d5db;
   cursor: not-allowed;
 }
