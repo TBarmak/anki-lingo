@@ -65,10 +65,7 @@ body {
   padding: 0.5rem 1.5rem;
   font-size: large;
   border-radius: 10px;
-}
-
-.button:hover {
-  cursor: pointer;
+  border: none;
 }
 
 .button:disabled {

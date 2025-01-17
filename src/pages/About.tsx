@@ -25,7 +25,7 @@ export default function About() {
       >
         <span className="font-bold text-xl italic">Anki Lingo</span> is a tool
         for automating the creation of Anki flashcards for language learning.
-        Simply enter vocab words, select the target and native language, and
+        Simply select the target and native language, enter vocab words, and
         select the resources that you'd like to use to create the flashcards.
         After scraping the data, you can design your flashcards by selecting
         which fields you'd like to include on each side. Finally, Anki Lingo
