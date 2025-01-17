@@ -102,7 +102,7 @@ export default function ResourceForm({
       inputFields.targetLanguage === inputFields.nativeLanguage ? (
         <motion.div
           key="language-selection"
-          className="py-8 px-16 md:px-24 flex flex-col justify-center w-full min-h-full"
+          className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{
@@ -110,7 +110,7 @@ export default function ResourceForm({
             transition: { ease: "easeInOut", duration: 0.75 },
           }}
         >
-          <div className="md:px-24">
+          <div>
             <motion.p
               className="text-3xl font-bold text-center my-4"
               initial={{ opacity: 0, y: -100 }}
@@ -211,12 +211,12 @@ export default function ResourceForm({
       ) : !inputFields.words ? (
         <motion.div
           key="word-entry"
-          className="py-8 px-16 md:px-24 flex flex-col justify-center w-full min-h-full"
+          className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.75 } }}
         >
-          <div className="md:px-24">
+          <div>
             <motion.button
               initial={{ opacity: 0, y: -100 }}
               animate={{ opacity: 1, y: 0 }}
@@ -290,13 +290,13 @@ export default function ResourceForm({
       ) : (
         <motion.div
           key="resources-selection"
-          className="py-8 px-16 md:px-24 flex flex-col justify-center w-full min-h-full"
+          className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.75 } }}
         >
-          <div className="py-8 px-16 md:px-24 flex flex-col justify-center w-full min-h-full">
-            <div className="md:px-24">
+          <div className="py-8 flex flex-col justify-center w-full min-h-full">
+            <div>
               <motion.button
                 initial={{ opacity: 0, y: -100 }}
                 animate={{ opacity: 1, y: 0 }}
