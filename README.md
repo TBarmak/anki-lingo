@@ -1,6 +1,8 @@
 # Anki Lingo
 **Anki Lingo** is a React and Flask application for generating Anki flashcards for learning languages. It scrapes popular language learning sites like Word Reference, SpanishDict, and Forvo to fetch translations, example sentences, and much more!
 
+It is currently hosted at https://anki.taylorbarmak.com.
+
 <img src="./docs/photos/landing.png" alt="landing" width="800"/>
 
 The user simply enters words in the target language, and selects resources for that language to scrape from.

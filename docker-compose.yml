@@ -10,5 +10,4 @@ services:
       dockerfile: Dockerfile.client
     image: anki-lingo-client
     ports:
-      # Set to "3000:80" when running locally, "80:80" for hosting with EC2
-      - "80:80"
+      - "8080:80"
