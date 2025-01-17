@@ -5,9 +5,23 @@ It is currently hosted at https://anki.taylorbarmak.com.
 
 <img src="./docs/photos/landing.png" alt="landing" width="800"/>
 
-The user simply enters words in the target language, and selects resources for that language to scrape from.
-<img src="./docs/photos/empty_home.png" alt="empty home" width="800"/>
-<img src="./docs/photos/populated_home.png" alt="populated home" width="800"/>
+The user starts by entering their native and target languages.
+
+<img src="./docs/photos/populated_languages.png" alt="populated languages" width="800"/>
+
+Next, the user enters words and phrases in the target language.
+
+<img src="./docs/photos/populated_words.png" alt="populated words" width="800"/>
+
+Next, the user selects which resources they would like to scrape from.
+
+<img src="./docs/photos/populated_resources.png" alt="populated resources" width="800"/>
+
+Resources have health checks to validate that the sites are being scraped as expected. It is indicated as healthy with a green circle, or unhealthy with a red circle. A resource can become unhealthy if:
+1. The resource blocks traffic from the IP address where Anki Lingo is being run
+2. The resource website structure was updated in a way that breaks the current scraping logic
+
+After clicking the "Generate" button, the resources will be scraped.
 
 After the information is scraped, the user can design the flashcards by selecting which fields to include, and which side to put them on. For example, I prefer to put example sentences in the target language on a separate side.
 <img src="./docs/photos/design_flashcards.png" alt="design flashcards" width="800"/>
@@ -63,4 +77,4 @@ The Flask (Python) backend uses Beautiful Soup to scrape popular websites.
 1. Clone the repo with `git clone https://github.com/TBarmak/anki-lingo.git`
 2. `cd anki-lingo`
 3. `docker-compose up`
-4. Open `localhost:3000` in the browser!
+4. Open `localhost:8080` in the browser!
