@@ -6,7 +6,8 @@ LANGUAGE_TO_ABBV = {
     "english": "en",
     "español": "es",
     "français": "fr",
-    "português": "pt"
+    "português": "pt",
+    "italiano": "it"
 }
 
 

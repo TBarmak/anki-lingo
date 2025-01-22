@@ -104,6 +104,24 @@ class TestWordReference:
         assert url == create_url(word, "es", "en")
         assert status_code == 200
 
+    def test_scrape_word_reference_camicia(self, requests_mock):
+        # Arrange
+        word = "camicia"
+        target_lang = "Italiano"
+        native_lang = "English"
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, "it", "en"))
+        requests_mock.get(create_url(word, "it", "en"), text=mock_response)
+        expected_response = read_expected_output(
+            get_expected_output_filename(word, "it", "en"))
+        # Act
+        scraped_data, url, status_code = scrape_word_reference(
+            word, target_lang, native_lang)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == create_url(word, "it", "en")
+        assert status_code == 200
+
     def test_scrape_word_reference_bad_target_lang(self):
         # Arrange
         word = "viejo"

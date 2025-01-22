@@ -1,0 +1,39 @@
+[
+  {
+    "definition": "(indumento) (clothing)",
+    "nativeExampleSentences": ["My husband wears a clean shirt each day."],
+    "pos": "nf",
+    "targetExampleSentences": ["Mio marito indossa una camicia al giorno."],
+    "translations": [
+      "shirt, button down shirt",
+      "blouse",
+      "nightshirt",
+      "nightgown, nightie"
+    ],
+    "word": "camicia"
+  },
+  {
+    "definition": "(rivestimento di apparecchiature) (tech)",
+    "nativeExampleSentences": [
+      "We need to get a covering sleeve to protect the machine from the weather."
+    ],
+    "pos": "nf",
+    "targetExampleSentences": [
+      "Per proteggere il macchinario dalle intemperie dovremo procurare una camicia di rivestimento."
+    ],
+    "translations": ["jacket, sleeve"],
+    "word": "camicia"
+  },
+  {
+    "definition": "(rivestimento murale)",
+    "nativeExampleSentences": [
+      "The workers applied a layer of lime and waited for it to set."
+    ],
+    "pos": "nf",
+    "targetExampleSentences": [
+      "Gli operai hanno steso una camicia di calce e l'hanno fatta asciugare."
+    ],
+    "translations": ["layer", "wall treatment", "plaster bond"],
+    "word": "camicia"
+  }
+]

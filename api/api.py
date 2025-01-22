@@ -30,7 +30,7 @@ LANGUAGE_RESOURCES = [
         "healthRoute": "api/wr/français/english/vérifier",
         "args": ["targetLang", "nativeLang", "word"],
         "outputs": ["word", "pos", "definition", "translations", "targetExampleSentences", "nativeExampleSentences"],
-        "supportedLanguages": ["english", "español", "português", "français"]
+        "supportedLanguages": ["english", "español", "português", "français", "italiano"]
     },
     {
         "name": "SpanishDict",

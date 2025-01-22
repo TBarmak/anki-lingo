@@ -19,7 +19,7 @@ def test_supported_languages(client):
     # Assert
     languages = response.json["languages"]
     assert len(response.json.keys()) == 1
-    assert set(languages) == {"Français", "Português", "Español", "English"}
+    assert set(languages) == {"Français", "Português", "Español", "English", "Italiano"}
 
 
 def test_english_resources(client):
