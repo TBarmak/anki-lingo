@@ -27,5 +27,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no ec2-user@54.152.37.238 << EOF
           cd /home/ec2-user/app
           docker-compose down
+          docker system prune -f --volumes
           docker-compose up -d --build
         EOF

@@ -54,7 +54,7 @@ LANGUAGE_RESOURCES = [
         "healthRoute": "api/forvo/português/abacaxi",
         "args": ["targetLang", "word"],
         "outputs": ["audioFilenames"],
-        "supportedLanguages": ["français", "português", "español", "english"]
+        "supportedLanguages": ["français", "português", "español", "english", "italiano"]
     },
     {
         "name": "Semanticar BR",

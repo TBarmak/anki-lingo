@@ -24,6 +24,7 @@ Resources have health checks to validate that the sites are being scraped as exp
 After clicking the "Generate" button, the resources will be scraped.
 
 After the information is scraped, the user can design the flashcards by selecting which fields to include, and which side to put them on. For example, I prefer to put example sentences in the target language on a separate side.
+
 <img src="./docs/photos/design_flashcards.png" alt="design flashcards" width="800"/>
 <img src="./docs/photos/csv_download.png" alt="csv download" width="800"/>
 
@@ -33,13 +34,17 @@ Expand the zip file to get the `anki.csv` and the `audio_files`, if applicable.
 
 ### Importing CSV into Anki
 In Anki, click "Import File"
+
 <img src="./docs/photos/anki_import.png" alt="anki import" width="800"/>
+
 and select the `anki.csv` file from the expanded zip.
 
 Make sure the "Field separator" is "Pipe", and that "Allow HTML in fields" is toggled on.
+
 <img src="./docs/photos/anki_file_options.png" alt="anki file options" width="800"/>
 
 Update the "Import options" and "Field mapping" according to how you designed your flashcards.
+
 <img src="./docs/photos/anki_field_mapping.png" alt="anki field mapping" width="800"/>
 
 Finally, click the "Import" button.
