@@ -1,5 +1,5 @@
 from api.scrapers.forvo import create_url, scrape_forvo
-from unittest.mock import patch, mock_open
+from unittest.mock import patch, mock_open, MagicMock
 from api.scrapers.tests.utils.get_mock_response import get_mock_response
 
 
@@ -36,18 +36,14 @@ class TestForvo:
         assert url == "https://forvo.com/word/ba%C3%AEller/#fr"
 
     @patch("urllib.request.urlopen")
-    @patch("urllib.request.Request")
-    @patch("urllib.request.install_opener")
-    def test_scrape_forvo_avoir(self, mock_install_opener, mock_request, mock_urlopen, requests_mock):
+    def test_scrape_forvo_avoir(self, mock_urlopen):
         # Arrange
         word = "avoir"
         language = "français"
-        mock_forvo_response = get_mock_response(
-            get_mock_response_filename(word, "fr"))
-        requests_mock.get(create_url(word, "fr"), text=mock_forvo_response)
-        mock_audio_response = ""
-        mock_urlopen.return_value.read.return_value = mock_audio_response.encode(
+        mock_response = get_mock_response(get_mock_response_filename(word, "fr"))
+        mock_urlopen.return_value.read.return_value = mock_response.encode(
             "UTF-8")
+        mock_urlopen.return_value.getcode.return_value = 200
         mock_file_open = mock_open()
         # Act
         with patch("builtins.open", mock_file_open, create=True):
@@ -57,14 +53,17 @@ class TestForvo:
             "audio_files/pronunciation_fr_avoir.ogg", "b+w")
         assert audio_filenames == [
             {"audioFilenames": ["pronunciation_fr_avoir.ogg"]}]
-        assert url == create_url(word, "fr")
+        assert url == "https://forvo.com/word/avoir/#fr"
         assert status_code == 200
 
-    def test_scrape_forvo_unauthorized(self, requests_mock):
+    @patch("urllib.request.urlopen")
+    def test_scrape_forvo_unauthorized(self, mock_urlopen):
         # Arrange
         word = "avoir"
         language = "français"
-        requests_mock.get(create_url(word, "fr"), status_code=403)
+        mock_urlopen.return_value.read.return_value = "".encode(
+            "UTF-8")
+        mock_urlopen.return_value.getcode.return_value = 403
         # Act
         audio_filenames, url, status_code = scrape_forvo(word, language)
         # Assert

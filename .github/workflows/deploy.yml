@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - fix/forvo-403
 
 jobs:
   deploy:
