@@ -53,7 +53,7 @@ class TestForvo:
             "audio_files/pronunciation_fr_avoir.ogg", "b+w")
         assert audio_filenames == [
             {"audioFilenames": ["pronunciation_fr_avoir.ogg"]}]
-        assert url == "https://forvo.com/word/avoir/#fr"
+        assert url == create_url(word, "fr") 
         assert status_code == 200
 
     @patch("urllib.request.urlopen")
