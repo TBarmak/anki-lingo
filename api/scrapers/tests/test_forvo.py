@@ -1,7 +1,7 @@
 from api.scrapers.forvo import create_url, scrape_forvo
 from unittest.mock import patch, mock_open, MagicMock
 from api.scrapers.tests.utils.get_mock_response import get_mock_response
-
+from urllib.error import HTTPError
 
 def get_mock_response_filename(word, lang_abbv):
     return f"forvo_{word}_{lang_abbv}.html"
@@ -61,9 +61,13 @@ class TestForvo:
         # Arrange
         word = "avoir"
         language = "français"
-        mock_urlopen.return_value.read.return_value = "".encode(
-            "UTF-8")
-        mock_urlopen.return_value.getcode.return_value = 403
+        mock_urlopen.side_effect = HTTPError(
+            url="https://forvo.com",
+            code=403,
+            msg="Forbidden",
+            hdrs=None,
+            fp=None
+        )
         # Act
         audio_filenames, url, status_code = scrape_forvo(word, language)
         # Assert

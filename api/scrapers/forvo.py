@@ -64,14 +64,16 @@ def scrape_forvo(word: str, language: str):
     url = create_url(word, lang_abbv)
     url_request = urllib.request.Request(
         url, headers=headers)
-    response = urllib.request.urlopen(url_request)
-    if response.getcode() == 200:
+    try:
+        response = urllib.request.urlopen(url_request)
         content = response.read()
         soup = BeautifulSoup(content, "html.parser")
         table = get_table(soup, lang_abbv)
         pronunciation_url = get_top_pronunciation_url(table)
         output_filename = download_audio(pronunciation_url, word, lang_abbv)
         return [{"audioFilenames": [output_filename]}], url, response.getcode()
-    else:
-        return [], url, response.getcode()
+    except urllib.error.HTTPError as e:
+        return [], url, e.code
+    except urllib.error.URLError as e:
+        return [], url, 500
     
