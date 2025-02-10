@@ -59,7 +59,7 @@ LANGUAGE_RESOURCES = [
     {
         "name": "Semanticar BR",
         "route": "api/semanticar-br/",
-        "healthRoute": "api/semanticar-br/abacaxi",
+        "healthRoute": "api/semanticar-br/homem",
         "args": ["word"],
         "outputs": ["targetExampleSentences"],
         "supportedLanguages": ["português"]
