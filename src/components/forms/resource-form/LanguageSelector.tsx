@@ -5,12 +5,22 @@ import type { InputFields } from "../../../types/types";
 
 type Props = {
   setInputFields: React.Dispatch<React.SetStateAction<InputFields>>;
+  inputFields: InputFields;
+  goToNextStep: () => void;
 };
 
-export default function LanguageSelector({ setInputFields }: Props) {
+export default function LanguageSelector({
+  setInputFields,
+  inputFields,
+  goToNextStep,
+}: Props) {
   const [supportedLanguages, setSupportedLanguages] = useState<string[]>([]);
-  const [targetLanguage, setTargetLanguage] = useState<string>("");
-  const [nativeLanguage, setNativeLanguage] = useState<string>("");
+  const [targetLanguage, setTargetLanguage] = useState<string>(
+    inputFields.targetLanguage || ""
+  );
+  const [nativeLanguage, setNativeLanguage] = useState<string>(
+    inputFields.nativeLanguage || ""
+  );
 
   useEffect(() => {
     fetch("api/supported-languages")
@@ -103,10 +113,12 @@ export default function LanguageSelector({ setInputFields }: Props) {
               nativeLanguage === targetLanguage
             }
             onClick={() => {
-              setInputFields({
+              setInputFields((oldFields) => ({
+                ...oldFields,
                 nativeLanguage: nativeLanguage,
                 targetLanguage: targetLanguage,
-              } as InputFields);
+              }));
+              goToNextStep();
             }}
           >
             Continue

@@ -11,18 +11,18 @@ import { setIsLoading, setScrapedData } from "../../../store/slice";
 
 type Props = {
   inputFields: InputFields;
-  setInputFields: React.Dispatch<React.SetStateAction<InputFields>>;
   setLanguageResources: React.Dispatch<
     React.SetStateAction<LanguageResource[]>
   >;
   languageResources: LanguageResource[];
+  goToPreviousStep: () => void;
 };
 
 export default function ResourceSelector({
-  setInputFields,
   setLanguageResources,
   languageResources,
   inputFields,
+  goToPreviousStep,
 }: Props) {
   const dispatch = useDispatch();
 
@@ -54,11 +54,7 @@ export default function ResourceSelector({
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 1.25 }}
-          onClick={() =>
-            setInputFields((oldFields) => {
-              return { ...oldFields, words: "" } as InputFields;
-            })
-          }
+          onClick={() => goToPreviousStep()}
           className="text-lg flex items-center"
         >
           <div className="group hover:cursor-pointer flex items-center">
