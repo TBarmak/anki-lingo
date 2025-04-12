@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import {
+import type {
   CardFormat,
   CardSide,
-  CombinedScrapedResponse,
 } from "../../types/types";
 import {
   MdOutlineRemoveCircle,
@@ -12,19 +11,18 @@ import {
   MdRemoveCircle,
 } from "react-icons/md";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsLoading } from "../../store/slice";
+import type { RootState } from "../../store";
 
 type Props = {
-  scrapedData: CombinedScrapedResponse[];
   exportFields: string[];
   setDownloadUrl: React.Dispatch<React.SetStateAction<string>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function CardFormatForm({
-  scrapedData,
   exportFields,
   setDownloadUrl,
-  setIsLoading,
 }: Props) {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
   const [cardFormat, setCardFormat] = useState<CardFormat>({
@@ -35,6 +33,10 @@ export default function CardFormatForm({
   const [lastDraggedSide, setLastDraggedSide] = useState<number>();
   const MIN_SIDES = 2;
   const MAX_SIDES = 5;
+
+  const scrapedData = useSelector((state: RootState) => state.root.scrapedData);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch("api/field-mapping")
@@ -88,7 +90,7 @@ export default function CardFormatForm({
       .then((blob) => {
         const url = window.URL.createObjectURL(new Blob([blob]));
         setDownloadUrl(url);
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       });
   }
 

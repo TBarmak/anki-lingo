@@ -39,7 +39,7 @@ def parse_first_table(table):
                 entry["pos"] = row.find_all(
                     "td", {"class": "FrWrd"})[0].em.text
                 entry["word"] = "".join(row.find_all("td", {"class": "FrWrd"})[
-                                        0].strong.findAll(string=True))
+                                        0].strong.find_all(string=True))
                 entry["definition"] = row.find_all("td")[1].text.strip()
                 entry["translations"] = []
                 entry["nativeExampleSentences"] = []

@@ -29,7 +29,7 @@ export default function Download({ downloadUrl, errors }: Props) {
       </p>
       <p className="text-lg secondary-text mt-2 mb-4">
         For instructions on how to import the files into Anki, please see{" "}
-        <a className="underline" href="https://github.com/TBarmak/anki-lingo">
+        <a className="underline" href="https://github.com/TBarmak/anki-lingo/blob/main/README.md">
           this article
         </a>
         .

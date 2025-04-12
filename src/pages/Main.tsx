@@ -1,18 +1,17 @@
 import { useState } from "react";
 import Loading from "../components/Loading";
-import {
-  CombinedScrapedResponse,
-  WordScrapeError,
-} from "../types/types";
+import type { WordScrapeError } from "../types/types";
 import ResourceForm from "../components/forms/ResourceForm";
 import CardFormatForm from "../components/forms/CardFormatForm";
 import Download from "../components/Download";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
 
 export default function Main() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [scrapedData, setScrapedData] = useState<CombinedScrapedResponse[]>([]);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [exportFields, setExportFields] = useState<string[]>([]);
+  const isLoading = useSelector((state: RootState) => state.root.isLoading);
+  const scrapedData = useSelector((state: RootState) => state.root.scrapedData);
 
   function getErrors(): WordScrapeError[] {
     return scrapedData
@@ -45,10 +44,8 @@ export default function Main() {
     return (
       <div className="w-full h-screen route-component">
         <CardFormatForm
-          scrapedData={scrapedData}
           exportFields={exportFields}
           setDownloadUrl={setDownloadUrl}
-          setIsLoading={setIsLoading}
         />
       </div>
     );
@@ -56,11 +53,7 @@ export default function Main() {
 
   return (
     <div className="w-full h-screen route-component">
-      <ResourceForm
-        setIsLoading={setIsLoading}
-        setScrapedData={setScrapedData}
-        setExportFields={setExportFields}
-      />
+      <ResourceForm setExportFields={setExportFields} />
     </div>
   );
 }

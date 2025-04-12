@@ -32,10 +32,10 @@ def parse_pos_block(pos_block, target_lang_abbv):
                 targetExampleSentences (list): list of string example sentences in the target language
                 nativeExampleSentences (list): list of string example sentences in the native language 
     '''
-    pos = pos_block.findChildren(recursive=False)[0].find_all(string=True)[-1]
+    pos = pos_block.find_all(recursive=False)[0].find_all(string=True)[-1]
 
-    translation_blocks = pos_block.findChildren(
-        recursive=False)[1].findChildren(recursive=False)
+    translation_blocks = pos_block.find_all(
+        recursive=False)[1].find_all(recursive=False)
     parsed_translation_blocks = [parse_translation_block(
         block, target_lang_abbv) for block in translation_blocks]
     for parsed_translation_block in parsed_translation_blocks:
@@ -63,10 +63,10 @@ def parse_translation_block(translation_block, target_lang_abbv):
                 nativeExampleSentences (list): list of string example sentences in the native language 
     '''
     parenthesized_translations = "".join(
-        [item.text for item in translation_block.findChildren(recursive=False)[0].findAll("a")])
+        [item.text for item in translation_block.find_all(recursive=False)[0].find_all("a")])
 
-    translation_subblocks = translation_block.findChildren(
-        recursive=False)[1].findChildren(recursive=False)
+    translation_subblocks = translation_block.find_all(
+        recursive=False)[1].find_all(recursive=False)
     parsed_translation_subblocks = [parse_translation_subblock(
         subblock, target_lang_abbv) for subblock in translation_subblocks]
     parsed_translation_block = {}
@@ -102,13 +102,13 @@ def parse_translation_subblock(translation_subblock, target_lang_abbv):
     native_lang_abbv = "en" if target_lang_abbv == "es" else "en"
     translation = "no direct translation"
     try:
-        translation = translation_subblock.findChildren(
+        translation = translation_subblock.find_all(
             recursive=False)[0].find("a").contents[0]
     except:
         pass
-    target_example_sentences = [sentence.contents[0] for sentence in translation_subblock.findAll(
+    target_example_sentences = [sentence.contents[0] for sentence in translation_subblock.find_all(
         "span", {"lang": target_lang_abbv})]
-    native_example_sentences = [sentence.contents[0] for sentence in translation_subblock.findAll(
+    native_example_sentences = [sentence.contents[0] for sentence in translation_subblock.find_all(
         "span", {"lang": native_lang_abbv})]
     parsed_translation_subblock = {
         "translations": [translation], 
@@ -151,10 +151,10 @@ def scrape_spanishdict(word, target_lang):
             "div", {"id": f"dictionary-neodict-{target_lang_abbv}"})
 
         # Extract the word from SpanishDict in case it differs from the word submitted (ie due to a typo)
-        spanishdict_word = meanings_container.findChildren(
-            recursive=False)[0].findChildren(recursive=False)[0].find("span").contents[0]
-        pos_blocks = meanings_container.findChildren(
-            recursive=False)[0].findChildren(recursive=False)[0].findChildren(recursive=False)[1:]
+        spanishdict_word = meanings_container.find_all(
+            recursive=False)[0].find_all(recursive=False)[0].find("span").contents[0]
+        pos_blocks = meanings_container.find_all(
+            recursive=False)[0].find_all(recursive=False)[0].find_all(recursive=False)[1:]
         parsed_pos_blocks = [parse_pos_block(
             block, target_lang_abbv) for block in pos_blocks]
         translations_list = []
