@@ -16,6 +16,9 @@ export default function ResourceForm({ setExportFields }: Props) {
   const [inputFields, setInputFields] = useState<InputFields>(
     {} as InputFields
   );
+  const [currentStep, setCurrentStep] = useState<
+    "languages" | "words" | "resources"
+  >("languages");
 
   useEffect(() => {
     setLanguageResources([]);
@@ -55,54 +58,60 @@ export default function ResourceForm({ setExportFields }: Props) {
   return (
     <AnimatePresence mode="wait">
       {((): ReactNode => {
-        if (
-          !inputFields.targetLanguage ||
-          !inputFields.nativeLanguage ||
-          inputFields.targetLanguage === inputFields.nativeLanguage
-        ) {
-          return (
-            <motion.div
-              key="language-selection"
-              className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{
-                opacity: 0,
-                transition: { ease: "easeInOut", duration: 0.75 },
-              }}
-            >
-              <LanguageSelector setInputFields={setInputFields} />
-            </motion.div>
-          );
-        } else if (!inputFields.words) {
-          return (
-            <motion.div
-              key="word-entry"
-              className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.75 } }}
-            >
-              <WordTextArea setInputFields={setInputFields} />
-            </motion.div>
-          );
-        } else {
-          return (
-            <motion.div
-              key="resources-selection"
-              className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.75 } }}
-            >
-              <ResourceSelector
-                inputFields={inputFields}
-                setInputFields={setInputFields}
-                setLanguageResources={setLanguageResources}
-                languageResources={languageResources}
-              />
-            </motion.div>
-          );
+        switch (currentStep) {
+          case "languages":
+            return (
+              <motion.div
+                key="language-selection"
+                className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{
+                  opacity: 0,
+                  transition: { ease: "easeInOut", duration: 0.75 },
+                }}
+              >
+                <LanguageSelector
+                  inputFields={inputFields}
+                  setInputFields={setInputFields}
+                  goToNextStep={() => setCurrentStep("words")}
+                />
+              </motion.div>
+            );
+          case "words":
+            return (
+              <motion.div
+                key="word-entry"
+                className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.75 } }}
+              >
+                <WordTextArea
+                  inputFields={inputFields}
+                  setInputFields={setInputFields}
+                  goToPreviousStep={() => setCurrentStep("languages")}
+                  goToNextStep={() => setCurrentStep("resources")}
+                />
+              </motion.div>
+            );
+          case "resources":
+            return (
+              <motion.div
+                key="resources-selection"
+                className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.75 } }}
+              >
+                <ResourceSelector
+                  inputFields={inputFields}
+                  setLanguageResources={setLanguageResources}
+                  languageResources={languageResources}
+                  goToPreviousStep={() => setCurrentStep("words")}
+                />
+              </motion.div>
+            );
         }
       })()}
     </AnimatePresence>

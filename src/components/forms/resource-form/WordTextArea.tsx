@@ -5,10 +5,13 @@ import { useState } from "react";
 
 type Props = {
   setInputFields: React.Dispatch<React.SetStateAction<InputFields>>;
+  inputFields: InputFields;
+  goToPreviousStep: () => void;
+  goToNextStep: () => void;
 };
 
-export default function WordTextArea({ setInputFields }: Props) {
-  const [words, setWords] = useState<string>("");
+export default function WordTextArea({ setInputFields, inputFields, goToPreviousStep, goToNextStep }: Props) {
+  const [words, setWords] = useState<string>(inputFields.words || "");
 
   return (
     <div>
@@ -16,7 +19,7 @@ export default function WordTextArea({ setInputFields }: Props) {
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.75, delay: 1.25 }}
-        onClick={() => setInputFields({} as InputFields)}
+        onClick={() => goToPreviousStep()}
         className="text-lg flex items-center"
       >
         <div className="group hover:cursor-pointer flex items-center">
@@ -74,6 +77,7 @@ export default function WordTextArea({ setInputFields }: Props) {
                 ...oldFields,
                 words: words,
               }));
+              goToNextStep();
             }}
           >
             Continue
