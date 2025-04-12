@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import FormError from "../FormError";
-import { InputFields } from "../../../types/types";
+import type { InputFields } from "../../../types/types";
 
 type Props = {
   setInputFields: React.Dispatch<React.SetStateAction<InputFields>>;
@@ -19,16 +19,7 @@ export default function LanguageSelector({ setInputFields }: Props) {
   }, []);
 
   return (
-    <motion.div
-      key="language-selection"
-      className="py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex flex-col justify-center w-full min-h-full"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{
-        opacity: 0,
-        transition: { ease: "easeInOut", duration: 0.75 },
-      }}
-    >
+    <div>
       <div>
         <motion.p
           className="text-3xl font-bold text-center my-4"
@@ -122,6 +113,6 @@ export default function LanguageSelector({ setInputFields }: Props) {
           </motion.button>
         </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 }
