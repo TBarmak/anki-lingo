@@ -13,10 +13,53 @@ The `deploy.yml` Github workflow currently deploys the code to an EC2 instance, 
 
 ## Securing with HTTPS
 I found [this Medium article](https://faun.pub/enable-https-on-ec2-instance-without-elastic-load-balancer-f69cd57a8f3a) very helpful.
-1. In the EC2 instance, run `sudo yum install -y certbot`.
-2. Stop nginx with `sudo systemctl stop nginx`.
-3. Generate an SSL certificate with `sudo certbot certonly --standalone -d anki.taylorbarmak.com`.
-4. Update the nginx conf to listen on 443 and point the `ssl_certificate` and `ssl_certificate_key` to the correct paths in `/etc/letsencrypt/live/` (This is already done in `deployment/nginx.host.conf`)
-5. Run `sudo nginx -t` and `sudo systemctl restart nginx`.
-6. Go to `https://anki.taylorbarmak.com` and confirm it doesn't say "Not Secure" anymore.
-7. Automate the certificate renewal process in the EC2 by running `sudo sh -c 'echo "0 12 * * * /usr/bin/certbot renew --quiet" >> /etc/crontab'`.
+
+1. In the EC2 instance, run 
+```bash
+sudo yum install -y certbot`.
+```
+2. Create the web root directory for the HTTP challenge files
+```bash
+sudo mkdir -p /var/www/letsencrypt
+sudo chown nginx:nginx /var/www/letsencrypt
+```
+3. Add the `.well-known` block to nginx (This is already done in `deployment/nginx.host.conf`):
+```nginx
+location ^~ /.well-known/acme-challenge/ {
+    root /var/www/letsencrypt;
+    default_type "text/plain";
+    allow all;
+}
+```
+4. Reload nginx to apply changes
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```
+5. Issue a certificate using the `webroot` plugin: 
+```bash
+sudo certbot certonly --webroot -w /var/www/letsencrypt -d anki.taylorbarmak.com
+```
+6. Install `cronie` if it's not already installed:
+```bash
+sudo yum install -y cronie
+```
+7. Start and enable the cron service:
+```bash
+sudo systemctl enable crond
+sudo systemctl start crond
+```
+8. Update crontab to automatically renew the certificate:
+```bash
+sudo crontab -e
+```
+Add this line: 
+```cron
+0 12 * * * /usr/bin/certbot renew --quiet --no-self-upgrade && /bin/systemctl reload nginx
+```
+9. Test renewal manually to verify the setup
+```bash
+sudo certbot renew --dry-run
+```
+10. Update the nginx conf to listen on 443 and point the `ssl_certificate` and `ssl_certificate_key` to the correct paths in `/etc/letsencrypt/live/` (This is already done in `deployment/nginx.host.conf`)
+11. Go to `https://anki.taylorbarmak.com` and confirm it uses HTTPS (padlock icon, no "Not Secure" warning).
+
