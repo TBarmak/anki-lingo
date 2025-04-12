@@ -39,7 +39,6 @@ export default function CardFormatForm({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("export fields in CardFormatForm", exportFields);
     fetch("api/field-mapping")
       .then((res) => res.json())
       .then((data) => setFieldMapping(data));
