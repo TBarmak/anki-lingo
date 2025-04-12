@@ -61,5 +61,5 @@ Add this line:
 sudo certbot renew --dry-run
 ```
 10. Update the nginx conf to listen on 443 and point the `ssl_certificate` and `ssl_certificate_key` to the correct paths in `/etc/letsencrypt/live/` (This is already done in `deployment/nginx.host.conf`)
-12. Go to `https://anki.taylorbarmak.com` and confirm it uses HTTPS (padlock icon, no "Not Secure" warning).
+11. Go to `https://anki.taylorbarmak.com` and confirm it uses HTTPS (padlock icon, no "Not Secure" warning).
 
