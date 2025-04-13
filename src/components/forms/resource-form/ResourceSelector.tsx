@@ -64,7 +64,7 @@ export default function ResourceSelector() {
               return (
                 <motion.label
                   key={resource.name + targetLanguage + index}
-                  className="flex flex-row items-center text-lg"
+                  className="flex flex-row items-center text-lg my-1 sm:my-0.5"
                   variants={FADE_RIGHT}
                   initial="hidden"
                   animate="visible"
