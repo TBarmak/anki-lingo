@@ -108,6 +108,9 @@ export default function CardFormatForm() {
       >
         <GoBack goToPreviousStep={() => dispatch(setScrapedData([]))} />
       </motion.div>
+      <div>
+        <p className={`${formStyles.formStepTitle} my-4`}>Design the flashcards by adding new sides and dragging and dropping fields</p>
+      </div>
       <div className="w-full flex-1 flex flex-row">
         <div className="flex-[4] flex flex-row items-center">
           <motion.div

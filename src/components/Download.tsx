@@ -41,7 +41,7 @@ export default function Download() {
         <GoBack goToPreviousStep={() => dispatch(setDownloadUrl(""))} />
       </div>
       <div className="flex flex-col items-center justify-center flex-1">
-        <p className="text-5xl secondary-text my-2 font-bold">
+        <p className={`${formStyles.formStepTitle} my-2 text-5xl`}>
           Your csv is ready to be downloaded.
         </p>
         <p className="text-lg secondary-text mt-2 mb-4">
@@ -69,7 +69,7 @@ export default function Download() {
           </div>
         )}
         <a
-          className="my-16 mt-24"
+          className="my-16"
           href={downloadUrl}
           download={`anki-lingo-${moment().format("YYYYMMDDHHmmss")}.zip`}
         >

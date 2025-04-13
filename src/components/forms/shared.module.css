@@ -5,3 +5,7 @@
 .formStepContainer {
   @apply w-full flex-1 flex flex-col justify-center;
 }
+
+.formStepTitle {
+  @apply text-3xl font-bold text-center my-16;
+}

@@ -4,15 +4,19 @@ import { RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setWords } from "../../../store/resourceFormSlice";
 import formStyles from "../shared.module.css";
-import { DELAY, FADE_DOWN, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
+import {
+  DELAY,
+  FADE_DOWN,
+  FADE_UP,
+  HOVER,
+  TRANSITION,
+} from "../../../constants/animations";
 
 type Props = {
   goToNextStep: () => void;
 };
 
-export default function WordTextArea({
-  goToNextStep,
-}: Props) {
+export default function WordTextArea({ goToNextStep }: Props) {
   const { words } = useSelector((state: RootState) => state.resourceForm);
   const [textAreaValue, setTextAreaValue] = useState<string>(words || "");
   const dispatch = useDispatch();
@@ -20,7 +24,7 @@ export default function WordTextArea({
   return (
     <div className={formStyles.formStepContainer}>
       <motion.p
-        className="text-3xl font-bold text-center my-16"
+        className={formStyles.formStepTitle}
         variants={FADE_DOWN}
         initial="hidden"
         animate="visible"

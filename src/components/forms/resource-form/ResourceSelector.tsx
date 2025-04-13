@@ -43,7 +43,7 @@ export default function ResourceSelector() {
     <div className={formStyles.formStepContainer}>
       <div className="flex flex-col items-center justify-center">
         <motion.p
-          className="text-3xl font-bold text-center my-16"
+          className={formStyles.formStepTitle}
           variants={FADE_DOWN}
           initial="hidden"
           animate="visible"
