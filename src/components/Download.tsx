@@ -6,6 +6,8 @@ import type { RootState } from "../store";
 import GoBack from "./GoBack";
 import { setDownloadUrl } from "../store/rootSlice";
 import formStyles from "./forms/shared.module.css";
+import { DELAY, EXIT, FADE_UP, HOVER, TRANSITION } from "../constants/animations";
+
 export default function Download() {
   const { downloadUrl, scrapedData } = useSelector(
     (state: RootState) => state.root
@@ -26,17 +28,13 @@ export default function Download() {
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 100 },
-        visible: { opacity: 1, y: 0 },
-        exit: {
-          opacity: 0,
-          transition: { ease: "easeInOut" },
-        },
+        ...FADE_UP,
+        exit: EXIT.DEFAULT,
       }}
       initial="hidden"
       animate="visible"
       exit="exit"
-      transition={{ duration: 0.75, delay: 0.5 }}
+      transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
       className={formStyles.formContainer}
     >
       <div className="flex flew-row justify-start items-center w-full">
@@ -76,15 +74,12 @@ export default function Download() {
           download={`anki-lingo-${moment().format("YYYYMMDDHHmmss")}.zip`}
         >
           <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 100 },
-              visible: { opacity: 1, y: 0 },
-            }}
+            variants={FADE_UP}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.75, delay: 1 }}
+            transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
           >
-            <motion.button className="button" whileHover={{ scale: 1.05 }}>
+            <motion.button className="button" whileHover={HOVER.SCALE}>
               Download
             </motion.button>
           </motion.div>

@@ -4,6 +4,7 @@ import { RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setWords } from "../../../store/resourceFormSlice";
 import formStyles from "../shared.module.css";
+import { DELAY, FADE_DOWN, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
 
 type Props = {
   goToNextStep: () => void;
@@ -20,17 +21,19 @@ export default function WordTextArea({
     <div className={formStyles.formStepContainer}>
       <motion.p
         className="text-3xl font-bold text-center my-16"
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75, delay: 0.5 }}
+        variants={FADE_DOWN}
+        initial="hidden"
+        animate="visible"
+        transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
       >
         Enter words and/or phrases in the target language
       </motion.p>
       <motion.div
         className="mb-4 flex flex-col w-full"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75, delay: 0.75 }}
+        variants={FADE_UP}
+        initial="hidden"
+        animate="visible"
+        transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
       >
         <p className="font-bold secondary-text">Words/Phrases</p>
         <textarea
@@ -45,13 +48,14 @@ export default function WordTextArea({
       </motion.div>
       <div className="flex flex-row w-full justify-center my-16">
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 1.25 }}
+          variants={FADE_UP}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
         >
           <motion.button
             className="button"
-            whileHover={!textAreaValue ? undefined : { scale: 1.05 }}
+            whileHover={!textAreaValue ? undefined : HOVER.SCALE}
             disabled={!textAreaValue}
             onClick={() => {
               dispatch(setWords(textAreaValue));

@@ -6,6 +6,7 @@ import { setIsLoading, setScrapedData } from "../../../store/rootSlice";
 import { RootState } from "../../../store";
 import { setLanguageResources } from "../../../store/resourceFormSlice";
 import formStyles from "../shared.module.css";
+import { DELAY, FADE_DOWN, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
 
 export default function ResourceSelector() {
   const dispatch = useDispatch();
@@ -43,26 +44,20 @@ export default function ResourceSelector() {
       <div className="flex flex-col items-center justify-center">
         <motion.p
           className="text-3xl font-bold text-center my-16"
-          initial={{ opacity: 0, y: -100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 0.5 }}
+          variants={FADE_DOWN}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
         >
           Select resource(s) to generate flashcards
         </motion.p>
         <motion.div
           className="flex-1 flex flex-col items-center"
-          variants={{
-            hidden: { opacity: 0, x: 100 },
-            visible: { opacity: 1, x: 0 },
-            exit: {
-              opacity: 0,
-              transition: { duration: 0.75 },
-            },
-          }}
+          variants={FADE_RIGHT}
           initial="hidden"
           animate="visible"
           exit="exit"
-          transition={{ duration: 0.75, delay: 0.75 }}
+          transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
         >
           <div className="flex flex-col items-start justify-center">
             {languageResources.map((resource, index) => {
@@ -70,16 +65,10 @@ export default function ResourceSelector() {
                 <motion.label
                   key={resource.name + targetLanguage + index}
                   className="flex flex-row items-center text-lg"
-                  variants={{
-                    hidden: { opacity: 0, x: 100 },
-                    visible: { opacity: 1, x: 0 },
-                  }}
+                  variants={FADE_RIGHT}
                   initial="hidden"
                   animate="visible"
-                  transition={{
-                    duration: 0.75,
-                    delay: (index + 1) * 0.25 + 0.5,
-                  }}
+                  transition={TRANSITION.WITH_DELAY(DELAY.SHORT + index * 0.25)}
                 >
                   <input
                     name={resource.name}
@@ -116,16 +105,17 @@ export default function ResourceSelector() {
         </motion.div>
         <div className="flex flex-row justify-center my-16">
           <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 1.25 }}
+            variants={FADE_UP}
+            initial="hidden"
+            animate="visible"
+            transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
           >
             <motion.button
               onClick={handleSubmit}
               whileHover={
                 !languageResources.some((resource) => resource.isSelected)
                   ? undefined
-                  : { scale: 1.05 }
+                  : HOVER.SCALE
               }
               disabled={
                 !languageResources.some((resource) => resource.isSelected)

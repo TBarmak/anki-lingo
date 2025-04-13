@@ -10,6 +10,7 @@ import type { RootState } from "../../../store";
 import { setLanguageResources } from "../../../store/resourceFormSlice";
 import GoBack from "../../GoBack";
 import formStyles from "../shared.module.css";
+import { DELAY, FADE, FADE_DOWN, TRANSITION } from "../../../constants/animations";
 
 export default function ResourceForm() {
   const [currentStep, setCurrentStep] = useState<
@@ -63,9 +64,11 @@ export default function ResourceForm() {
 
   const sharedMotionProps = {
     className: formStyles.formContainer,
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0, transition: { duration: 0.25 } },
+    variants: FADE,
+    initial: "hidden",
+    animate: "visible",
+    exit: "exit",
+    transition: TRANSITION.QUICK,
   };
 
   return (
@@ -84,9 +87,10 @@ export default function ResourceForm() {
             return (
               <motion.div key="word-entry" {...sharedMotionProps}>
                 <motion.div
-                  initial={{ opacity: 0, y: -100 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.75, delay: 1.25 }}
+                  variants={FADE_DOWN}
+                  initial="hidden"
+                  animate="visible"
+                  transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
                   className="w-full flex justify-start"
                 >
                   <GoBack
@@ -102,9 +106,10 @@ export default function ResourceForm() {
             return (
               <motion.div key="resources-selection" {...sharedMotionProps}>
                 <motion.div
-                  initial={{ opacity: 0, y: -100 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.75, delay: 1.25 }}
+                  variants={FADE_DOWN}
+                  initial="hidden"
+                  animate="visible"
+                  transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
                   className="w-full flex justify-start"
                 >
                   <GoBack goToPreviousStep={() => setCurrentStep("words")} />

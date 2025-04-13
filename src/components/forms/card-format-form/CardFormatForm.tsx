@@ -18,6 +18,7 @@ import {
 import type { RootState } from "../../../store";
 import GoBack from "../../GoBack";
 import formStyles from "../shared.module.css";
+import { DELAY, EXIT, FADE, FADE_DOWN, FADE_LEFT, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
 
 export default function CardFormatForm() {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
@@ -95,17 +96,15 @@ export default function CardFormatForm() {
     <motion.div
       className={`${formStyles.formContainer} px-10`}
       variants={{
-        exit: {
-          opacity: 0,
-          transition: { ease: "easeInOut", duration: 0.75 },
-        },
+        exit: EXIT.DEFAULT,
       }}
       exit="exit"
     >
       <motion.div
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75, delay: 1.25 }}
+        variants={FADE_DOWN}
+        initial="hidden"
+        animate="visible"
+        transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
       >
         <GoBack goToPreviousStep={() => dispatch(setScrapedData([]))} />
       </motion.div>
@@ -113,13 +112,10 @@ export default function CardFormatForm() {
         <div className="flex-[4] flex flex-row items-center">
           <motion.div
             className="flex flex-col items-center h-full flex-1 mx-2"
-            variants={{
-              hidden: { opacity: 0, x: -100 },
-              visible: { opacity: 1, x: 0 },
-            }}
+            variants={FADE_LEFT}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.75, delay: 0.25 }}
+            transition={TRANSITION.WITH_DELAY(DELAY.SHORT)}
           >
             <p className="text-2xl font-bold my-2 secondary-text">Side 1</p>
             <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
@@ -144,13 +140,10 @@ export default function CardFormatForm() {
                 onDragOver: (e) => handleDragOver(e, sideIndex + 1),
               })}
               className="flex flex-col items-center h-full w-full flex-1 mx-2"
-              variants={{
-                hidden: { opacity: 0, x: sideIndex == 0 ? -100 : 0 },
-                visible: { opacity: 1, x: 0 },
-              }}
+              variants={FADE_LEFT}
               initial="hidden"
               animate="visible"
-              transition={{ duration: 0.75, delay: sideIndex == 0 ? 0.25 : 0 }}
+              transition={TRANSITION.WITH_DELAY(sideIndex === 0 ? DELAY.SHORT : DELAY.NONE)}
             >
               <p className="text-2xl font-bold my-2 secondary-text">
                 Side {sideIndex + 2}
@@ -160,18 +153,11 @@ export default function CardFormatForm() {
                   {side.fields.map((field) => (
                     <motion.div
                       key={field}
-                      variants={{
-                        hidden: { opacity: 0 },
-                        visible: { opacity: 1 },
-                        exit: {
-                          opacity: 0,
-                          transition: { ease: "easeInOut" },
-                        },
-                      }}
+                      variants={FADE}
                       initial="hidden"
                       animate="visible"
                       exit="exit"
-                      transition={{ duration: 0.25 }}
+                      transition={TRANSITION.QUICK}
                       {...(cardFormat.sides.length > 2
                         ? {
                             draggable: true,
@@ -209,16 +195,10 @@ export default function CardFormatForm() {
           <div className="flex flex-col items-center justify-center mx-4">
             {cardFormat?.sides.length < MAX_SIDES && (
               <motion.div
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { opacity: 1 },
-                }}
+                variants={FADE}
                 initial="hidden"
                 animate="visible"
-                transition={{
-                  duration: 0.75,
-                  delay: cardFormat.sides.length == 1 ? 0.75 : 0,
-                }}
+                transition={TRANSITION.WITH_DELAY(cardFormat.sides.length === 1 ? DELAY.LONG : DELAY.NONE)}
               >
                 <motion.button
                   className="m-1"
@@ -226,7 +206,7 @@ export default function CardFormatForm() {
                     const newSides = [...cardFormat?.sides, { fields: [] }];
                     dispatch(setCardFormat({ sides: newSides }));
                   }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={HOVER.SCALE}
                 >
                   <MdAddCircle size="48" color="#162e50" />
                 </motion.button>
@@ -234,13 +214,10 @@ export default function CardFormatForm() {
             )}
             {cardFormat.sides.length > MIN_SIDES && (
               <motion.div
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { opacity: 1 },
-                }}
+                variants={FADE}
                 initial="hidden"
                 animate="visible"
-                transition={{ duration: 0.75 }}
+                transition={TRANSITION.DEFAULT}
               >
                 <motion.button
                   className="m-1"
@@ -251,7 +228,7 @@ export default function CardFormatForm() {
                     );
                     dispatch(setCardFormat({ sides: newSides }));
                   }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={HOVER.SCALE}
                 >
                   <MdRemoveCircle size="48" color="#ad343e" />
                 </motion.button>
@@ -261,13 +238,10 @@ export default function CardFormatForm() {
         </div>
         <motion.div
           className="flex-1 mx-4 rounded flex flex-col justify-center items-center"
-          variants={{
-            hidden: { opacity: 0, x: 100 },
-            visible: { opacity: 1, x: 0 },
-          }}
+          variants={FADE_RIGHT}
           initial="hidden"
           animate="visible"
-          transition={{ duration: 0.75, delay: 0.5 }}
+          transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
         >
           <p className="font-bold text-2xl secondary-text my-2">Fields</p>
           {exportFields.map((field, index) => (
@@ -287,18 +261,15 @@ export default function CardFormatForm() {
       </div>
       <motion.div
         className="w-full flex flex-row justify-center items-center mb-8 mt-12"
-        variants={{
-          hidden: { opacity: 0, y: 100 },
-          visible: { opacity: 1, y: 0 },
-        }}
+        variants={FADE_UP}
         initial="hidden"
         animate="visible"
-        transition={{ duration: 0.75, delay: 1 }}
+        transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
       >
         <motion.button
           className="button"
           onClick={formatCSV}
-          whileHover={{ scale: 1.05 }}
+          whileHover={HOVER.SCALE}
         >
           Create CSV
         </motion.button>

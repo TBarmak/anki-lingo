@@ -1,27 +1,22 @@
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { DELAY, EXIT, FADE_UP, HOVER, TRANSITION } from "../constants/animations";
 
 export default function About() {
   return (
     <motion.div
       className="route-component flex flex-col justify-center items-center min-h-screen"
       variants={{
-        exit: {
-          opacity: 0,
-          transition: { ease: "easeInOut", duration: 0.75 },
-        },
+        exit: EXIT.DEFAULT,
       }}
       exit="exit"
     >
       <motion.p
         className="secondary-text px-[20%] text-lg"
-        variants={{
-          hidden: { opacity: 0, y: 100 },
-          visible: { opacity: 1, y: 0 },
-        }}
+        variants={FADE_UP}
         initial="hidden"
         animate="visible"
-        transition={{ duration: 1, delay: 0.25 }}
+        transition={TRANSITION.WITH_DELAY(DELAY.SHORT)}
       >
         <span className="font-bold text-xl italic">Anki Lingo</span> is a tool
         for automating the creation of Anki flashcards for language learning.
@@ -34,36 +29,30 @@ export default function About() {
       </motion.p>
       <div className="flex flex-row justify-center w-full my-16">
         <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 100 },
-            visible: { opacity: 1, y: 0 },
-          }}
+          variants={FADE_UP}
           initial="hidden"
           animate="visible"
-          transition={{ duration: 0.75, delay: 1 }}
+          transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
         >
           <a href="https://github.com/TBarmak">
             <motion.div
               className="mx-4 hover:cursor-pointer"
-              whileHover={{ scale: 1.05 }}
+              whileHover={HOVER.SCALE}
             >
               <FaGithub color="#162e50" size={64} />
             </motion.div>
           </a>
         </motion.div>
         <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 100 },
-            visible: { opacity: 1, y: 0 },
-          }}
+          variants={FADE_UP}
           initial="hidden"
           animate="visible"
-          transition={{ duration: 0.75, delay: 1.25 }}
+          transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
         >
           <a href="https://www.linkedin.com/in/taylorbarmak/">
             <motion.div
               className="mx-4 hover:cursor-pointer"
-              whileHover={{ scale: 1.05 }}
+              whileHover={HOVER.SCALE}
             >
               <FaLinkedin color="#162e50" size={64} />
             </motion.div>

@@ -8,6 +8,7 @@ import {
   setNativeLanguage,
 } from "../../../store/resourceFormSlice";
 import formStyles from "../shared.module.css";
+import { DELAY, FADE_DOWN, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
 
 type Props = {
   goToNextStep: () => void;
@@ -31,17 +32,19 @@ export default function LanguageSelector({ goToNextStep }: Props) {
       <div className="flex flex-col items-center justify-center">
         <motion.p
           className="text-3xl font-bold text-center my-16"
-          initial={{ opacity: 0, y: -100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 0.5 }}
+          variants={FADE_DOWN}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
         >
           Enter your target language and native language
         </motion.p>
         <motion.div
           className="mb-4 flex flex-col items-start"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.75, delay: 0.75 }}
+          variants={FADE_RIGHT}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
         >
           <p className="font-bold secondary-text">Target language</p>
           <select
@@ -65,9 +68,10 @@ export default function LanguageSelector({ goToNextStep }: Props) {
         </motion.div>
         <motion.div
           className="mb-4 flex flex-col items-start"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.75, delay: 1 }}
+          variants={FADE_RIGHT}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
         >
           <p className="font-bold secondary-text">Native language</p>
           <select
@@ -92,9 +96,10 @@ export default function LanguageSelector({ goToNextStep }: Props) {
       </div>
       <div className="flex flex-row w-full justify-center my-16">
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 1.25 }}
+          variants={FADE_UP}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
         >
           <motion.button
             className="button"
@@ -103,7 +108,7 @@ export default function LanguageSelector({ goToNextStep }: Props) {
               !targetLanguage ||
               nativeLanguage === targetLanguage
                 ? undefined
-                : { scale: 1.05 }
+                : HOVER.SCALE
             }
             disabled={
               !nativeLanguage ||
