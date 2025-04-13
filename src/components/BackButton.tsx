@@ -4,7 +4,7 @@ type Props = {
   goToPreviousStep: () => void;
 };
 
-export default function GoBack({ goToPreviousStep }: Props) {
+export default function BackButton({ goToPreviousStep }: Props) {
   return (
     <button
       onClick={() => goToPreviousStep()}

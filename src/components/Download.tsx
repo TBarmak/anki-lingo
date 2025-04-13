@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { WordScrapeError } from "../types/types";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store";
-import GoBack from "./GoBack";
+import BackButton from "./BackButton";
 import { setDownloadUrl } from "../store/rootSlice";
 import formStyles from "./forms/shared.module.css";
 import { DELAY, EXIT, FADE_UP, HOVER, TRANSITION } from "../constants/animations";
@@ -38,7 +38,7 @@ export default function Download() {
       className={formStyles.formContainer}
     >
       <div className="flex flew-row justify-start items-center w-full">
-        <GoBack goToPreviousStep={() => dispatch(setDownloadUrl(""))} />
+        <BackButton goToPreviousStep={() => dispatch(setDownloadUrl(""))} />
       </div>
       <div className="flex flex-col items-center justify-center flex-1">
         <p className={`${formStyles.formStepTitle} my-2 text-5xl`}>

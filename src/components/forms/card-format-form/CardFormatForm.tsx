@@ -14,7 +14,7 @@ import {
   setScrapedData,
 } from "../../../store/rootSlice";
 import type { RootState } from "../../../store";
-import GoBack from "../../GoBack";
+import BackButton from "../../BackButton";
 import formStyles from "../shared.module.css";
 import { DELAY, EXIT, FADE, FADE_DOWN, FADE_LEFT, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
 import { DndContext, DragEndEvent, useSensor, useSensors, PointerSensor, TouchSensor, useDroppable } from '@dnd-kit/core';
@@ -133,7 +133,7 @@ export default function CardFormatForm() {
         animate="visible"
         transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
       >
-        <GoBack goToPreviousStep={() => dispatch(setScrapedData([]))} />
+        <BackButton goToPreviousStep={() => dispatch(setScrapedData([]))} />
       </motion.div>
       <div>
         <p className={`${formStyles.formStepTitle} my-4`}>Design the flashcards by adding new sides and dragging and dropping fields</p>

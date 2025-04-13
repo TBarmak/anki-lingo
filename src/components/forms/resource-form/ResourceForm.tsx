@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setExportFields } from "../../../store/rootSlice";
 import type { RootState } from "../../../store";
 import { setLanguageResources } from "../../../store/resourceFormSlice";
-import GoBack from "../../GoBack";
+import BackButton from "../../BackButton";
 import formStyles from "../shared.module.css";
 import { DELAY, FADE, FADE_DOWN, TRANSITION } from "../../../constants/animations";
 
@@ -93,7 +93,7 @@ export default function ResourceForm() {
                   transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
                   className="w-full flex justify-start"
                 >
-                  <GoBack
+                  <BackButton
                     goToPreviousStep={() => setCurrentStep("languages")}
                   />
                 </motion.div>
@@ -112,7 +112,7 @@ export default function ResourceForm() {
                   transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
                   className="w-full flex justify-start"
                 >
-                  <GoBack goToPreviousStep={() => setCurrentStep("words")} />
+                  <BackButton goToPreviousStep={() => setCurrentStep("words")} />
                 </motion.div>
                 <ResourceSelector />
               </motion.div>
