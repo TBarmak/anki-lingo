@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./slice";
-
+import rootReducer from "./rootSlice";
+import resourceFormReducer from "./resourceFormSlice";
 const store = configureStore({
   reducer: {
     root: rootReducer,
+    resourceForm: resourceFormReducer,
   },
 });
 

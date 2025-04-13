@@ -1,0 +1,7 @@
+.formContainer {
+  @apply py-8 px-8 sm:px-16 md:px-24 lg:px-64 flex-1 flex flex-col justify-start w-full min-h-full;
+}
+
+.formStepContainer {
+  @apply w-full flex-1 flex flex-col justify-center;
+}

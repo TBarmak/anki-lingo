@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import type {
-  CardFormat,
-  CardSide,
-} from "../../types/types";
+import type { CardFormat, CardSide } from "../../../types/types";
 import {
   MdOutlineRemoveCircle,
   MdDragIndicator,
@@ -12,29 +9,27 @@ import {
 } from "react-icons/md";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLoading } from "../../store/slice";
-import type { RootState } from "../../store";
-
-type Props = {
-  exportFields: string[];
-  setDownloadUrl: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export default function CardFormatForm({
-  exportFields,
+import {
+  setCardFormat,
   setDownloadUrl,
-}: Props) {
+  setIsLoading,
+  setScrapedData,
+} from "../../../store/rootSlice";
+import type { RootState } from "../../../store";
+import GoBack from "../../GoBack";
+import formStyles from "../shared.module.css";
+
+export default function CardFormatForm() {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
-  const [cardFormat, setCardFormat] = useState<CardFormat>({
-    sides: [{ fields: ["inputWord"] }],
-  });
   const [lastHoveredSide, setLastHoveredSide] = useState<number>();
   const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
   const [lastDraggedSide, setLastDraggedSide] = useState<number>();
   const MIN_SIDES = 2;
   const MAX_SIDES = 5;
 
-  const scrapedData = useSelector((state: RootState) => state.root.scrapedData);
+  const { scrapedData, exportFields, cardFormat } = useSelector(
+    (state: RootState) => state.root
+  );
 
   const dispatch = useDispatch();
 
@@ -45,10 +40,12 @@ export default function CardFormatForm({
   }, []);
 
   useEffect(() => {
-    const defaultFormat: CardFormat = {
-      sides: [{ fields: ["inputWord"] }, { fields: exportFields }],
-    };
-    setCardFormat(defaultFormat);
+    if (cardFormat.sides.length < 2) {
+      const defaultFormat: CardFormat = {
+        sides: [{ fields: ["inputWord"] }, { fields: exportFields }],
+      };
+      dispatch(setCardFormat(defaultFormat));
+    }
   }, [exportFields]);
 
   function handleOnDrag(field: string, side?: number) {
@@ -68,7 +65,7 @@ export default function CardFormatForm({
           (field) => field != lastDraggedValue
         );
       }
-      setCardFormat({ sides: sidesCopy });
+      dispatch(setCardFormat({ sides: sidesCopy }));
     }
   }
 
@@ -89,14 +86,14 @@ export default function CardFormatForm({
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(new Blob([blob]));
-        setDownloadUrl(url);
+        dispatch(setDownloadUrl(url));
         dispatch(setIsLoading(false));
       });
   }
 
   return (
     <motion.div
-      className="flex flex-col w-full min-h-full"
+      className={`${formStyles.formContainer} px-10`}
       variants={{
         exit: {
           opacity: 0,
@@ -105,7 +102,14 @@ export default function CardFormatForm({
       }}
       exit="exit"
     >
-      <div className="w-full flex-1 flex flex-row px-10">
+      <motion.div
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.75, delay: 1.25 }}
+      >
+        <GoBack goToPreviousStep={() => dispatch(setScrapedData([]))} />
+      </motion.div>
+      <div className="w-full flex-1 flex flex-row">
         <div className="flex-[4] flex flex-row items-center">
           <motion.div
             className="flex flex-col items-center h-full flex-1 mx-2"
@@ -190,7 +194,7 @@ export default function CardFormatForm({
                           );
                           const side: CardSide = sidesCopy[currSideIndex];
                           side.fields.splice(side.fields.indexOf(field), 1);
-                          setCardFormat({ sides: sidesCopy });
+                          dispatch(setCardFormat({ sides: sidesCopy }));
                         }}
                         className="mx-2"
                       >
@@ -220,7 +224,7 @@ export default function CardFormatForm({
                   className="m-1"
                   onClick={() => {
                     const newSides = [...cardFormat?.sides, { fields: [] }];
-                    setCardFormat({ sides: newSides });
+                    dispatch(setCardFormat({ sides: newSides }));
                   }}
                   whileHover={{ scale: 1.05 }}
                 >
@@ -245,7 +249,7 @@ export default function CardFormatForm({
                       0,
                       cardFormat.sides.length - 1
                     );
-                    setCardFormat({ sides: newSides });
+                    dispatch(setCardFormat({ sides: newSides }));
                   }}
                   whileHover={{ scale: 1.05 }}
                 >

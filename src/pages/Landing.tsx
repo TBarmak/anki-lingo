@@ -37,7 +37,7 @@ export default function Landing() {
           transition={{ duration: 0.75, delay: 1 }}
           className="secondary-text text-xl text-center my-2"
         >
-          Automate generating anki flashcards for learning foreign languages.
+          Automate generating Anki flashcards for learning foreign languages.
         </motion.p>
         <Link to="/home">
           <motion.div

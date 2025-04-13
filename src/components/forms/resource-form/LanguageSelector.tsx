@@ -1,26 +1,24 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import FormError from "../FormError";
-import type { InputFields } from "../../../types/types";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../store";
+import {
+  setTargetLanguage,
+  setNativeLanguage,
+} from "../../../store/resourceFormSlice";
+import formStyles from "../shared.module.css";
 
 type Props = {
-  setInputFields: React.Dispatch<React.SetStateAction<InputFields>>;
-  inputFields: InputFields;
   goToNextStep: () => void;
 };
 
-export default function LanguageSelector({
-  setInputFields,
-  inputFields,
-  goToNextStep,
-}: Props) {
+export default function LanguageSelector({ goToNextStep }: Props) {
+  const dispatch = useDispatch();
+  const { targetLanguage, nativeLanguage } = useSelector(
+    (state: RootState) => state.resourceForm
+  );
   const [supportedLanguages, setSupportedLanguages] = useState<string[]>([]);
-  const [targetLanguage, setTargetLanguage] = useState<string>(
-    inputFields.targetLanguage || ""
-  );
-  const [nativeLanguage, setNativeLanguage] = useState<string>(
-    inputFields.nativeLanguage || ""
-  );
 
   useEffect(() => {
     fetch("api/supported-languages")
@@ -29,10 +27,10 @@ export default function LanguageSelector({
   }, []);
 
   return (
-    <div>
-      <div>
+    <div className={formStyles.formStepContainer}>
+      <div className="flex flex-col items-center justify-center">
         <motion.p
-          className="text-3xl font-bold text-center my-4"
+          className="text-3xl font-bold text-center my-16"
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.5 }}
@@ -40,7 +38,7 @@ export default function LanguageSelector({
           Enter your target language and native language
         </motion.p>
         <motion.div
-          className="mb-4 flex flex-col w-full"
+          className="mb-4 flex flex-col items-start"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.75, delay: 0.75 }}
@@ -48,9 +46,9 @@ export default function LanguageSelector({
           <p className="font-bold secondary-text">Target language</p>
           <select
             name="targetLanguage"
-            className="secondary-text p-2 pr-8 rounded-lg input text-lg"
+            className="secondary-text p-2 pr-8 rounded-lg input text-lg w-min"
             value={targetLanguage}
-            onChange={(e) => setTargetLanguage(e.target.value)}
+            onChange={(e) => dispatch(setTargetLanguage(e.target.value))}
           >
             <option value="">Select target language</option>
             {supportedLanguages.map((language, index) => (
@@ -66,7 +64,7 @@ export default function LanguageSelector({
           )}
         </motion.div>
         <motion.div
-          className="mb-4 flex flex-col w-full"
+          className="mb-4 flex flex-col items-start"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.75, delay: 1 }}
@@ -74,9 +72,9 @@ export default function LanguageSelector({
           <p className="font-bold secondary-text">Native language</p>
           <select
             name="nativeLanguage"
-            className="secondary-text p-2 pr-8 rounded-lg input text-lg"
+            className="secondary-text p-2 pr-8 rounded-lg input text-lg w-min"
             value={nativeLanguage}
-            onChange={(e) => setNativeLanguage(e.target.value)}
+            onChange={(e) => dispatch(setNativeLanguage(e.target.value))}
           >
             <option value="">Select native language</option>
             {supportedLanguages.map((language, index) => (
@@ -92,7 +90,7 @@ export default function LanguageSelector({
           )}
         </motion.div>
       </div>
-      <div className="flex flex-row w-full justify-center my-8">
+      <div className="flex flex-row w-full justify-center my-16">
         <motion.div
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,11 +111,6 @@ export default function LanguageSelector({
               nativeLanguage === targetLanguage
             }
             onClick={() => {
-              setInputFields((oldFields) => ({
-                ...oldFields,
-                nativeLanguage: nativeLanguage,
-                targetLanguage: targetLanguage,
-              }));
               goToNextStep();
             }}
           >
