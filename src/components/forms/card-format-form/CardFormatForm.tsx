@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type { CardFormat, CardSide } from "../../../types/types";
 import {
-  MdOutlineRemoveCircle,
   MdDragIndicator,
   MdLock,
   MdAddCircle,
@@ -19,12 +18,23 @@ import type { RootState } from "../../../store";
 import GoBack from "../../GoBack";
 import formStyles from "../shared.module.css";
 import { DELAY, EXIT, FADE, FADE_DOWN, FADE_LEFT, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
+import { DndContext, DragEndEvent, useSensor, useSensors, PointerSensor, TouchSensor, useDroppable } from '@dnd-kit/core';
+import DraggableField from './DraggableField';
+
+function DroppableSide({ id, children }: { id: string; children: React.ReactNode }) {
+  const { setNodeRef } = useDroppable({
+    id,
+  });
+
+  return (
+    <div ref={setNodeRef} className="h-full w-full">
+      {children}
+    </div>
+  );
+}
 
 export default function CardFormatForm() {
   const [fieldMapping, setFieldMapping] = useState<{ [key: string]: string }>();
-  const [lastHoveredSide, setLastHoveredSide] = useState<number>();
-  const [lastDraggedValue, setLastDraggedValue] = useState<string>("");
-  const [lastDraggedSide, setLastDraggedSide] = useState<number>();
   const MIN_SIDES = 2;
   const MAX_SIDES = 5;
 
@@ -33,6 +43,20 @@ export default function CardFormatForm() {
   );
 
   const dispatch = useDispatch();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 8,
+      },
+    })
+  );
 
   useEffect(() => {
     fetch("api/field-mapping")
@@ -49,31 +73,35 @@ export default function CardFormatForm() {
     }
   }, [exportFields]);
 
-  function handleOnDrag(field: string, side?: number) {
-    setLastDraggedValue(field);
-    setLastDraggedSide(side);
-  }
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!active || !over) return;
 
-  function handleOnDrop(e: React.DragEvent) {
-    e.preventDefault();
-    const sidesCopy: CardSide[] = JSON.parse(JSON.stringify(cardFormat.sides));
-    if (lastHoveredSide && lastDraggedValue) {
-      const side: CardSide = sidesCopy[lastHoveredSide];
-      side.fields.push(lastDraggedValue);
-      if (lastDraggedSide) {
-        const draggedFromSide = sidesCopy[lastDraggedSide];
-        draggedFromSide.fields = draggedFromSide.fields.filter(
-          (field) => field != lastDraggedValue
-        );
-      }
-      dispatch(setCardFormat({ sides: sidesCopy }));
+    const activeId = active.id as string;
+    const targetSideId = over.id as string;
+    
+    let fieldName: string;
+    if (activeId.startsWith('field-')) {
+      fieldName = activeId.replace('field-', '');
+    } else {
+      fieldName = activeId.split('-').slice(2).join('-');
     }
-  }
+    
+    const targetSideIndex = parseInt(targetSideId.replace('side-', ''));
 
-  function handleDragOver(e: React.DragEvent, side: number) {
-    setLastHoveredSide(side);
-    e.preventDefault();
-  }
+    const sidesCopy: CardSide[] = JSON.parse(JSON.stringify(cardFormat.sides));
+    
+    if (activeId.startsWith('side-')) {
+      const sourceSideIndex = parseInt(activeId.split('-')[1]);
+      sidesCopy[sourceSideIndex].fields = sidesCopy[sourceSideIndex].fields.filter(field => field !== fieldName);
+    }
+
+    if (!sidesCopy[targetSideIndex].fields.includes(fieldName)) {
+      sidesCopy[targetSideIndex].fields.push(fieldName);
+    }
+    
+    dispatch(setCardFormat({ sides: sidesCopy }));
+  };
 
   function formatCSV() {
     fetch("api/format-csv", {
@@ -111,157 +139,134 @@ export default function CardFormatForm() {
       <div>
         <p className={`${formStyles.formStepTitle} my-4`}>Design the flashcards by adding new sides and dragging and dropping fields</p>
       </div>
-      <div className="w-full flex-1 flex flex-row">
-        <div className="flex-[4] flex flex-row items-center">
-          <motion.div
-            className="flex flex-col items-center h-full flex-1 mx-2"
-            variants={FADE_LEFT}
-            initial="hidden"
-            animate="visible"
-            transition={TRANSITION.WITH_DELAY(DELAY.SHORT)}
-          >
-            <p className="text-2xl font-bold my-2 secondary-text">Side 1</p>
-            <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
-              <div className="absolute w-full h-full flex flex-col justify-center items-center rounded">
-                <MdLock size="48" color="#162e50" />
-              </div>
-              {cardFormat?.sides[0].fields.map((field, index) => (
-                <div
-                  key={index}
-                  className="bg-white w-full text-lg p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center"
-                >
-                  {fieldMapping ? fieldMapping[field] : field}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-          {cardFormat?.sides.slice(1).map((side, sideIndex) => (
+      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+        <div className="w-full flex-1 flex flex-row">
+          <div className="flex-[4] flex flex-row items-center">
             <motion.div
-              key={sideIndex}
-              {...(!side.fields.includes(lastDraggedValue) && {
-                onDrop: handleOnDrop,
-                onDragOver: (e) => handleDragOver(e, sideIndex + 1),
-              })}
-              className="flex flex-col items-center h-full w-full flex-1 mx-2"
+              className="flex flex-col items-center h-full flex-1 mx-2"
               variants={FADE_LEFT}
               initial="hidden"
               animate="visible"
-              transition={TRANSITION.WITH_DELAY(sideIndex === 0 ? DELAY.SHORT : DELAY.NONE)}
+              transition={TRANSITION.WITH_DELAY(DELAY.SHORT)}
             >
-              <p className="text-2xl font-bold my-2 secondary-text">
-                Side {sideIndex + 2}
-              </p>
-              <div className="h-full bg-white rounded flex flex-col relative w-full">
-                <AnimatePresence>
-                  {side.fields.map((field) => (
-                    <motion.div
-                      key={field}
-                      variants={FADE}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      transition={TRANSITION.QUICK}
-                      {...(cardFormat.sides.length > 2
-                        ? {
-                            draggable: true,
-                            onDragStart: () =>
-                              handleOnDrag(field, sideIndex + 1),
-                          }
-                        : {})}
-                      className={`bg-white w-full text-lg secondary-text p-1 px-2 rounded border-[1px] border-gray-200 flex flex-row justify-between items-center ${
-                        cardFormat.sides.length > 2
-                          ? "hover:cursor-pointer"
-                          : ""
-                      }`}
-                    >
-                      {fieldMapping ? fieldMapping[field] : field}
-                      <button
-                        onClick={() => {
-                          const currSideIndex = sideIndex + 1;
-                          const sidesCopy: CardSide[] = JSON.parse(
-                            JSON.stringify(cardFormat.sides)
-                          );
-                          const side: CardSide = sidesCopy[currSideIndex];
-                          side.fields.splice(side.fields.indexOf(field), 1);
-                          dispatch(setCardFormat({ sides: sidesCopy }));
-                        }}
-                        className="mx-2"
-                      >
-                        <MdOutlineRemoveCircle color="#ad343e" size="20" />
-                      </button>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+              <p className="text-2xl font-bold my-2 secondary-text">Side 1</p>
+              <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
+                <div className="absolute w-full h-full flex flex-col justify-center items-center rounded">
+                  <MdLock size="48" color="#162e50" />
+                </div>
+                {cardFormat?.sides[0].fields.map((field) => (
+                  <DraggableField
+                    key={field}
+                    id={field}
+                    field={field}
+                    fieldMapping={fieldMapping}
+                    isDraggable={false}
+                    sideIndex={0}
+                  />
+                ))}
               </div>
             </motion.div>
-          ))}
-          <div className="flex flex-col items-center justify-center mx-4">
-            {cardFormat?.sides.length < MAX_SIDES && (
+            {cardFormat?.sides.slice(1).map((side, sideIndex) => (
               <motion.div
-                variants={FADE}
+                key={`side-${sideIndex + 1}`}
+                className="flex flex-col items-center h-full w-full flex-1 mx-2"
+                variants={FADE_LEFT}
                 initial="hidden"
                 animate="visible"
-                transition={TRANSITION.WITH_DELAY(cardFormat.sides.length === 1 ? DELAY.LONG : DELAY.NONE)}
+                transition={TRANSITION.WITH_DELAY(sideIndex === 0 ? DELAY.SHORT : DELAY.NONE)}
               >
-                <motion.button
-                  className="m-1"
-                  onClick={() => {
-                    const newSides = [...cardFormat?.sides, { fields: [] }];
-                    dispatch(setCardFormat({ sides: newSides }));
-                  }}
-                  whileHover={HOVER.SCALE}
-                >
-                  <MdAddCircle size="48" color="#162e50" />
-                </motion.button>
+                <p className="text-2xl font-bold my-2 secondary-text">
+                  Side {sideIndex + 2}
+                </p>
+                <div className="h-full bg-white rounded flex flex-col relative w-full">
+                  <DroppableSide id={`side-${sideIndex + 1}`}>
+                    <AnimatePresence>
+                      {side.fields.map((field) => (
+                        <DraggableField
+                          key={field}
+                          id={field}
+                          field={field}
+                          fieldMapping={fieldMapping}
+                          onRemove={() => {
+                            const sidesCopy = JSON.parse(JSON.stringify(cardFormat.sides));
+                            sidesCopy[sideIndex + 1].fields = sidesCopy[sideIndex + 1].fields.filter((f: string) => f !== field);
+                            dispatch(setCardFormat({ sides: sidesCopy }));
+                          }}
+                          isDraggable={cardFormat.sides.length > 2}
+                          sideIndex={sideIndex + 1}
+                        />
+                      ))}
+                    </AnimatePresence>
+                  </DroppableSide>
+                </div>
               </motion.div>
-            )}
-            {cardFormat.sides.length > MIN_SIDES && (
-              <motion.div
-                variants={FADE}
-                initial="hidden"
-                animate="visible"
-                transition={TRANSITION.DEFAULT}
-              >
-                <motion.button
-                  className="m-1"
-                  onClick={() => {
-                    const newSides = cardFormat?.sides.slice(
-                      0,
-                      cardFormat.sides.length - 1
-                    );
-                    dispatch(setCardFormat({ sides: newSides }));
-                  }}
-                  whileHover={HOVER.SCALE}
+            ))}
+            <div className="flex flex-col items-center justify-center mx-4">
+              {cardFormat?.sides.length < MAX_SIDES && (
+                <motion.div
+                  variants={FADE}
+                  initial="hidden"
+                  animate="visible"
+                  transition={TRANSITION.WITH_DELAY(cardFormat.sides.length === 1 ? DELAY.LONG : DELAY.NONE)}
                 >
-                  <MdRemoveCircle size="48" color="#ad343e" />
-                </motion.button>
-              </motion.div>
-            )}
-          </div>
-        </div>
-        <motion.div
-          className="flex-1 mx-4 rounded flex flex-col justify-center items-center"
-          variants={FADE_RIGHT}
-          initial="hidden"
-          animate="visible"
-          transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
-        >
-          <p className="font-bold text-2xl secondary-text my-2">Fields</p>
-          {exportFields.map((field, index) => (
-            <div
-              key={index}
-              draggable
-              onDragStart={() => handleOnDrag(field)}
-              className="bg-white w-full secondary-text text-lg p-1 px-2 rounded border-[1px] flex flex-row justify-between items-center hover:cursor-pointer"
-            >
-              {fieldMapping ? fieldMapping[field] : field}
-              <div className="mx-2">
-                <MdDragIndicator />
-              </div>
+                  <motion.button
+                    className="m-1"
+                    onClick={() => {
+                      const newSides = [...cardFormat?.sides, { fields: [] }];
+                      dispatch(setCardFormat({ sides: newSides }));
+                    }}
+                    whileHover={HOVER.SCALE}
+                  >
+                    <MdAddCircle size="48" color="#162e50" />
+                  </motion.button>
+                </motion.div>
+              )}
+              {cardFormat.sides.length > MIN_SIDES && (
+                <motion.div
+                  variants={FADE}
+                  initial="hidden"
+                  animate="visible"
+                  transition={TRANSITION.DEFAULT}
+                >
+                  <motion.button
+                    className="m-1"
+                    onClick={() => {
+                      const newSides = cardFormat?.sides.slice(
+                        0,
+                        cardFormat.sides.length - 1
+                      );
+                      dispatch(setCardFormat({ sides: newSides }));
+                    }}
+                    whileHover={HOVER.SCALE}
+                  >
+                    <MdRemoveCircle size="48" color="#ad343e" />
+                  </motion.button>
+                </motion.div>
+              )}
             </div>
-          ))}
-        </motion.div>
-      </div>
+          </div>
+          <motion.div
+            className="flex-1 mx-4 rounded flex flex-col justify-center items-center"
+            variants={FADE_RIGHT}
+            initial="hidden"
+            animate="visible"
+            transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
+          >
+            <p className="font-bold text-2xl secondary-text my-2">Fields</p>
+            <DroppableSide id="fields">
+              {exportFields.map((field) => (
+                <DraggableField
+                  key={field}
+                  id={field}
+                  field={field}
+                  fieldMapping={fieldMapping}
+                  isFieldList={true}
+                />
+              ))}
+            </DroppableSide>
+          </motion.div>
+        </div>
+      </DndContext>
       <motion.div
         className="w-full flex flex-row justify-center items-center mb-8 mt-12"
         variants={FADE_UP}
