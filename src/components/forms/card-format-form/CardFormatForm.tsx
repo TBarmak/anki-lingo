@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type { CardFormat, CardSide } from "../../../types/types";
 import {
-  MdDragIndicator,
   MdLock,
   MdAddCircle,
   MdRemoveCircle,
@@ -140,18 +139,18 @@ export default function CardFormatForm() {
         <p className={`${formStyles.formStepTitle} my-4`}>Design the flashcards by adding new sides and dragging and dropping fields</p>
       </div>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-        <div className="w-full flex-1 flex flex-row">
-          <div className="flex-[4] flex flex-row items-center">
+        <div className="w-full sm:flex-1 flex flex-row h-max">
+          <div className="flex sm:flex-[4] flex-col sm:flex-row items-center">
             <motion.div
-              className="flex flex-col items-center h-full flex-1 mx-2"
+              className="flex flex-col items-center sm:h-full sm:flex-1 mx-2"
               variants={FADE_LEFT}
               initial="hidden"
               animate="visible"
               transition={TRANSITION.WITH_DELAY(DELAY.SHORT)}
             >
               <p className="text-2xl font-bold my-2 secondary-text">Side 1</p>
-              <div className="h-full bg-white mx-4 rounded flex flex-col relative w-full">
-                <div className="absolute w-full h-full flex flex-col justify-center items-center rounded">
+              <div className="sm:h-full bg-white mx-4 rounded flex flex-col relative w-full">
+                <div className="sm:h-full absolute w-full flex flex-col justify-center items-center rounded">
                   <MdLock size="48" color="#162e50" />
                 </div>
                 {cardFormat?.sides[0].fields.map((field) => (
@@ -169,7 +168,7 @@ export default function CardFormatForm() {
             {cardFormat?.sides.slice(1).map((side, sideIndex) => (
               <motion.div
                 key={`side-${sideIndex + 1}`}
-                className="flex flex-col items-center h-full w-full flex-1 mx-2"
+                className="flex flex-col items-center sm:h-full w-full flex-1 mx-2"
                 variants={FADE_LEFT}
                 initial="hidden"
                 animate="visible"
@@ -178,7 +177,7 @@ export default function CardFormatForm() {
                 <p className="text-2xl font-bold my-2 secondary-text">
                   Side {sideIndex + 2}
                 </p>
-                <div className="h-full bg-white rounded flex flex-col relative w-full">
+                <div className="bg-white rounded flex flex-col relative w-full sm:h-full min-h-32 pb-8">
                   <DroppableSide id={`side-${sideIndex + 1}`}>
                     <AnimatePresence>
                       {side.fields.map((field) => (
