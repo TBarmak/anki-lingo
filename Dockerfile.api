@@ -3,7 +3,10 @@
 FROM python:3.9
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y cron
+
 COPY api/requirements.txt api/.flaskenv ./
+
 COPY api/api.py ./api/
 COPY api/scrapers ./api/scrapers
 COPY api/utils ./api/utils
@@ -14,8 +17,9 @@ RUN mkdir zip_files
 
 RUN pip install -r requirements.txt
 
-ENV FLASK_ENV production
+RUN echo "0 3 * * * find /app/api/zip_files -name '*.zip' -mtime +1 -delete >> /var/log/cron.log 2>&1" > /etc/cron.d/cleanup-cron
+RUN chmod 0644 /etc/cron.d/cleanup-cron && crontab /etc/cron.d/cleanup-cron
 
 EXPOSE 5000
 
-CMD ["gunicorn", "-b", ":5000", "api.api:app"]
+CMD bash -c "cron && gunicorn -b :5000 api.api:app"

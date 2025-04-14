@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feat/cleanup-old-zips
 
 jobs:
   deploy:
