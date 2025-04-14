@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { DELAY, FADE_LEFT, FADE_RIGHT, TRANSITION } from "../constants/animations";
 
 export default function Header() {
   const [position, setPosition] = useState(window.scrollY);
@@ -29,13 +30,10 @@ export default function Header() {
     >
       <div className="flex flex-row justify-between items-center w-full h-full">
         <motion.div
-          variants={{
-            hidden: { opacity: 0, x: -100 },
-            visible: { opacity: 1, x: 0 },
-          }}
+          variants={FADE_LEFT}
           initial="hidden"
           animate="visible"
-          transition={{ duration: 0.75, delay: 1.25 }}
+          transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
           className="flex flex-row justify-between items-center"
         >
           <Link className="mr-4 hover:cursor-pointer" to="/">
@@ -46,13 +44,10 @@ export default function Header() {
         </motion.div>
         <div className="flex flex-row justify-between items-center">
           <motion.div
-            variants={{
-              hidden: { opacity: 0, x: 100 },
-              visible: { opacity: 1, x: 0 },
-            }}
+            variants={FADE_RIGHT}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.75, delay: 1.25 }}
+            transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
           >
             <Link
               className="group mr-1 sm:mr-6 hover:cursor-pointer flex flex-col justify-center items-start"
@@ -68,13 +63,10 @@ export default function Header() {
             </Link>
           </motion.div>
           <motion.div
-            variants={{
-              hidden: { opacity: 0, x: 100 },
-              visible: { opacity: 1, x: 0 },
-            }}
+            variants={FADE_RIGHT}
             initial="hidden"
             animate="visible"
-            transition={{ duration: 0.75, delay: 1.25 }}
+            transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
           >
             <Link
               className="group ml-1 sm:ml-6 hover:cursor-pointer justify-center items-start flex flex-col"

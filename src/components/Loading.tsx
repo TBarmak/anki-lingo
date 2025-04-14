@@ -1,21 +1,18 @@
 import { Bars } from "react-loader-spinner";
 import { motion } from "framer-motion";
+import { FADE, EXIT, TRANSITION } from "../constants/animations";
 
 export default function Loading() {
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-        exit: {
-          opacity: 0,
-          transition: { ease: "easeInOut" },
-        },
+        ...FADE,
+        exit: EXIT.DEFAULT,
       }}
       initial="hidden"
       animate="visible"
       exit="exit"
-      transition={{ duration: 0.75 }}
+      transition={TRANSITION.DEFAULT}
       className="w-full h-full flex flex-col justify-center items-center"
     >
       <div className="my-4">

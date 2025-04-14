@@ -11,11 +11,10 @@ describe("App.tsx", async () => {
         <App />
       </BrowserRouter>
     );
-
     // Assert
     const title = screen.queryAllByText("Anki Lingo");
     const blurb = screen.queryByText(
-      "Automate generating anki flashcards for learning foreign languages."
+      "Automate generating Anki flashcards for learning foreign languages."
     );
     expect(title).not.toBeNull();
     expect(blurb).not.toBeNull();

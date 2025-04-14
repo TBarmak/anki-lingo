@@ -1,55 +1,51 @@
 import { motion } from "framer-motion";
-import type { InputFields } from "../../../types/types";
-import { IoChevronBackOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { RootState } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { setWords } from "../../../store/resourceFormSlice";
+import formStyles from "../shared.module.css";
+import {
+  DELAY,
+  FADE_DOWN,
+  FADE_UP,
+  HOVER,
+  TRANSITION,
+} from "../../../constants/animations";
 
 type Props = {
-  setInputFields: React.Dispatch<React.SetStateAction<InputFields>>;
-  inputFields: InputFields;
-  goToPreviousStep: () => void;
   goToNextStep: () => void;
 };
 
-export default function WordTextArea({ setInputFields, inputFields, goToPreviousStep, goToNextStep }: Props) {
-  const [words, setWords] = useState<string>(inputFields.words || "");
+export default function WordTextArea({ goToNextStep }: Props) {
+  const { words } = useSelector((state: RootState) => state.resourceForm);
+  const [textAreaValue, setTextAreaValue] = useState<string>(words || "");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(setWords(textAreaValue));
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [textAreaValue]);
 
   return (
-    <div>
-      <motion.button
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75, delay: 1.25 }}
-        onClick={() => goToPreviousStep()}
-        className="text-lg flex items-center"
-      >
-        <div className="group hover:cursor-pointer flex items-center">
-          <div className="flex flex-col justify-center items-start">
-            <IoChevronBackOutline color="#162e50" />
-            <div className="h-0.5" />
-          </div>
-          <div className="flex flex-col justify-center items-start">
-            <p className="mx-1 secondary-text">Go back</p>
-            <div
-              className={
-                "max-w-0 group-hover:max-w-full transition-all duration-300 rounded-full w-full h-0.5 bg-black"
-              }
-            />
-          </div>
-        </div>
-      </motion.button>
+    <div className={formStyles.formStepContainer}>
       <motion.p
-        className="text-3xl font-bold text-center my-4"
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75, delay: 0.5 }}
+        className={formStyles.formStepTitle}
+        variants={FADE_DOWN}
+        initial="hidden"
+        animate="visible"
+        transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
       >
         Enter words and/or phrases in the target language
       </motion.p>
       <motion.div
         className="mb-4 flex flex-col w-full"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.75, delay: 0.75 }}
+        variants={FADE_UP}
+        initial="hidden"
+        animate="visible"
+        transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
       >
         <p className="font-bold secondary-text">Words/Phrases</p>
         <textarea
@@ -58,25 +54,23 @@ export default function WordTextArea({ setInputFields, inputFields, goToPrevious
           placeholder={
             "Enter words in the target language, with each word on a new line. For example:\nabacaxi\nfalar\npalavra"
           }
-          value={words}
-          onChange={(e) => setWords(e.target.value)}
+          value={textAreaValue}
+          onChange={(e) => setTextAreaValue(e.target.value)}
         />
       </motion.div>
-      <div className="flex flex-row w-full justify-center my-8">
+      <div className="flex flex-row w-full justify-center my-16">
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 1.25 }}
+          variants={FADE_UP}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
         >
           <motion.button
             className="button"
-            whileHover={!words ? undefined : { scale: 1.05 }}
-            disabled={!words}
+            whileHover={!textAreaValue ? undefined : HOVER.SCALE}
+            disabled={!textAreaValue}
             onClick={() => {
-              setInputFields((oldFields) => ({
-                ...oldFields,
-                words: words,
-              }));
+              dispatch(setWords(textAreaValue));
               goToNextStep();
             }}
           >
