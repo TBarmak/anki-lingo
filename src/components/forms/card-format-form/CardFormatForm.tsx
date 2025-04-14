@@ -96,29 +96,29 @@ export default function CardFormatForm() {
     const { active, over } = event;
     if (!active || !over) return;
 
-    const activeId = active.id as string;
-    const targetSideId = over.id as string;
+    const draggedItemId = active.id as string;
+    const destinationSideId = over.id as string;
 
     let fieldName: string;
-    if (activeId.startsWith("field-")) {
-      fieldName = activeId.replace("field-", "");
+    if (draggedItemId.startsWith("field-")) {
+      fieldName = draggedItemId.replace("field-", "");
     } else {
-      fieldName = activeId.split("-")[2];
+      fieldName = draggedItemId.split("-")[2];
     }
 
-    const targetSideIndex = parseInt(targetSideId.replace("side-", ""));
+    const destinationSideIndex = parseInt(destinationSideId.split("-")[1]);
 
     const sidesCopy: CardSide[] = JSON.parse(JSON.stringify(cardFormat.sides));
 
-    if (activeId.startsWith("side-")) {
-      const sourceSideIndex = parseInt(activeId.split("-")[1]);
+    if (draggedItemId.startsWith("side-")) {
+      const sourceSideIndex = parseInt(draggedItemId.split("-")[1]);
       sidesCopy[sourceSideIndex].fields = sidesCopy[
         sourceSideIndex
       ].fields.filter((field) => field !== fieldName);
     }
 
-    if (!sidesCopy[targetSideIndex].fields.includes(fieldName)) {
-      sidesCopy[targetSideIndex].fields.push(fieldName);
+    if (!sidesCopy[destinationSideIndex].fields.includes(fieldName)) {
+      sidesCopy[destinationSideIndex].fields.push(fieldName);
     }
 
     dispatch(setCardFormat({ sides: sidesCopy }));

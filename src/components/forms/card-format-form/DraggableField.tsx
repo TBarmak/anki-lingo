@@ -38,7 +38,7 @@ export default function DraggableField({
   const style: MotionStyle = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
     zIndex: isDragging ? 50 : 'auto',
-    position: 'relative' as const,
+    position: 'relative',
   } : {};
 
   return (
