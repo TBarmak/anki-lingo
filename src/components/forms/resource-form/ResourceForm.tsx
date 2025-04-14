@@ -10,7 +10,12 @@ import type { RootState } from "../../../store";
 import { setLanguageResources } from "../../../store/resourceFormSlice";
 import BackButton from "../../BackButton";
 import formStyles from "../shared.module.css";
-import { DELAY, FADE, FADE_DOWN, TRANSITION } from "../../../constants/animations";
+import {
+  DELAY,
+  FADE,
+  FADE_DOWN,
+  TRANSITION,
+} from "../../../constants/animations";
 
 export default function ResourceForm() {
   const [currentStep, setCurrentStep] = useState<
@@ -72,7 +77,12 @@ export default function ResourceForm() {
   };
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence
+      mode="wait"
+      onExitComplete={() => {
+        window.scrollTo(0, 0);
+      }}
+    >
       {((): ReactNode => {
         switch (currentStep) {
           case "languages":
@@ -112,7 +122,9 @@ export default function ResourceForm() {
                   transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
                   className="w-full flex justify-start"
                 >
-                  <BackButton goToPreviousStep={() => setCurrentStep("words")} />
+                  <BackButton
+                    goToPreviousStep={() => setCurrentStep("words")}
+                  />
                 </motion.div>
                 <ResourceSelector />
               </motion.div>

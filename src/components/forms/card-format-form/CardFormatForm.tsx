@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import type { CardFormat, CardSide } from "../../../types/types";
-import {
-  MdLock,
-  MdAddCircle,
-  MdRemoveCircle,
-} from "react-icons/md";
+import { MdLock, MdAddCircle, MdRemoveCircle } from "react-icons/md";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,11 +12,35 @@ import {
 import type { RootState } from "../../../store";
 import BackButton from "../../BackButton";
 import formStyles from "../shared.module.css";
-import { DELAY, EXIT, FADE, FADE_DOWN, FADE_LEFT, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
-import { DndContext, DragEndEvent, useSensor, useSensors, PointerSensor, TouchSensor, useDroppable } from '@dnd-kit/core';
-import DraggableField from './DraggableField';
+import {
+  DELAY,
+  EXIT,
+  FADE,
+  FADE_DOWN,
+  FADE_LEFT,
+  FADE_RIGHT,
+  FADE_UP,
+  HOVER,
+  TRANSITION,
+} from "../../../constants/animations";
+import {
+  DndContext,
+  DragEndEvent,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  useDroppable,
+} from "@dnd-kit/core";
+import DraggableField from "./DraggableField";
 
-function DroppableSide({ id, children }: { id: string; children: React.ReactNode }) {
+function DroppableSide({
+  id,
+  children,
+}: {
+  id: string;
+  children: React.ReactNode;
+}) {
   const { setNodeRef } = useDroppable({
     id,
   });
@@ -78,27 +98,29 @@ export default function CardFormatForm() {
 
     const activeId = active.id as string;
     const targetSideId = over.id as string;
-    
+
     let fieldName: string;
-    if (activeId.startsWith('field-')) {
-      fieldName = activeId.replace('field-', '');
+    if (activeId.startsWith("field-")) {
+      fieldName = activeId.replace("field-", "");
     } else {
-      fieldName = activeId.split('-').slice(2).join('-');
+      fieldName = activeId.split("-")[2];
     }
-    
-    const targetSideIndex = parseInt(targetSideId.replace('side-', ''));
+
+    const targetSideIndex = parseInt(targetSideId.replace("side-", ""));
 
     const sidesCopy: CardSide[] = JSON.parse(JSON.stringify(cardFormat.sides));
-    
-    if (activeId.startsWith('side-')) {
-      const sourceSideIndex = parseInt(activeId.split('-')[1]);
-      sidesCopy[sourceSideIndex].fields = sidesCopy[sourceSideIndex].fields.filter(field => field !== fieldName);
+
+    if (activeId.startsWith("side-")) {
+      const sourceSideIndex = parseInt(activeId.split("-")[1]);
+      sidesCopy[sourceSideIndex].fields = sidesCopy[
+        sourceSideIndex
+      ].fields.filter((field) => field !== fieldName);
     }
 
     if (!sidesCopy[targetSideIndex].fields.includes(fieldName)) {
       sidesCopy[targetSideIndex].fields.push(fieldName);
     }
-    
+
     dispatch(setCardFormat({ sides: sidesCopy }));
   };
 
@@ -136,7 +158,10 @@ export default function CardFormatForm() {
         <BackButton goToPreviousStep={() => dispatch(setScrapedData([]))} />
       </motion.div>
       <div>
-        <p className={`${formStyles.formStepTitle} my-4`}>Design the flashcards by adding new sides and dragging and dropping fields</p>
+        <p className={`${formStyles.formStepTitle} my-4`}>
+          Design the flashcards by adding new sides and dragging and dropping
+          fields
+        </p>
       </div>
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <div className="md:flex-1 flex flex-row h-max justify-center">
@@ -172,7 +197,9 @@ export default function CardFormatForm() {
                 variants={FADE_LEFT}
                 initial="hidden"
                 animate="visible"
-                transition={TRANSITION.WITH_DELAY(sideIndex === 0 ? DELAY.SHORT : DELAY.NONE)}
+                transition={TRANSITION.WITH_DELAY(
+                  sideIndex === 0 ? DELAY.SHORT : DELAY.NONE
+                )}
               >
                 <p className="text-2xl font-bold my-2 secondary-text">
                   Side {sideIndex + 2}
@@ -187,8 +214,12 @@ export default function CardFormatForm() {
                           field={field}
                           fieldMapping={fieldMapping}
                           onRemove={() => {
-                            const sidesCopy = JSON.parse(JSON.stringify(cardFormat.sides));
-                            sidesCopy[sideIndex + 1].fields = sidesCopy[sideIndex + 1].fields.filter((f: string) => f !== field);
+                            const sidesCopy = JSON.parse(
+                              JSON.stringify(cardFormat.sides)
+                            );
+                            sidesCopy[sideIndex + 1].fields = sidesCopy[
+                              sideIndex + 1
+                            ].fields.filter((f: string) => f !== field);
                             dispatch(setCardFormat({ sides: sidesCopy }));
                           }}
                           isDraggable={cardFormat.sides.length > 2}
@@ -206,7 +237,9 @@ export default function CardFormatForm() {
                   variants={FADE}
                   initial="hidden"
                   animate="visible"
-                  transition={TRANSITION.WITH_DELAY(cardFormat.sides.length === 1 ? DELAY.LONG : DELAY.NONE)}
+                  transition={TRANSITION.WITH_DELAY(
+                    cardFormat.sides.length === 1 ? DELAY.LONG : DELAY.NONE
+                  )}
                 >
                   <motion.button
                     className="m-1"
@@ -252,17 +285,15 @@ export default function CardFormatForm() {
             transition={TRANSITION.WITH_DELAY(DELAY.MEDIUM)}
           >
             <p className="font-bold text-2xl secondary-text my-2">Fields</p>
-            <DroppableSide id="fields">
-              {exportFields.map((field) => (
-                <DraggableField
-                  key={field}
-                  id={field}
-                  field={field}
-                  fieldMapping={fieldMapping}
-                  isFieldList={true}
-                />
-              ))}
-            </DroppableSide>
+            {exportFields.map((field) => (
+              <DraggableField
+                key={field}
+                id={field}
+                field={field}
+                fieldMapping={fieldMapping}
+                isFieldList={true}
+              />
+            ))}
           </motion.div>
         </div>
       </DndContext>

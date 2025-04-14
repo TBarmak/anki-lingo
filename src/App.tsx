@@ -5,9 +5,14 @@ import Main from "./pages/Main";
 import Header from "./components/Header";
 import About from "./pages/About";
 import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <>
