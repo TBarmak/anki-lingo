@@ -17,7 +17,7 @@ RUN mkdir zip_files
 
 RUN pip install -r requirements.txt
 
-RUN echo "0 3 * * * find /app/api/zip_files -name '*.zip' -mtime +1 -delete >> /var/log/cron.log 2>&1" > /etc/cron.d/cleanup-cron
+RUN echo "0 3 * * * find /app/zip_files -name '*.zip' -mtime +1 -delete >> /var/log/cron.log 2>&1" > /etc/cron.d/cleanup-cron
 RUN chmod 0644 /etc/cron.d/cleanup-cron && crontab /etc/cron.d/cleanup-cron
 
 EXPOSE 5000
