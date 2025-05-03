@@ -6,7 +6,15 @@ import { setIsLoading, setScrapedData } from "../../../store/rootSlice";
 import { RootState } from "../../../store";
 import { setLanguageResources } from "../../../store/resourceFormSlice";
 import formStyles from "../shared.module.css";
-import { DELAY, FADE_DOWN, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
+import {
+  DELAY,
+  FADE_DOWN,
+  FADE_RIGHT,
+  FADE_UP,
+  HOVER,
+  TAP,
+  TRANSITION,
+} from "../../../constants/animations";
 
 export default function ResourceSelector() {
   const dispatch = useDispatch();
@@ -116,6 +124,11 @@ export default function ResourceSelector() {
                 !languageResources.some((resource) => resource.isSelected)
                   ? undefined
                   : HOVER.SCALE
+              }
+              whileTap={
+                !languageResources.some((resource) => resource.isSelected)
+                  ? undefined
+                  : TAP.SCALE
               }
               disabled={
                 !languageResources.some((resource) => resource.isSelected)

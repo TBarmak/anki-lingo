@@ -9,6 +9,7 @@ import {
   FADE_DOWN,
   FADE_UP,
   HOVER,
+  TAP,
   TRANSITION,
 } from "../../../constants/animations";
 
@@ -68,6 +69,7 @@ export default function WordTextArea({ goToNextStep }: Props) {
           <motion.button
             className="button"
             whileHover={!textAreaValue ? undefined : HOVER.SCALE}
+            whileTap={!textAreaValue ? undefined : TAP.SCALE}
             disabled={!textAreaValue}
             onClick={() => {
               dispatch(setWords(textAreaValue));
