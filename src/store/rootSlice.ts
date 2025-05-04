@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { CardFormat, CombinedScrapedResponse } from "../types/types";
+import type { CombinedScrapedResponse } from "../types/types";
 
 const slice = createSlice({
   name: "root",
@@ -9,7 +9,7 @@ const slice = createSlice({
     exportFields: [] as string[],
     cardFormat: {
       sides: [{ fields: ["inputWord"] }],
-    } as CardFormat,
+    },
     downloadUrl: "",
   },
   reducers: {
@@ -22,11 +22,11 @@ const slice = createSlice({
     setExportFields: (state, action) => {
       state.exportFields = action.payload;
     },
-    setDownloadUrl: (state, action) => {
-      state.downloadUrl = action.payload;
-    },
     setCardFormat: (state, action) => {
       state.cardFormat = action.payload;
+    },
+    setDownloadUrl: (state, action) => {
+      state.downloadUrl = action.payload;
     },
   },
 });
@@ -35,7 +35,7 @@ export const {
   setIsLoading,
   setScrapedData,
   setExportFields,
-  setDownloadUrl,
   setCardFormat,
+  setDownloadUrl,
 } = slice.actions;
 export default slice.reducer;

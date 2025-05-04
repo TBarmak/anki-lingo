@@ -54,6 +54,10 @@ export const HOVER = {
   SCALE: { scale: 1.05 },
 };
 
+export const TAP = {
+  SCALE: { scale: 0.98 },
+};
+
 export const EXIT = {
   DEFAULT: {
     opacity: 0,

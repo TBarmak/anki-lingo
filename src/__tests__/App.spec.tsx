@@ -1,15 +1,23 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import App from "../App";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "../store";
 
 describe("App.tsx", async () => {
+  beforeEach(() => {
+    window.scrollTo = vi.fn();
+  });
+
   it('Then should show "Anki Lingo" and blurb', async () => {
     // Act
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
     // Assert
     const title = screen.queryAllByText("Anki Lingo");

@@ -9,14 +9,14 @@ const resourceFormSlice = createSlice({
     languageResources: [],
   } as InputFields,
   reducers: {
-    setWords: (state, action) => {
-      state.words = action.payload;
-    },
     setTargetLanguage: (state, action) => {
       state.targetLanguage = action.payload;
     },
     setNativeLanguage: (state, action) => {
       state.nativeLanguage = action.payload;
+    },
+    setWords: (state, action) => {
+      state.words = action.payload;
     },
     setLanguageResources: (state, action) => {
       state.languageResources = action.payload;
@@ -24,5 +24,10 @@ const resourceFormSlice = createSlice({
   },
 });
 
-export const { setWords, setTargetLanguage, setNativeLanguage, setLanguageResources } = resourceFormSlice.actions;
+export const {
+  setTargetLanguage,
+  setNativeLanguage,
+  setWords,
+  setLanguageResources,
+} = resourceFormSlice.actions;
 export default resourceFormSlice.reducer;

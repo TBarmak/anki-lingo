@@ -1,9 +1,25 @@
 import { Link } from "react-router-dom";
 import waves from "../assets/waves.svg";
 import { motion } from "framer-motion";
-import { DELAY, EXIT, FADE_UP, HOVER, TRANSITION } from "../constants/animations";
+import {
+  DELAY,
+  EXIT,
+  FADE_UP,
+  HOVER,
+  TRANSITION,
+  TAP,
+} from "../constants/animations";
+import { useEffect } from "react";
+import { resetFormState } from "../components/forms/utils/resetFormState";
+import { useDispatch } from "react-redux";
 
 export default function Landing() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    resetFormState(dispatch);
+  }, []);
+
   return (
     <motion.div
       className="route-component min-h-screen h-full relative flex flex-col justify-center items-center"
@@ -38,7 +54,11 @@ export default function Landing() {
             animate="visible"
             transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
           >
-            <motion.div className="button mt-32 mb-12" whileHover={HOVER.SCALE}>
+            <motion.div
+              className="button mt-32 mb-12"
+              whileHover={HOVER.SCALE}
+              whileTap={TAP.SCALE}
+            >
               <div className="text-center">Get Started</div>
             </motion.div>
           </motion.div>
