@@ -8,7 +8,15 @@ import {
   setNativeLanguage,
 } from "../../../store/resourceFormSlice";
 import formStyles from "../shared.module.css";
-import { DELAY, FADE_DOWN, FADE_RIGHT, FADE_UP, HOVER, TRANSITION } from "../../../constants/animations";
+import {
+  DELAY,
+  FADE_DOWN,
+  FADE_RIGHT,
+  FADE_UP,
+  HOVER,
+  TRANSITION,
+  TAP,
+} from "../../../constants/animations";
 
 type Props = {
   goToNextStep: () => void;
@@ -109,6 +117,13 @@ export default function LanguageSelector({ goToNextStep }: Props) {
               nativeLanguage === targetLanguage
                 ? undefined
                 : HOVER.SCALE
+            }
+            whileTap={
+              !nativeLanguage ||
+              !targetLanguage ||
+              nativeLanguage === targetLanguage
+                ? undefined
+                : TAP.SCALE
             }
             disabled={
               !nativeLanguage ||

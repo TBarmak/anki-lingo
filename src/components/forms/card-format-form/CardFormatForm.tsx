@@ -21,6 +21,7 @@ import {
   FADE_RIGHT,
   FADE_UP,
   HOVER,
+  TAP,
   TRANSITION,
 } from "../../../constants/animations";
 import {
@@ -248,6 +249,7 @@ export default function CardFormatForm() {
                       dispatch(setCardFormat({ sides: newSides }));
                     }}
                     whileHover={HOVER.SCALE}
+                    whileTap={TAP.SCALE}
                   >
                     <MdAddCircle size="48" color="#162e50" />
                   </motion.button>
@@ -270,6 +272,7 @@ export default function CardFormatForm() {
                       dispatch(setCardFormat({ sides: newSides }));
                     }}
                     whileHover={HOVER.SCALE}
+                    whileTap={TAP.SCALE}
                   >
                     <MdRemoveCircle size="48" color="#ad343e" />
                   </motion.button>
@@ -308,6 +311,7 @@ export default function CardFormatForm() {
           className="button"
           onClick={formatCSV}
           whileHover={HOVER.SCALE}
+          whileTap={TAP.SCALE}
         >
           Create CSV
         </motion.button>

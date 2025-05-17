@@ -6,7 +6,15 @@ import type { RootState } from "../store";
 import BackButton from "./BackButton";
 import { setDownloadUrl } from "../store/rootSlice";
 import formStyles from "./forms/shared.module.css";
-import { DELAY, EXIT, FADE_UP, HOVER, TRANSITION } from "../constants/animations";
+import {
+  DELAY,
+  EXIT,
+  FADE_UP,
+  HOVER,
+  TRANSITION,
+  TAP,
+} from "../constants/animations";
+import { resetFormState } from "./forms/utils/resetFormState";
 
 export default function Download() {
   const { downloadUrl, scrapedData } = useSelector(
@@ -68,22 +76,44 @@ export default function Download() {
             </div>
           </div>
         )}
-        <a
-          className="my-16"
-          href={downloadUrl}
-          download={`anki-lingo-${moment().format("YYYYMMDDHHmmss")}.zip`}
-        >
-          <motion.div
-            variants={FADE_UP}
-            initial="hidden"
-            animate="visible"
-            transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
+        <div className="flex flex-row my-16">
+          <button onClick={() => resetFormState(dispatch)} className="mx-16">
+            <motion.div
+              variants={FADE_UP}
+              initial="hidden"
+              animate="visible"
+              transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
+            >
+              <motion.button
+                className="button-destructive"
+                whileHover={HOVER.SCALE}
+                whileTap={TAP.SCALE}
+              >
+                Start Over
+              </motion.button>
+            </motion.div>
+          </button>
+          <a
+            className="mx-16"
+            href={downloadUrl}
+            download={`anki-lingo-${moment().format("YYYYMMDDHHmmss")}.zip`}
           >
-            <motion.button className="button" whileHover={HOVER.SCALE}>
-              Download
-            </motion.button>
-          </motion.div>
-        </a>
+            <motion.div
+              variants={FADE_UP}
+              initial="hidden"
+              animate="visible"
+              transition={TRANSITION.WITH_DELAY(DELAY.LONG)}
+            >
+              <motion.button
+                className="button"
+                whileHover={HOVER.SCALE}
+                whileTap={TAP.SCALE}
+              >
+                Download
+              </motion.button>
+            </motion.div>
+          </a>
+        </div>
       </div>
     </motion.div>
   );
