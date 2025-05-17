@@ -21,15 +21,15 @@ jobs:
     
     - name: Clean EC2 app directory
       run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@[2600:1f18:6d2d:76e8:dc80:b527:6ad9:39ff] 'rm -rf /home/ec2-user/app/*'
+        ssh -6 -o StrictHostKeyChecking=no ec2-user@2600:1f18:6d2d:76e8:dc80:b527:6ad9:39ff 'rm -rf /home/ec2-user/app/*'
 
     - name: Copy files to EC2
       run: |
-        scp -o StrictHostKeyChecking=no -r * ec2-user@[2600:1f18:6d2d:76e8:dc80:b527:6ad9:39ff]:/home/ec2-user/app
+        scp -6 -o StrictHostKeyChecking=no -r * ec2-user@2600:1f18:6d2d:76e8:dc80:b527:6ad9:39ff:/home/ec2-user/app
     
     - name: SSH into EC2 and deploy
       run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@[2600:1f18:6d2d:76e8:dc80:b527:6ad9:39ff] << EOF
+        ssh -6 -o StrictHostKeyChecking=no ec2-user@2600:1f18:6d2d:76e8:dc80:b527:6ad9:39ff << EOF
           cd /home/ec2-user/app
           docker-compose down
           docker system prune -f --volumes
