@@ -65,6 +65,14 @@ def parse_first_table(table):
     return entries
 
 
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Connection": "keep-alive",
+}
+
+
 def scrape_word_reference(word, target_lang, native_lang):
     native_lang_abbv = LANGUAGE_TO_ABBV.get(native_lang.lower())
     target_lang_abbv = LANGUAGE_TO_ABBV.get(target_lang.lower())
@@ -72,7 +80,7 @@ def scrape_word_reference(word, target_lang, native_lang):
         return [], "", 400
 
     url = create_url(word, target_lang_abbv, native_lang_abbv)
-    response = requests.get(url)
+    response = requests.get(url, headers=HEADERS)
     if response.ok:
         soup = BeautifulSoup(response.text, "html.parser")
         tables = soup.find_all("table", {"class": "WRD"})
