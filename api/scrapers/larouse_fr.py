@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup, NavigableString
-import requests
 from urllib.parse import quote
+from api.scrapers.http_client import fetch
 
 
 def create_url(word):
@@ -27,7 +27,7 @@ def parse_soup(soup):
 
 def scrape_larouse(word):
     url = create_url(word)
-    response = requests.get(url)
+    response = fetch(url)
     if response.ok:
         soup = BeautifulSoup(response.text, "html.parser")
         return parse_soup(soup), url, response.status_code

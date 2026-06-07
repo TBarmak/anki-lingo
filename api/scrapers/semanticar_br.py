@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
-import requests
 from urllib.parse import quote
 import json
+from api.scrapers.http_client import fetch
 
 
 def create_url(word):
@@ -21,7 +21,7 @@ def get_sentences_and_definitions(word, soup):
 
 def scrape_semanticar(word):
     url = create_url(word)
-    response = requests.get(url)
+    response = fetch(url)
     if response.ok:
         soup = BeautifulSoup(response.text, "html.parser")
         scraped_data = get_sentences_and_definitions(word, soup)

@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-import requests
 from urllib.parse import quote
+from api.scrapers.http_client import fetch
 
 
 def create_url(word):
@@ -98,7 +98,7 @@ def parse_rows(rows):
 
 def scrape_michaelis(word):
     url = create_url(word)
-    response = requests.get(url)
+    response = fetch(url)
     if response.ok:
         soup = BeautifulSoup(response.text, "html.parser")
         container = soup.find("div", {"class": "verbete bs-component"})
