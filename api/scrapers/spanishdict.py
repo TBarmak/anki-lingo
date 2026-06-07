@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-import requests
 from urllib.parse import quote
+from api.scrapers.http_client import fetch
 
 LANGUAGE_TO_ABBV = {
     "english": "en",
@@ -144,7 +144,7 @@ def scrape_spanishdict(word, target_lang):
     '''
     target_lang_abbv = LANGUAGE_TO_ABBV[target_lang.lower()]
     url = create_url(word, target_lang_abbv)
-    response = requests.get(url)
+    response = fetch(url)
     if response.ok:
         soup = BeautifulSoup(response.text, "html.parser")
         meanings_container = soup.find(

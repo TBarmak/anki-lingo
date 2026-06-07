@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
 import base64
-import urllib.request
 import urllib.parse
-import requests
+from api.scrapers.http_client import fetch
 
 # TODO: Give the user the option to pick the accent they want
 LANGUAGE_TO_ABBV = {
@@ -13,13 +12,9 @@ LANGUAGE_TO_ABBV = {
     "italiano": "it"
 }
 
-headers = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+FORVO_HEADERS = {
     "Referer": "https://www.google.com/",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Connection": "keep-alive",
-    "Upgrade-Insecure-Requests": "1"
+    "Upgrade-Insecure-Requests": "1",
 }
 
 
@@ -50,30 +45,27 @@ def get_top_pronunciation_url(table):
 
 
 def download_audio(url: str, word: str, lang_abbv: str):
-    url_request = urllib.request.Request(
-        url, headers=headers)
-    response = urllib.request.urlopen(url_request)
+    response = fetch(url, headers=FORVO_HEADERS, impersonate=True)
     output_filename = f"pronunciation_{lang_abbv}_{'_'.join(word.split())}.ogg"
     with open("audio_files/" + output_filename, "b+w") as fh:
-        fh.write(response.read())
+        fh.write(response.content)
     return output_filename
 
 
 def scrape_forvo(word: str, language: str):
     lang_abbv = LANGUAGE_TO_ABBV[language.lower()]
     url = create_url(word, lang_abbv)
-    url_request = urllib.request.Request(
-        url, headers=headers)
     try:
-        response = urllib.request.urlopen(url_request)
-        content = response.read()
-        soup = BeautifulSoup(content, "html.parser")
+        response = fetch(url, headers=FORVO_HEADERS, impersonate=True)
+    except Exception:
+        return [], url, 500
+    if not response.ok:
+        return [], url, response.status_code
+    try:
+        soup = BeautifulSoup(response.content, "html.parser")
         table = get_table(soup, lang_abbv)
         pronunciation_url = get_top_pronunciation_url(table)
         output_filename = download_audio(pronunciation_url, word, lang_abbv)
-        return [{"audioFilenames": [output_filename]}], url, response.getcode()
-    except urllib.error.HTTPError as e:
-        return [], url, e.code
-    except urllib.error.URLError as e:
-        return [], url, 500
-    
+        return [{"audioFilenames": [output_filename]}], url, response.status_code
+    except Exception:
+        return [], url, response.status_code
