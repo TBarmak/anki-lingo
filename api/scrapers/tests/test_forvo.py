@@ -40,9 +40,6 @@ class TestForvo:
         word = "avoir"
         language = "français"
         mock_response = get_mock_response(get_mock_response_filename(word, "fr"))
-        # fetch is called twice (page, then audio); a single response object
-        # serves both: .content for the page HTML and (irrelevant) bytes for
-        # the mocked audio file write.
         mock_resp = MagicMock()
         mock_resp.content = mock_response.encode("UTF-8")
         mock_resp.ok = True

@@ -12,8 +12,6 @@ LANGUAGE_TO_ABBV = {
     "italiano": "it"
 }
 
-# Forvo blocks the default TLS fingerprint of the container's OpenSSL build, so
-# all Forvo requests use curl_cffi browser impersonation (impersonate=True).
 FORVO_HEADERS = {
     "Referer": "https://www.google.com/",
     "Upgrade-Insecure-Requests": "1",
