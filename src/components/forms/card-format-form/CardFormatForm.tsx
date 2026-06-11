@@ -91,7 +91,7 @@ export default function CardFormatForm() {
       };
       dispatch(setCardFormat(defaultFormat));
     }
-  }, [exportFields]);
+  }, [exportFields, cardFormat.sides.length, dispatch]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -245,7 +245,7 @@ export default function CardFormatForm() {
                   <motion.button
                     className="m-1"
                     onClick={() => {
-                      const newSides = [...cardFormat?.sides, { fields: [] }];
+                      const newSides = [...cardFormat.sides, { fields: [] }];
                       dispatch(setCardFormat({ sides: newSides }));
                     }}
                     whileHover={HOVER.SCALE}

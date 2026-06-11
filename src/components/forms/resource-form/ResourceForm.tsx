@@ -33,6 +33,9 @@ export default function ResourceForm() {
     } else {
       setCurrentStep("languages");
     }
+    // Run once on mount to pick the starting step from persisted state;
+    // subsequent navigation is driven by the child step components.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function ResourceForm() {
           dispatch(setLanguageResources(data.resources));
         });
     }
-  }, [targetLanguage]);
+  }, [targetLanguage, currentStep, dispatch]);
 
   useEffect(() => {
     if (languageResources.length) {
@@ -65,7 +68,7 @@ export default function ResourceForm() {
       );
       dispatch(setExportFields([...new Set(exportFields)]));
     }
-  }, [languageResources]);
+  }, [languageResources, dispatch]);
 
   const sharedMotionProps = {
     className: formStyles.formContainer,
