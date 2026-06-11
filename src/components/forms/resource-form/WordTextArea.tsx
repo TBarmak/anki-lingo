@@ -28,7 +28,7 @@ export default function WordTextArea({ goToNextStep }: Props) {
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [textAreaValue]);
+  }, [textAreaValue, dispatch]);
 
   return (
     <div className={formStyles.formStepContainer}>

@@ -11,7 +11,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      let moving = window.scrollY;
+      const moving = window.scrollY;
       setVisible(position > moving || moving <= 20);
       setPosition(moving);
     };
