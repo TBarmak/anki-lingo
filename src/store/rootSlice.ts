@@ -5,6 +5,7 @@ const slice = createSlice({
   name: "root",
   initialState: {
     isLoading: false,
+    wordProgress: { current: 0, total: 0 },
     scrapedData: [] as CombinedScrapedResponse[],
     exportFields: [] as string[],
     cardFormat: {
@@ -15,6 +16,9 @@ const slice = createSlice({
   reducers: {
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
+    },
+    setWordProgress: (state, action) => {
+      state.wordProgress = action.payload;
     },
     setScrapedData: (state, action) => {
       state.scrapedData = action.payload;
@@ -33,6 +37,7 @@ const slice = createSlice({
 
 export const {
   setIsLoading,
+  setWordProgress,
   setScrapedData,
   setExportFields,
   setCardFormat,
