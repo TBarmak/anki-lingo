@@ -51,8 +51,9 @@ def parse_first_table(table):
                         translation[0].contents[0].strip())
                 except:
                     entry["translations"].append("Translation Unavailable")
-            to_example = row.find_all("td", {"class": "ToEx"})
-            from_example = row.find_all("td", {"class": "FrEx"})
+            to_example = row.find_all("td", {"class": "ToEx"}, recursive=False)
+            from_example = row.find_all(
+                "td", {"class": "FrEx"}, recursive=False)
             # Replace is necessary for correct formatting of import csv
             if len(to_example) > 0:
                 entry["nativeExampleSentences"].append(
