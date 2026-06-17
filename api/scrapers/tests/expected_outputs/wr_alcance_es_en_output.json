@@ -1,0 +1,22 @@
+[
+  {
+    "definition": "(distancia posible)",
+    "nativeExampleSentences": ["The cannon has a range of 500 metres."],
+    "pos": "nm",
+    "targetExampleSentences": ["El cañón tiene un alcance de 500 m."],
+    "translations": ["range", "reach", "scope"],
+    "word": "alcance"
+  },
+  {
+    "definition": "(trascendencia, efecto)",
+    "nativeExampleSentences": [
+      "The rise in oil prices has global significance."
+    ],
+    "pos": "nm",
+    "targetExampleSentences": [
+      "La subida del precio del petróleo tiene un alcance mundial."
+    ],
+    "translations": ["significance, import, importance, effect"],
+    "word": "alcance"
+  }
+]
