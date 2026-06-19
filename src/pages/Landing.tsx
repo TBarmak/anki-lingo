@@ -47,22 +47,23 @@ export default function Landing() {
         >
           Automate generating Anki flashcards for learning foreign languages.
         </motion.p>
-        <Link to="/home">
-          <motion.div
-            variants={FADE_UP}
-            initial="hidden"
-            animate="visible"
-            transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
-          >
+        <motion.div
+          variants={FADE_UP}
+          initial="hidden"
+          animate="visible"
+          transition={TRANSITION.WITH_DELAY(DELAY.EXTRA_LONG)}
+          className="mt-32 mb-12"
+        >
+          <Link to="/home">
             <motion.div
-              className="button mt-32 mb-12"
+              className="button"
               whileHover={HOVER.SCALE}
               whileTap={TAP.SCALE}
             >
               <div className="text-center">Get Started</div>
             </motion.div>
-          </motion.div>
-        </Link>
+          </Link>
+        </motion.div>
       </div>
       <motion.div
         variants={FADE_UP}
