@@ -50,6 +50,24 @@ class TestWordReference:
         assert url == create_url(word, "pt", "en")
         assert status_code == 200
 
+    def test_scrape_word_reference_reflexive(self, requests_mock):
+        # Arrange
+        word = "despejar-se"
+        target_lang = "Português"
+        native_lang = "English"
+        mock_response = get_mock_response(
+            get_mock_response_filename(word, "pt", "en"))
+        requests_mock.get(create_url(word, "pt", "en"), text=mock_response)
+        expected_response = read_expected_output(
+            get_expected_output_filename(word, "pt", "en"))
+        # Act
+        scraped_data, url, status_code = scrape_word_reference(
+            word, target_lang, native_lang)
+        # Assert
+        assert scraped_data == expected_response
+        assert url == create_url(word, "pt", "en")
+        assert status_code == 200
+
     def test_scrape_word_reference_avoir(self, requests_mock):
         # Arrange
         word = "avoir"
