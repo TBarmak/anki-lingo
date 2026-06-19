@@ -18,7 +18,7 @@ export const FADE = {
   visible: { opacity: 1 },
   exit: {
     opacity: 0,
-    transition: { ease: "easeInOut" },
+    transition: { ease: "easeInOut" as const },
   },
 };
 
@@ -61,6 +61,6 @@ export const TAP = {
 export const EXIT = {
   DEFAULT: {
     opacity: 0,
-    transition: { ease: "easeInOut", duration: DURATION.DEFAULT },
+    transition: { ease: "easeInOut" as const, duration: DURATION.DEFAULT },
   },
 };
