@@ -5,15 +5,15 @@ import { useLocation } from "react-router-dom";
 import { DELAY, FADE_LEFT, FADE_RIGHT, TRANSITION } from "../constants/animations";
 
 export default function Header() {
-  const [position, setPosition] = useState(window.scrollY);
+  const [previousPosition, setPreviousPosition] = useState(window.scrollY);
   const [visible, setVisible] = useState(true);
   const { pathname } = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      const moving = window.scrollY;
-      setVisible(position > moving || moving <= 20);
-      setPosition(moving);
+      const currentPosition = window.scrollY;
+      setVisible(previousPosition > currentPosition || currentPosition <= 20);
+      setPreviousPosition(currentPosition);
     };
 
     window.addEventListener("scroll", handleScroll);
