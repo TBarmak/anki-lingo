@@ -32,3 +32,6 @@ __pycache__
 # Output files
 *.zip
 *.ogg
+
+# Vocab words
+words.txt

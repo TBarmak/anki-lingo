@@ -36,10 +36,12 @@ def parse_first_table(table):
                 if entry:
                     entries.append(entry)
                     entry = {}
-                entry["pos"] = row.find_all(
-                    "td", {"class": "FrWrd"})[0].em.text
-                entry["word"] = "".join(row.find_all("td", {"class": "FrWrd"})[
-                                        0].strong.find_all(string=True))
+                frwrd = row.find_all("td", {"class": "FrWrd"})[0]
+                entry["pos"] = frwrd.em.text if frwrd.em else ""
+                entry["word"] = (
+                    "".join(frwrd.strong.find_all(string=True))
+                    if frwrd.strong else frwrd.get_text(strip=True)
+                )
                 entry["definition"] = row.find_all("td")[1].text.strip()
                 entry["translations"] = []
                 entry["nativeExampleSentences"] = []
