@@ -18,7 +18,7 @@ export default function Landing() {
 
   useEffect(() => {
     resetFormState(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <motion.div
