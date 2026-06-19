@@ -2,7 +2,11 @@ import { motion } from "framer-motion";
 import { getFlashcardData } from "../utils/getFlashcardData";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLoading, setScrapedData } from "../../../store/rootSlice";
+import {
+  setWordProgress,
+  setIsLoading,
+  setScrapedData,
+} from "../../../store/rootSlice";
 import { RootState } from "../../../store";
 import { setLanguageResources } from "../../../store/resourceFormSlice";
 import formStyles from "../shared.module.css";
@@ -35,13 +39,22 @@ export default function ResourceSelector() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const totalWords = words.trim() === "" ? 0 : words.split("\n").length;
+    dispatch(setWordProgress({ current: 0, total: totalWords }));
     dispatch(setIsLoading(true));
-    getFlashcardData({
-      words,
-      targetLanguage,
-      nativeLanguage,
-      languageResources,
-    }).then((res) => {
+    let completedWords = 0;
+    getFlashcardData(
+      {
+        words,
+        targetLanguage,
+        nativeLanguage,
+        languageResources,
+      },
+      () => {
+        completedWords += 1;
+        dispatch(setWordProgress({ current: completedWords, total: totalWords }));
+      }
+    ).then((res) => {
       dispatch(setScrapedData(res));
       dispatch(setIsLoading(false));
     });

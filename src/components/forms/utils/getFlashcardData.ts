@@ -7,7 +7,8 @@ import {
 } from "../../../types/types";
 
 export function getFlashcardData(
-  inputFields: InputFields
+  inputFields: InputFields,
+  onWordDone?: () => void
 ): Promise<CombinedScrapedResponse[]> {
   // Return an empty list if no words are passed
   if (inputFields.words.trim() === "") {
@@ -69,6 +70,7 @@ export function getFlashcardData(
             .filter((res) => res.error)
             .map((res) => res.error as string),
         });
+        onWordDone?.();
       });
     });
   });
