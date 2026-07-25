@@ -108,7 +108,7 @@ Supported Languages:
 
 - Brazilian Portuguese
 
-## Larouse
+## Larousse
 
 A handy French dictionary.
 
