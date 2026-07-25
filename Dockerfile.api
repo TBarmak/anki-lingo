@@ -22,9 +22,4 @@ RUN chmod 0644 /etc/cron.d/cleanup-cron && crontab /etc/cron.d/cleanup-cron
 
 EXPOSE 5000
 
-# Threaded workers, not the default single sync worker: every request here is a
-# slow outbound scrape that is almost entirely network wait, and the UI fans out
-# one request per word per resource. --timeout is raised from the default 30s
-# because gunicorn kills the whole worker on timeout, taking sibling requests
-# down with it.
 CMD bash -c "cron && gunicorn -b :5000 -w 2 -k gthread --threads 8 --timeout 120 api.api:app"
