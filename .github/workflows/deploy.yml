@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+# Deploys queue rather than overlap. cancel-in-progress is deliberately false:
+# killing a deploy mid-swap would leave the app directory half-populated.
+concurrency:
+  group: deploy-ec2
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -17,20 +23,25 @@ jobs:
       uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-    
-    - name: Clean EC2 app directory
-      run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@54.152.37.238 'rm -rf /home/ec2-user/app/*'
 
-    - name: Copy files to EC2
+    # Upload into a staging directory first. If this fails, the running app is
+    # untouched — the old code keeps serving until a later deploy succeeds.
+    - name: Upload files to EC2 staging directory
       run: |
-        scp -o StrictHostKeyChecking=no -r * ec2-user@54.152.37.238:/home/ec2-user/app
-    
+        ssh -o StrictHostKeyChecking=no ec2-user@54.152.37.238 'rm -rf /home/ec2-user/app.new && mkdir -p /home/ec2-user/app.new'
+        scp -o StrictHostKeyChecking=no -r * ec2-user@54.152.37.238:/home/ec2-user/app.new
+
     - name: SSH into EC2 and deploy
       run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@54.152.37.238 << EOF
+        ssh -o StrictHostKeyChecking=no ec2-user@54.152.37.238 << 'EOF'
+          set -e
+          if [ -d /home/ec2-user/app ]; then
+            cd /home/ec2-user/app
+            docker-compose down
+          fi
+          rm -rf /home/ec2-user/app
+          mv /home/ec2-user/app.new /home/ec2-user/app
           cd /home/ec2-user/app
-          docker-compose down
-          docker system prune -f --volumes
           docker-compose up -d --build
+          docker image prune -f
         EOF
