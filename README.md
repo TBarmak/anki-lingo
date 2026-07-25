@@ -1,7 +1,9 @@
 # Anki Lingo
-**Anki Lingo** is a React and Flask application for generating Anki flashcards for learning languages. It scrapes popular language learning sites like Word Reference, SpanishDict, and Forvo to fetch translations, example sentences, and much more!
+**Anki Lingo** turns a list of words into a ready-to-import Anki deck. Pick your native and target language, paste in the words you're learning, and it scrapes sites like WordReference, SpanishDict, and Forvo for translations, definitions, example sentences, and pronunciation audio. You choose which fields land on which side of the card, then download a CSV + audio bundle ready for Anki import.
 
-It is currently hosted at https://anki.taylorbarmak.com.
+Built with a React/TypeScript frontend and a Python/Flask backend using Beautiful Soup. Six sources currently supported: WordReference, SpanishDict, Forvo, Michaelis BR, Semanticar BR, and Larousse FR.
+
+It is hosted at https://anki.taylorbarmak.com.
 
 <img src="./docs/photos/landing.png" alt="landing" width="800"/>
 
@@ -58,12 +60,6 @@ On mac, it's in the `~/Library/Application Support/Anki2` folder. I just added t
 ```bash
 alias ankim='open ~/Library/Application\ Support/Anki2/User\ 1/collection.media'
 ```
-
-## Frontend (React)
-The frontend is built with React and Typescript. The UI allows the user to enter words and phrases in the target language.
-
-## Backend (Flask)
-The Flask (Python) backend uses Beautiful Soup to scrape popular websites.
 
 ## Running Locally Without Docker
 1. Clone the repo with `git clone https://github.com/TBarmak/anki-lingo.git`
