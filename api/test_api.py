@@ -56,7 +56,7 @@ def test_français_resources(client):
     # Assert
     resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
-    assert resources == {"Word Reference", "Forvo", "Larouse FR"}
+    assert resources == {"Word Reference", "Forvo", "Larousse FR"}
 
 
 def test_field_mapping(client):

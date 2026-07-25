@@ -1,4 +1,4 @@
-from api.scrapers.larouse_fr import scrape_larouse
+from api.scrapers.larousse_fr import scrape_larousse
 from api.scrapers.semanticar_br import scrape_semanticar
 from api.utils.format_csv import create_csv_sides
 from api.scrapers.michaelis_br import scrape_michaelis
@@ -65,9 +65,9 @@ LANGUAGE_RESOURCES = [
         "supportedLanguages": ["português"]
     },
     {
-        "name": "Larouse FR",
-        "route": "api/larouse-fr/",
-        "healthRoute": "api/larouse-fr/homme",
+        "name": "Larousse FR",
+        "route": "api/larousse-fr/",
+        "healthRoute": "api/larousse-fr/homme",
         "args": ["word"],
         "outputs": ["definition", "targetExampleSentences"],
         "supportedLanguages": ["français"]
@@ -120,9 +120,9 @@ def create_app():
         scraped_data, url, status_code = scrape_forvo(word, target_lang)
         return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}, status_code
 
-    @app.route("/api/larouse-fr/<word>")
-    def get_larouse_fr_word(word):
-        scraped_data, url, status_code = scrape_larouse(word)
+    @app.route("/api/larousse-fr/<word>")
+    def get_larousse_fr_word(word):
+        scraped_data, url, status_code = scrape_larousse(word)
         return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}, status_code
 
     @app.route("/api/format-csv", methods=["POST"])

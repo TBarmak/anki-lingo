@@ -1,17 +1,17 @@
-from api.scrapers.larouse_fr import create_url, scrape_larouse
+from api.scrapers.larousse_fr import create_url, scrape_larousse
 from api.scrapers.tests.utils.get_mock_response import get_mock_response
 from api.scrapers.tests.utils.read_expected_output import read_expected_output
 
 
 def get_mock_response_filename(word):
-    return f"larouse_fr_{'_'.join(word.split())}.html"
+    return f"larousse_fr_{'_'.join(word.split())}.html"
 
 
 def get_expected_output_filename(word):
-    return f"larouse_fr_{'_'.join(word.split())}_output.json"
+    return f"larousse_fr_{'_'.join(word.split())}_output.json"
 
 
-class TestLarouseFR:
+class TestLarousseFR:
     def test_create_url_one_word(self):
         # Arrange
         word = "avoir"
@@ -28,7 +28,7 @@ class TestLarouseFR:
         # Assert
         assert url == "https://www.larousse.fr/dictionnaires/francais/il%20y%20a"
 
-    def test_scrape_larouse_avoir(self, requests_mock):
+    def test_scrape_larousse_avoir(self, requests_mock):
         # Arrange
         word = "avoir"
         mock_response = get_mock_response(
@@ -37,13 +37,13 @@ class TestLarouseFR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url, status_code = scrape_larouse(word)
+        scraped_data, url, status_code = scrape_larousse(word)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word)
         assert status_code == 200
 
-    def test_scrape_larouse_couteau(self, requests_mock):
+    def test_scrape_larousse_couteau(self, requests_mock):
         # Arrange
         word = "couteau"
         mock_response = get_mock_response(
@@ -52,13 +52,13 @@ class TestLarouseFR:
         expected_response = read_expected_output(
             get_expected_output_filename(word))
         # Act
-        scraped_data, url, status_code = scrape_larouse(word)
+        scraped_data, url, status_code = scrape_larousse(word)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(word)
         assert status_code == 200
 
-    def test_scrape_larouse_il_y_a(self, requests_mock):
+    def test_scrape_larousse_il_y_a(self, requests_mock):
         # Arrange
         phrase = "il y a"
         mock_response = get_mock_response(
@@ -67,18 +67,18 @@ class TestLarouseFR:
         expected_response = read_expected_output(
             get_expected_output_filename(phrase))
         # Act
-        scraped_data, url, status_code = scrape_larouse(phrase)
+        scraped_data, url, status_code = scrape_larousse(phrase)
         # Assert
         assert scraped_data == expected_response
         assert url == create_url(phrase)
         assert status_code == 200
 
-    def test_scrape_larouse_unauthorized(self, requests_mock):
+    def test_scrape_larousse_unauthorized(self, requests_mock):
         # Arrange
         phrase = "il y a"
         requests_mock.get(create_url(phrase), status_code=403)
         # Act
-        scraped_data, url, status_code = scrape_larouse(phrase)
+        scraped_data, url, status_code = scrape_larousse(phrase)
         # Assert
         assert scraped_data == []
         assert url == create_url(phrase)

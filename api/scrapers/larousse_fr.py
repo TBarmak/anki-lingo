@@ -25,7 +25,7 @@ def parse_soup(soup):
     return [parse_entry(entry) for entry in entries]
 
 
-def scrape_larouse(word):
+def scrape_larousse(word):
     url = create_url(word)
     response = fetch(url)
     if response.ok:
