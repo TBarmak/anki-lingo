@@ -22,4 +22,4 @@ RUN chmod 0644 /etc/cron.d/cleanup-cron && crontab /etc/cron.d/cleanup-cron
 
 EXPOSE 5000
 
-CMD bash -c "cron && gunicorn -b :5000 api.api:app"
+CMD bash -c "cron && gunicorn -b :5000 -w 2 -k gthread --threads 8 --timeout 120 api.api:app"
