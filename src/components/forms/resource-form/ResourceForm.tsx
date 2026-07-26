@@ -17,6 +17,8 @@ import {
   TRANSITION,
 } from "../../../constants/animations";
 
+const HEALTH_CHECK_TIMEOUT_MS = 10000;
+
 export default function ResourceForm() {
   const [currentStep, setCurrentStep] = useState<
     "languages" | "words" | "resources" | ""
@@ -46,10 +48,18 @@ export default function ResourceForm() {
           const healthPromises: Promise<boolean>[] = data.resources.map(
             (resource: LanguageResource) => {
               return new Promise((res) => {
-                fetch(resource.healthRoute).then((response) => {
-                  resource["isHealthy"] = response.ok;
-                  res(true);
-                });
+                fetch(resource.healthRoute, {
+                  signal: AbortSignal.timeout(HEALTH_CHECK_TIMEOUT_MS),
+                })
+                  .then((response) => {
+                    resource["isHealthy"] = response.ok;
+                  })
+                  .catch(() => {
+                    resource["isHealthy"] = false;
+                  })
+                  .finally(() => {
+                    res(true);
+                  });
               });
             }
           );

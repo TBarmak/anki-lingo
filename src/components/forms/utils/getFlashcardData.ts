@@ -6,6 +6,8 @@ import {
   ScrapedResponse,
 } from "../../../types/types";
 
+const SCRAPE_TIMEOUT_MS = 25000;
+
 export function getFlashcardData(
   inputFields: InputFields,
   onWordDone?: () => void
@@ -33,7 +35,7 @@ export function getFlashcardData(
             const url =
               resource.route +
               resource.args.map((argName) => args[argName]).join("/");
-            fetch(url)
+            fetch(url, { signal: AbortSignal.timeout(SCRAPE_TIMEOUT_MS) })
               .then((res) => {
                 if (!res.ok) {
                   throw new Error(`HTTP error! Status: ${res.status}`);
