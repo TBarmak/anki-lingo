@@ -69,6 +69,22 @@ describe("getFlashcardData.ts", () => {
         });
       });
 
+      describe("When the word is scraped", () => {
+        it("Then the request is given a timeout signal", async () => {
+          // Arrange
+          const inputFields: InputFields = abacaxiWordReferenceInput;
+          fetchMocker.mockResponse(
+            JSON.stringify(abacaxiWordReferenceResponse)
+          );
+          // Act
+          await getFlashcardData(inputFields);
+          // Assert
+          expect(fetchMocker.mock.calls.length).toEqual(1);
+          const [, init] = fetchMocker.mock.calls[0];
+          expect(init?.signal).toBeInstanceOf(AbortSignal);
+        });
+      });
+
       describe("When the word is not scraped successfully", () => {
         it("Then returns an empty list for scraped data", async () => {
           // Arrange
