@@ -18,8 +18,6 @@ import {
 const fetchMocker = createFetchMock(vi);
 fetchMocker.enableMocks();
 
-// A fresh store per test so language resources from one test don't leak into
-// the next.
 function createTestStore() {
   return configureStore({
     reducer: { root: rootReducer, resourceForm: resourceFormReducer },
@@ -73,7 +71,7 @@ describe("ResourceForm.tsx", () => {
   });
 
   describe("When every resource's health check succeeds", () => {
-    it("Then marks all of the resources healthy", async () => {
+    it("Then marks all resources as healthy", async () => {
       // Arrange
       mockFetchRoutes({
         [wordReferenceResource.healthRoute]: healthy,
@@ -97,7 +95,7 @@ describe("ResourceForm.tsx", () => {
   });
 
   describe("When a resource's health check returns an error status", () => {
-    it("Then marks that resource unhealthy", async () => {
+    it("Then marks that resource as unhealthy", async () => {
       // Arrange
       mockFetchRoutes({
         [wordReferenceResource.healthRoute]: unhealthy,
@@ -120,8 +118,8 @@ describe("ResourceForm.tsx", () => {
     });
   });
 
-  describe("When a resource's health check request fails outright", () => {
-    it("Then still resolves and marks that resource unhealthy", async () => {
+  describe("When a resource's health check request fails", () => {
+    it("Then still resolves and marks that resource as unhealthy", async () => {
       // Arrange
       mockFetchRoutes({
         [wordReferenceResource.healthRoute]: unreachable,
@@ -144,7 +142,7 @@ describe("ResourceForm.tsx", () => {
     });
   });
 
-  describe("When every resource's health check request fails outright", () => {
+  describe("When every resource's health check request fails", () => {
     it("Then still dispatches the resources rather than hanging", async () => {
       // Arrange
       mockFetchRoutes({
