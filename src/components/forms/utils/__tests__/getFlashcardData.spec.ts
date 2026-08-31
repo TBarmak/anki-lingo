@@ -69,22 +69,6 @@ describe("getFlashcardData.ts", () => {
         });
       });
 
-      describe("When the word is scraped", () => {
-        it("Then the request is given a timeout signal", async () => {
-          // Arrange
-          const inputFields: InputFields = abacaxiWordReferenceInput;
-          fetchMocker.mockResponse(
-            JSON.stringify(abacaxiWordReferenceResponse)
-          );
-          // Act
-          await getFlashcardData(inputFields);
-          // Assert
-          expect(fetchMocker.mock.calls.length).toEqual(1);
-          const [, init] = fetchMocker.mock.calls[0];
-          expect(init?.signal).toBeInstanceOf(AbortSignal);
-        });
-      });
-
       describe("When the word is not scraped successfully", () => {
         it("Then returns an empty list for scraped data", async () => {
           // Arrange
@@ -225,6 +209,33 @@ describe("getFlashcardData.ts", () => {
           homemWordReferenceResponse.url,
           homemMichaelisResponse.url,
         ]);
+      });
+    });
+  });
+
+  describe("When an onWordDone callback is provided", () => {
+    describe("When resources are selected", () => {
+      it("Then calls onWordDone once per word", async () => {
+        // Arrange
+        const inputFields: InputFields = multiWordMultiResourceInput;
+        fetchMocker.mockResponse(JSON.stringify(abacaxiMichaelisResponse));
+        const onWordDone = vi.fn();
+        // Act
+        await getFlashcardData(inputFields, onWordDone);
+        // Assert
+        expect(onWordDone).toHaveBeenCalledTimes(2);
+      });
+    });
+
+    describe("When no resources are selected", () => {
+      it("Then calls onWordDone once for the word", async () => {
+        // Arrange
+        const inputFields: InputFields = abacaxiNoResourcesInput;
+        const onWordDone = vi.fn();
+        // Act
+        await getFlashcardData(inputFields, onWordDone);
+        // Assert
+        expect(onWordDone).toHaveBeenCalledTimes(1);
       });
     });
   });

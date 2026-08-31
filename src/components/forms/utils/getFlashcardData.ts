@@ -6,8 +6,6 @@ import {
   ScrapedResponse,
 } from "../../../types/types";
 
-const SCRAPE_TIMEOUT_MS = 25000;
-
 export function getFlashcardData(
   inputFields: InputFields,
   onWordDone?: () => void
@@ -35,7 +33,11 @@ export function getFlashcardData(
             const url =
               resource.route +
               resource.args.map((argName) => args[argName]).join("/");
-            fetch(url, { signal: AbortSignal.timeout(SCRAPE_TIMEOUT_MS) })
+            // No client-side timeout: scrapers enforce their own 20s server-side
+            // timeout, and the browser caps connections per host (~6). A client
+            // AbortSignal.timeout starts counting at creation, so queued requests
+            // would all abort at once once the batch is large.
+            fetch(url)
               .then((res) => {
                 if (!res.ok) {
                   throw new Error(`HTTP error! Status: ${res.status}`);
