@@ -11,6 +11,7 @@ import {
   abacaxiWordReferenceResponse,
   homemMichaelisResponse,
   homemWordReferenceResponse,
+  michaelisSelected,
   multiWordMichaelisInput,
   multiWordMultiResourceInput,
   noWordsInput,
@@ -226,6 +227,83 @@ describe("getFlashcardData.ts", () => {
           homemMichaelisResponse.url,
         ]);
       });
+    });
+  });
+
+  describe("When many words are provided", () => {
+    it("Then never has more than the concurrency limit of requests in flight", async () => {
+      // Arrange: one resource, more words than the pool size (6) so requests
+      // must queue. Each fetch is held open via a deferred so we can observe
+      // how many run at once.
+      const words = Array.from({ length: 20 }, (_, i) => `word${i}`).join("\n");
+      const inputFields: InputFields = {
+        words,
+        targetLanguage: "Português",
+        nativeLanguage: "English",
+        languageResources: [michaelisSelected],
+      };
+
+      let inFlight = 0;
+      let maxInFlight = 0;
+      const releases: Array<() => void> = [];
+      const originalFetch = globalThis.fetch;
+      globalThis.fetch = vi.fn(() => {
+        inFlight += 1;
+        maxInFlight = Math.max(maxInFlight, inFlight);
+        return new Promise<Response>((resolve) => {
+          releases.push(() => {
+            inFlight -= 1;
+            resolve({
+              ok: true,
+              json: async () => abacaxiMichaelisResponse,
+            } as Response);
+          });
+        });
+      }) as typeof fetch;
+
+      try {
+        // Act
+        const pending = getFlashcardData(inputFields);
+        // Let the pool dispatch its initial batch, then drain one at a time so
+        // a fresh request can only start as an earlier one completes.
+        const flush = () => new Promise((r) => setTimeout(r, 0));
+        await flush();
+        while (releases.length > 0) {
+          releases.shift()?.();
+          await flush();
+        }
+        const data = await pending;
+
+        // Assert
+        expect(maxInFlight).toBeLessThanOrEqual(6);
+        expect(globalThis.fetch).toHaveBeenCalledTimes(20);
+        expect(data.length).toEqual(20);
+      } finally {
+        globalThis.fetch = originalFetch;
+      }
+    });
+  });
+
+  describe("Progress reporting", () => {
+    it("Then calls onWordDone once per word", async () => {
+      // Arrange
+      const inputFields: InputFields = multiWordMultiResourceInput;
+      fetchMocker.mockResponse(JSON.stringify(abacaxiMichaelisResponse));
+      const onWordDone = vi.fn();
+      // Act
+      await getFlashcardData(inputFields, onWordDone);
+      // Assert
+      expect(onWordDone).toHaveBeenCalledTimes(2);
+    });
+
+    it("Then still reports a word with no selected resources as done", async () => {
+      // Arrange
+      const inputFields: InputFields = abacaxiNoResourcesInput;
+      const onWordDone = vi.fn();
+      // Act
+      await getFlashcardData(inputFields, onWordDone);
+      // Assert
+      expect(onWordDone).toHaveBeenCalledTimes(1);
     });
   });
 });
