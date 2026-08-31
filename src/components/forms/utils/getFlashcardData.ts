@@ -7,137 +7,105 @@ import {
 } from "../../../types/types";
 
 const SCRAPE_TIMEOUT_MS = 25000;
-// Browsers cap concurrent connections per host (~6 in Chrome). Keep the pool at
-// or below that so a request's timeout clock starts when it is actually
-// dispatched, not while it sits queued behind earlier requests.
+// Browsers cap concurrent connections per host (~6 in Chrome). Keep dispatch at
+// or below that so a request's timeout clock starts when it is actually sent,
+// not while it sits queued behind earlier requests.
 const MAX_CONCURRENT_REQUESTS = 6;
 
-interface ScrapeTask {
-  wordIndex: number;
-  resourceName: string;
-  url: string;
-}
-
 /**
- * Run `fn` over `items` with at most `limit` in flight at once. Results are
- * returned in input order regardless of completion order.
+ * Returns a function that runs at most `max` tasks at once; extra tasks wait
+ * their turn. A task only runs once dispatched, so any timers it sets up start
+ * then rather than while queued.
  */
-async function pooledMap<T, R>(
-  items: T[],
-  limit: number,
-  fn: (item: T) => Promise<R>
-): Promise<R[]> {
-  const results: R[] = new Array(items.length);
-  let next = 0;
-
-  async function worker(): Promise<void> {
-    while (next < items.length) {
-      const index = next++;
-      results[index] = await fn(items[index]);
-    }
-  }
-
-  const workerCount = Math.min(limit, items.length);
-  await Promise.all(Array.from({ length: workerCount }, worker));
-  return results;
+function createLimiter(max: number) {
+  let active = 0;
+  const queue: Array<() => void> = [];
+  return function run<T>(task: () => Promise<T>): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const start = () => {
+        active += 1;
+        task()
+          .then(resolve, reject)
+          .finally(() => {
+            active -= 1;
+            queue.shift()?.();
+          });
+      };
+      if (active < max) {
+        start();
+      } else {
+        queue.push(start);
+      }
+    });
+  };
 }
 
-export async function getFlashcardData(
+export function getFlashcardData(
   inputFields: InputFields,
   onWordDone?: () => void
 ): Promise<CombinedScrapedResponse[]> {
   // Return an empty list if no words are passed
   if (inputFields.words.trim() === "") {
-    return [];
+    return Promise.resolve([]);
   }
 
   const selectedResources = inputFields.languageResources.filter(
     (resource) => resource.isSelected
   );
   const words = inputFields.words.split("\n");
+  const limit = createLimiter(MAX_CONCURRENT_REQUESTS);
 
-  // Flatten every (word × resource) pair into a single task list so the pool
-  // controls how many are dispatched at once. The timeout signal for each task
-  // is created inside `fn`, right before the fetch, so its clock only starts
-  // once the request is actually sent.
-  const tasks: ScrapeTask[] = words.flatMap((word, wordIndex) =>
-    selectedResources.map((resource) => {
-      const args: { [K in ResourceArgs]: string } = {
-        word: word,
-        targetLang: inputFields.targetLanguage,
-        nativeLang: inputFields.nativeLanguage,
-      };
-      return {
-        wordIndex,
-        resourceName: resource.name,
-        url:
+  const wordPromises = words.map((word) => {
+    const args: { [K in ResourceArgs]: string } = {
+      word: word,
+      targetLang: inputFields.targetLanguage,
+      nativeLang: inputFields.nativeLanguage,
+    };
+
+    const resourcePromises = selectedResources.map(
+      (resource): Promise<ScrapedResponse> => {
+        const url =
           resource.route +
-          resource.args.map((argName) => args[argName]).join("/"),
-      };
-    })
-  );
-
-  // Track outstanding tasks per word so `onWordDone` fires once, incrementally,
-  // as each word finishes — not all at the end — keeping the progress bar live.
-  const remainingByWord = words.map(
-    (_, wordIndex) =>
-      tasks.filter((task) => task.wordIndex === wordIndex).length
-  );
-  // Words with no selected resources have no tasks; report them done up front.
-  remainingByWord.forEach((remaining) => {
-    if (remaining === 0) onWordDone?.();
-  });
-
-  const responses = await pooledMap(
-    tasks,
-    MAX_CONCURRENT_REQUESTS,
-    async (task): Promise<ScrapedResponse> => {
-      try {
-        const res = await fetch(task.url, {
-          signal: AbortSignal.timeout(SCRAPE_TIMEOUT_MS),
-        });
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return (await res.json()) as ScrapedResponse;
-      } catch {
-        return {
-          inputWord: words[task.wordIndex],
+          resource.args.map((argName) => args[argName]).join("/");
+        // The fetch (and its timeout signal) is built inside the limiter, so it
+        // is only created once this request is actually dispatched.
+        return limit(() =>
+          fetch(url, { signal: AbortSignal.timeout(SCRAPE_TIMEOUT_MS) }).then(
+            (res) => {
+              if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+              }
+              return res.json() as Promise<ScrapedResponse>;
+            }
+          )
+        ).catch(() => ({
+          inputWord: word,
           scrapedWordData: [],
           url: "",
-          error: task.resourceName,
-        };
-      } finally {
-        remainingByWord[task.wordIndex] -= 1;
-        if (remainingByWord[task.wordIndex] === 0) onWordDone?.();
+          error: resource.name,
+        }));
       }
-    }
-  );
-
-  // Regroup per-resource responses back under their word, preserving the
-  // original word order and per-word resource order.
-  return words.map((word, wordIndex): CombinedScrapedResponse => {
-    const wordResponses = tasks
-      .map((task, taskIndex) =>
-        task.wordIndex === wordIndex ? responses[taskIndex] : null
-      )
-      .filter((response): response is ScrapedResponse => response !== null);
-
-    const combinedScrapedData: ScrapedItem[] = ([] as ScrapedItem[]).concat(
-      ...wordResponses
-        .filter((response) => response.scrapedWordData.length)
-        .map((response) => response.scrapedWordData)
     );
 
-    return {
-      inputWord: word,
-      scrapedWordData: combinedScrapedData,
-      urls: wordResponses
-        .filter((res) => res.url)
-        .map((res) => res.url as string),
-      errors: wordResponses
-        .filter((res) => res.error)
-        .map((res) => res.error as string),
-    };
+    return Promise.all(resourcePromises).then((responses) => {
+      const combinedScrapedData: ScrapedItem[] = ([] as ScrapedItem[]).concat(
+        ...responses
+          .filter((response) => response.scrapedWordData.length)
+          .map((response) => response.scrapedWordData)
+      );
+      onWordDone?.();
+      return {
+        inputWord: word,
+        scrapedWordData: combinedScrapedData,
+        urls: responses
+          .filter((res) => res.url)
+          .map((res) => res.url as string),
+        errors: responses
+          .filter((res) => res.error)
+          .map((res) => res.error as string),
+      };
+    });
   });
+
+  return Promise.all(wordPromises);
 }
