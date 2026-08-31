@@ -33,10 +33,6 @@ export function getFlashcardData(
             const url =
               resource.route +
               resource.args.map((argName) => args[argName]).join("/");
-            // No client-side timeout: scrapers enforce their own 20s server-side
-            // timeout, and the browser caps connections per host (~6). A client
-            // AbortSignal.timeout starts counting at creation, so queued requests
-            // would all abort at once once the batch is large.
             fetch(url)
               .then((res) => {
                 if (!res.ok) {
