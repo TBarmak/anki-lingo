@@ -1,0 +1,82 @@
+[
+  {
+    "pos": "verb",
+    "translations": [
+      "talk",
+      "speak",
+      "converse",
+      "speak out",
+      "chat",
+      "address sb."
+    ],
+    "word": "hablar"
+  },
+  {
+    "pos": "verb",
+    "translations": [
+      "talk about sth.",
+      "discuss about sth."
+    ],
+    "word": "hablar de algo"
+  },
+  {
+    "expression": "hablar por teléfono",
+    "expressionMeaning": "be on the phone"
+  },
+  {
+    "expression": "forma de hablar",
+    "expressionMeaning": "way of speaking, manner of speaking, delivery"
+  },
+  {
+    "expression": "hablar fuerte",
+    "expressionMeaning": "speak up"
+  },
+  {
+    "expression": "manera de hablar",
+    "expressionMeaning": "manner of speaking, way of speaking"
+  },
+  {
+    "expression": "hablar mal de alguien",
+    "expressionMeaning": "put sb. down"
+  },
+  {
+    "nativeExampleSentences": [
+      "Members of the European Parliament are entitled to speak of behalf of those who elected them and not only for themselves."
+    ],
+    "targetExampleSentences": [
+      "Los diputados al Parlamento Europeo están autorizados a hablar en nombre de aquellos que los han elegido y no solo a título personal."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Besides wealth we should also be speaking about power."
+    ],
+    "targetExampleSentences": [
+      "Además de la riqueza también deberíamos hablar del poder."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "In some cases, countries have moved beyond discussions of renegotiation or rescission of contracts with foreign investors to the prospect of expropriating foreign investments."
+    ],
+    "targetExampleSentences": [
+      "Algunos países han pasado de hablar de renegociar o rescindir contratos con inversores extranjeros a hacerlo de expropiar inversiones extranjeras."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "She has even introduced a new way of speaking to the people."
+    ],
+    "targetExampleSentences": [
+      "Y aún ha introducido una manera nueva de hablar a la gente."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "They won't be able to talk to anyone who's not on their contact list."
+    ],
+    "targetExampleSentences": [
+      "No podrán hablar con ninguna persona que no figure en su lista de contactos."
+    ]
+  }
+]

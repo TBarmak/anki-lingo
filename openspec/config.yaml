@@ -1,7 +1,7 @@
 schema: spec-driven
 
 context: |
-  anki-lingo: scrapes language-learning sites (WordReference, SpanishDict, Forvo,
+  anki-lingo: scrapes language-learning sites (WordReference, SpanishDict, Forvo, Linguee,
   Michaelis BR, Semanticar BR, Larousse FR) and produces a CSV + audio zip importable
   into Anki. Hosted at https://anki.taylorbarmak.com.
 
