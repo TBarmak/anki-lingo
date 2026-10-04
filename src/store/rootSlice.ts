@@ -7,7 +7,6 @@ const slice = createSlice({
     isLoading: false,
     wordProgress: { current: 0, total: 0 },
     scrapedData: [] as CombinedScrapedResponse[],
-    exportFields: [] as string[],
     cardFormat: {
       sides: [{ fields: ["inputWord"] }],
     },
@@ -23,9 +22,6 @@ const slice = createSlice({
     setScrapedData: (state, action) => {
       state.scrapedData = action.payload;
     },
-    setExportFields: (state, action) => {
-      state.exportFields = action.payload;
-    },
     setCardFormat: (state, action) => {
       state.cardFormat = action.payload;
     },
@@ -39,7 +35,6 @@ export const {
   setIsLoading,
   setWordProgress,
   setScrapedData,
-  setExportFields,
   setCardFormat,
   setDownloadUrl,
 } = slice.actions;

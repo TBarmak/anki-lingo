@@ -8,7 +8,7 @@ describe("resetFormState.ts", () => {
     // Act
     resetFormState(mockDispatch);
     // Assert
-    expect(mockDispatch).toHaveBeenCalledTimes(9);
+    expect(mockDispatch).toHaveBeenCalledTimes(8);
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "resourceForm/setTargetLanguage",
       payload: "",
@@ -27,10 +27,6 @@ describe("resetFormState.ts", () => {
     });
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "root/setScrapedData",
-      payload: [],
-    });
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "root/setExportFields",
       payload: [],
     });
     expect(mockDispatch).toHaveBeenCalledWith({

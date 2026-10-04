@@ -10,6 +10,7 @@ import {
   setScrapedData,
 } from "../../../store/rootSlice";
 import type { RootState } from "../../../store";
+import { selectExportFields } from "../../../store/selectors";
 import BackButton from "../../BackButton";
 import formStyles from "../shared.module.css";
 import {
@@ -58,9 +59,10 @@ export default function CardFormatForm() {
   const MIN_SIDES = 2;
   const MAX_SIDES = 5;
 
-  const { scrapedData, exportFields, cardFormat } = useSelector(
+  const { scrapedData, cardFormat } = useSelector(
     (state: RootState) => state.root
   );
+  const exportFields = useSelector(selectExportFields);
 
   const dispatch = useDispatch();
 
