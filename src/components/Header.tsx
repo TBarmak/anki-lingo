@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { DELAY, FADE_LEFT, FADE_RIGHT, TRANSITION } from "../constants/animations";
 
 export default function Header() {
-  const [previousPosition, setPreviousPosition] = useState(window.scrollY);
+  const previousPosition = useRef(window.scrollY);
   const [visible, setVisible] = useState(true);
   const { pathname } = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       const currentPosition = window.scrollY;
-      setVisible(previousPosition > currentPosition || currentPosition <= 20);
-      setPreviousPosition(currentPosition);
+      setVisible(
+        previousPosition.current > currentPosition || currentPosition <= 20
+      );
+      previousPosition.current = currentPosition;
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  });
+  }, []);
 
   return (
     <div

@@ -7,7 +7,6 @@ import {
 } from "../../../store/resourceFormSlice";
 import {
   setScrapedData,
-  setExportFields,
   setCardFormat,
   setDownloadUrl,
   setIsLoading,
@@ -19,7 +18,6 @@ export function resetFormState(dispatch: Dispatch) {
   dispatch(setWords(""));
   dispatch(setLanguageResources([]));
   dispatch(setScrapedData([]));
-  dispatch(setExportFields([]));
   dispatch(setCardFormat({ sides: [{ fields: ["inputWord"] }] }));
   dispatch(setDownloadUrl(""));
   dispatch(setIsLoading(false));

@@ -5,7 +5,6 @@ import LanguageSelector from "./LanguageSelector";
 import WordTextArea from "./WordTextArea";
 import ResourceSelector from "./ResourceSelector";
 import { useDispatch, useSelector } from "react-redux";
-import { setExportFields } from "../../../store/rootSlice";
 import type { RootState } from "../../../store";
 import { setLanguageResources } from "../../../store/resourceFormSlice";
 import BackButton from "../../BackButton";
@@ -20,25 +19,17 @@ import {
 const HEALTH_CHECK_TIMEOUT_MS = 10000;
 
 export default function ResourceForm() {
-  const [currentStep, setCurrentStep] = useState<
-    "languages" | "words" | "resources" | ""
-  >("");
   const dispatch = useDispatch();
-  const { words, targetLanguage, nativeLanguage, languageResources } =
-    useSelector((state: RootState) => state.resourceForm);
-
-  useEffect(() => {
-    if (words.length > 0) {
-      setCurrentStep("resources");
-    } else if (targetLanguage && nativeLanguage) {
-      setCurrentStep("words");
-    } else {
-      setCurrentStep("languages");
-    }
-    // Run once on mount to pick the starting step from persisted state;
-    // subsequent navigation is driven by the child step components.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { words, targetLanguage, nativeLanguage } = useSelector(
+    (state: RootState) => state.resourceForm
+  );
+  const [currentStep, setCurrentStep] = useState<
+    "languages" | "words" | "resources"
+  >(() => {
+    if (words.length > 0) return "resources";
+    if (targetLanguage && nativeLanguage) return "words";
+    return "languages";
+  });
 
   useEffect(() => {
     if (currentStep === "languages" && targetLanguage) {
@@ -68,17 +59,6 @@ export default function ResourceForm() {
         });
     }
   }, [targetLanguage, currentStep, dispatch]);
-
-  useEffect(() => {
-    if (languageResources.length) {
-      const exportFields = ([] as string[]).concat(
-        ...languageResources
-          .filter((resource: LanguageResource) => resource.isSelected)
-          .map((resource: LanguageResource) => resource.outputs)
-      );
-      dispatch(setExportFields([...new Set(exportFields)]));
-    }
-  }, [languageResources, dispatch]);
 
   const sharedMotionProps = {
     className: formStyles.formContainer,
