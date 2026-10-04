@@ -1,0 +1,32 @@
+schema: spec-driven
+
+context: |
+  anki-lingo: scrapes language-learning sites (WordReference, SpanishDict, Forvo,
+  Michaelis BR, Semanticar BR, Larousse FR) and produces a CSV + audio zip importable
+  into Anki. Hosted at https://anki.taylorbarmak.com.
+
+  Stack: React + TypeScript + Vite + Redux Toolkit + Tailwind frontend (src/),
+  Flask + Python backend (api/), BeautifulSoup scraping, vitest + pytest.
+
+  Backend conventions:
+  - All routes defined in create_app() in api/api.py.
+  - LANGUAGE_RESOURCES in api/api.py is the source of truth for scrapers exposed to the
+    UI (route, args, outputs, supportedLanguages, healthRoute).
+  - Each scraper in api/scrapers/ exposes scrape_<site>(...) returning
+    (list_of_entry_dicts, url, status_code). Entry dict keys are a subset of:
+    word, pos, definition, translations[], targetExampleSentences[],
+    nativeExampleSentences[], audioFilenames[], expression, expressionMeaning.
+  - Scraper routes return {inputWord, scrapedWordData, url}, status_code.
+  - Shared HTTP client in api/scrapers/http_client.py; template.py is the skeleton.
+  - Scraper tests are snapshot-based: frozen HTML in api/scrapers/tests/mocks/,
+    mocked with requests_mock, compared to expected JSON (see docs/Testing.md).
+  - New scraper steps: docs/CreatingNewScrapingEndpoint.md.
+
+  Quality gates: npm run lint (zero warnings), npm test, npm run test-api.
+
+rules:
+  tasks:
+    - Include tasks for snapshot tests (mock HTML + expected output) for any new or changed scraper.
+    - Include running npm run lint, npm test, and npm run test-api as final verification tasks.
+  design:
+    - Note any anti-bot / 403 risk for scraped sites and how headers or the shared http_client mitigate it.
