@@ -28,7 +28,7 @@ def test_english_resources(client):
     # Assert
     resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
-    assert resources == {"Word Reference", "SpanishDict", "Forvo"}
+    assert resources == {"Word Reference", "SpanishDict", "Forvo", "Linguee"}
 
 
 def test_español_resources(client):
@@ -37,7 +37,7 @@ def test_español_resources(client):
     # Assert
     resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
-    assert resources == {"Word Reference", "SpanishDict", "Forvo"}
+    assert resources == {"Word Reference", "SpanishDict", "Forvo", "Linguee"}
 
 
 def test_português_resources(client):
@@ -47,7 +47,7 @@ def test_português_resources(client):
     resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
     assert resources == {"Word Reference",
-                         "Michaelis BR", "Forvo", "Semanticar BR"}
+                         "Michaelis BR", "Forvo", "Semanticar BR", "Linguee"}
 
 
 def test_français_resources(client):
@@ -56,7 +56,16 @@ def test_français_resources(client):
     # Assert
     resources = {obj["name"] for obj in response.json["resources"]}
     assert len(response.json.keys()) == 1
-    assert resources == {"Word Reference", "Forvo", "Larousse FR"}
+    assert resources == {"Word Reference", "Forvo", "Larousse FR", "Linguee"}
+
+
+def test_italiano_resources(client):
+    # Act
+    response = client.get("/api/resources/italiano")
+    # Assert
+    resources = {obj["name"] for obj in response.json["resources"]}
+    assert len(response.json.keys()) == 1
+    assert resources == {"Word Reference", "Forvo", "Linguee"}
 
 
 def test_field_mapping(client):

@@ -35,3 +35,6 @@ __pycache__
 
 # Vocab words
 words.txt
+
+# Claude Code personal settings
+.claude/settings.local.json
