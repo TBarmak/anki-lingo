@@ -1,7 +1,7 @@
 # Anki Lingo
 **Anki Lingo** turns a list of words into a ready-to-import Anki deck. Pick your native and target language, paste in the words you're learning, and it scrapes sites like WordReference, SpanishDict, and Forvo for translations, definitions, example sentences, and pronunciation audio. You choose which fields land on which side of the card, then download a CSV + audio bundle ready for Anki import.
 
-Built with a React/TypeScript frontend and a Python/Flask backend using Beautiful Soup. Six sources currently supported: WordReference, SpanishDict, Forvo, Michaelis BR, Semanticar BR, and Larousse FR.
+Built with a React/TypeScript frontend and a Python/Flask backend using Beautiful Soup. Seven sources currently supported: WordReference, SpanishDict, Forvo, Michaelis BR, Semanticar BR, Larousse FR, and Linguee.
 
 It is hosted at https://anki.taylorbarmak.com.
 

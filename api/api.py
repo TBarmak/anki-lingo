@@ -1,3 +1,4 @@
+from api.scrapers.linguee import scrape_linguee
 from api.scrapers.larousse_fr import scrape_larousse
 from api.scrapers.semanticar_br import scrape_semanticar
 from api.utils.format_csv import create_csv_sides
@@ -71,6 +72,14 @@ LANGUAGE_RESOURCES = [
         "args": ["word"],
         "outputs": ["definition", "targetExampleSentences"],
         "supportedLanguages": ["français"]
+    },
+    {
+        "name": "Linguee",
+        "route": "api/linguee/",
+        "healthRoute": "api/linguee/français/english/macérer",
+        "args": ["targetLang", "nativeLang", "word"],
+        "outputs": ["word", "pos", "translations", "targetExampleSentences", "nativeExampleSentences", "expression", "expressionMeaning"],
+        "supportedLanguages": ["english", "español", "português", "français", "italiano"]
     }
 ]
 
@@ -123,6 +132,12 @@ def create_app():
     @app.route("/api/larousse-fr/<word>")
     def get_larousse_fr_word(word):
         scraped_data, url, status_code = scrape_larousse(word)
+        return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}, status_code
+
+    @app.route("/api/linguee/<target_lang>/<native_lang>/<word>")
+    def get_linguee_word(target_lang, native_lang, word):
+        scraped_data, url, status_code = scrape_linguee(
+            word, target_lang, native_lang)
         return {"inputWord": word, "scrapedWordData": scraped_data, "url": url}, status_code
 
     @app.route("/api/format-csv", methods=["POST"])

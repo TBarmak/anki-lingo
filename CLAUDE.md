@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Fullstack app that scrapes language-learning sites (WordReference, SpanishDict, Forvo, Michaelis BR, Semanticar BR, Larousse FR) to generate a CSV + audio bundle importable into Anki. React/TypeScript frontend, Flask/Python backend, BeautifulSoup scraping. Hosted at https://anki.taylorbarmak.com.
+Fullstack app that scrapes language-learning sites (WordReference, SpanishDict, Forvo, Michaelis BR, Semanticar BR, Larousse FR, Linguee) to generate a CSV + audio bundle importable into Anki. React/TypeScript frontend, Flask/Python backend, BeautifulSoup scraping. Hosted at https://anki.taylorbarmak.com.
 
 ## Commands
 

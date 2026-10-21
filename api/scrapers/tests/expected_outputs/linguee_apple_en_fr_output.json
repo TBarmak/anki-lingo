@@ -1,0 +1,69 @@
+[
+  {
+    "pos": "noun",
+    "translations": [
+      "pomme"
+    ],
+    "word": "apple"
+  },
+  {
+    "expression": "apple pie",
+    "expressionMeaning": "tarte à la pomme, tarte aux pommes"
+  },
+  {
+    "expression": "apple crumble",
+    "expressionMeaning": "crumble aux pommes"
+  },
+  {
+    "expression": "apple cider",
+    "expressionMeaning": "cidre de pomme"
+  },
+  {
+    "expression": "apple blossom",
+    "expressionMeaning": "fleur de pommier"
+  },
+  {
+    "expression": "apple orchard",
+    "expressionMeaning": "verger de pommiers"
+  },
+  {
+    "nativeExampleSentences": [
+      "Chez Charlier, on cuit encore le sirop au feu de bois et au charbon et ce, uniquement en saison, soit de la fin septembre au début du mois de novembre."
+    ],
+    "targetExampleSentences": [
+      "At Charlier's, they still heat the syrup on wood or coal fires and only during the apple season from the end of September to the beginning of November."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Un verre de bière de 25 cl contient 103 calories, soit moins qu'une même quantité de jus de pommes, de lait ou de yaourt."
+    ],
+    "targetExampleSentences": [
+      "A 25 cl glass of beer has 103 calories, which is less than the same quantity of apple juice, milk or yogurt."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Ici le soleil semble une grande pomme mure et la lune est plus grosse que toutes les autres lunes."
+    ],
+    "targetExampleSentences": [
+      "There the sun looks like a big ripe apple and the moon is enormously bigger that all the other moons."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Ces fichiers audio ont été popularisés par l'ipod d'Apple, et c'est un moyen simple d'écouter les informations ou un programme radio hors ligne quand on est disponible."
+    ],
+    "targetExampleSentences": [
+      "These audio files are now well known thanks to the Apple ipod, and they are an easy way to listen to the news or any broadcasted program when you are off line."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Nous achetons les variétés inhabituelles de pommes, qui ne sont pas produites en quantité suffisante pour alimenter les supermarchés."
+    ],
+    "targetExampleSentences": [
+      "We'll buy those unusual varieties of apple, of which there aren't large enough quantities to sell to the supermarkets."
+    ]
+  }
+]

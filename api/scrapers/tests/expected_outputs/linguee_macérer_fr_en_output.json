@@ -1,0 +1,53 @@
+[
+  {
+    "pos": "verb",
+    "translations": [
+      "macerate"
+    ],
+    "word": "macérer"
+  },
+  {
+    "expression": "laisser macérer",
+    "expressionMeaning": "macerate"
+  },
+  {
+    "nativeExampleSentences": [
+      "Allow to infuse in a dark area for 7 or more days."
+    ],
+    "targetExampleSentences": [
+      "Laisser macérer dans un endroit sombre pendant 7 jours ou plus."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Cover and marinate in the refrigerator for at least 2 hours or up to 4 hours."
+    ],
+    "targetExampleSentences": [
+      "Couvrir et laisser macérer entre 2 et 4 heures au réfrigérateur."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "If you are going to use a marinade, allow the chicken to remain in the marinade for several hours before grilling."
+    ],
+    "targetExampleSentences": [
+      "Si vous prévoyez utiliser une marinade, laissez macérer le poulet pendant plusieurs heures avant de le faire griller."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Fish can also be broken into smaller pieces before being soaked."
+    ],
+    "targetExampleSentences": [
+      "Le poisson à macérer peut être rompu en morceaux plus petits."
+    ]
+  },
+  {
+    "nativeExampleSentences": [
+      "Manure produces an unfavourable environment for hooves by macerating digital skin and horn tissue."
+    ],
+    "targetExampleSentences": [
+      "Le lisier est un facteur environnemental défavorable à la santé des sabots car il fait macérer la peau des onglons ainsi que les tissus de la corne."
+    ]
+  }
+]

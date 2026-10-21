@@ -124,3 +124,31 @@ Returns:
 Supported Languages:
 
 - French
+
+## Linguee
+
+A bilingual dictionary paired with real-world example sentences and their translations. Only English-to-X dictionaries exist, so one of the two languages must be English.
+
+Accepts:
+
+- Target Language
+- Native Language
+- Word/Phrase
+
+Returns:
+
+- Word
+- Part of Speech
+- Translations
+- Expression
+- Expression Meaning
+- Target Language Example Sentences
+- Native Language Example Sentences
+
+Supported Languages:
+
+- English
+- Spanish
+- Portuguese
+- French
+- Italian
