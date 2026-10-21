@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setWords } from "../../../store/resourceFormSlice";
@@ -21,14 +21,6 @@ export default function WordTextArea({ goToNextStep }: Props) {
   const { words } = useSelector((state: RootState) => state.resourceForm);
   const [textAreaValue, setTextAreaValue] = useState<string>(words || "");
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch(setWords(textAreaValue));
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [textAreaValue, dispatch]);
 
   return (
     <div className={formStyles.formStepContainer}>
@@ -57,6 +49,7 @@ export default function WordTextArea({ goToNextStep }: Props) {
           }
           value={textAreaValue}
           onChange={(e) => setTextAreaValue(e.target.value)}
+          onBlur={() => dispatch(setWords(textAreaValue))}
         />
       </motion.div>
       <div className="flex flex-row w-full justify-center my-16">
